@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:17:33 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/05 16:34:02 by codespace        ###   ########.fr       */
+/*   Updated: 2026/04/06 17:39:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@
 # include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 extern volatile sig_atomic_t	g_signal;
 void							set_signal(void);
 bool							handler_sigint(char **line, int *last_statut);
+int							minishell(int argc, char **argv, char **envp);
 #endif

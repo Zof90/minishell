@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 19:42:23 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/05 17:34:34 by codespace        ###   ########.fr       */
+/*   Updated: 2026/04/06 15:36:34 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,9 @@
 
 volatile sig_atomic_t	g_signal = 0;
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
-	char *line;
 
 	set_signal();
-	while (1)
-	{
-		line = readline("minishell> ");
-		if (!line)
-			return (1);
-		if (line && *line)
-			add_history(line);
-		if (g_signal == 0)
-		{
-		}
-		free(line);
-	}
+	minishell(argc, argv, envp);
 }
