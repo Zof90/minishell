@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:17:33 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/10 13:25:18 by codespace        ###   ########.fr       */
+/*   Updated: 2026/04/10 15:32:31 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,5 @@ bool							handler_sigint(char **line, int *last_statut);
 int								minishell(int argc, char **argv, char **envp);
 t_env							*env_node(char *key, char *value);
 t_shell							*fill_shell(char **envp);
-char							**find_path(t_env *lst_env);
+char							*find_pathname(t_env *lst_env, char *name);
 #endif
