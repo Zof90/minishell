@@ -1,38 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   environement.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/06 15:33:13 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/10 12:43:52 by codespace        ###   ########.fr       */
+/*   Created: 2026/04/10 09:43:59 by codespace         #+#    #+#             */
+/*   Updated: 2026/04/10 12:44:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
-int	minishell(int argc, char **argv, char **envp)
-{
-	char	*line;
-
-	(void)argv;
-	(void)argc;
-	while (1)
-	{
-		line = readline("minishell> ");
-		if (!line)
-			return (0);
-		if (line && *line)
-			add_history(line);
-		if (g_signal == 0)
-		{
-			executor(envp);
-		}
-		free(line);
-		g_signal = 0;
-	}
-	return (1);
-}

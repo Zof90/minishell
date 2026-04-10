@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   fill_fonction_env_utile.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/06 15:33:13 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/10 12:43:52 by codespace        ###   ########.fr       */
+/*   Created: 2026/04/10 12:44:35 by codespace         #+#    #+#             */
+/*   Updated: 2026/04/10 12:44:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
-int	minishell(int argc, char **argv, char **envp)
+t_env	*env_node(char *key, char *value)
 {
-	char	*line;
+	t_env *new_node;
 
-	(void)argv;
-	(void)argc;
-	while (1)
-	{
-		line = readline("minishell> ");
-		if (!line)
-			return (0);
-		if (line && *line)
-			add_history(line);
-		if (g_signal == 0)
-		{
-			executor(envp);
-		}
-		free(line);
-		g_signal = 0;
-	}
-	return (1);
+	new_node = malloc(sizeof(t_env));
+	if (!new_node)
+		return (NULL);
+	new_node->key = key;
+	new_node->value = value;
+	return (new_node);
 }

@@ -1,38 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/06 15:33:13 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/10 12:43:52 by codespace        ###   ########.fr       */
+/*   Created: 2026/04/07 15:03:11 by codespace         #+#    #+#             */
+/*   Updated: 2026/04/10 12:43:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-
-int	minishell(int argc, char **argv, char **envp)
+void	executor(char **envp)
 {
-	char	*line;
+	pid_t	pid;
+	char	*args[] = {"/bin/ls", NULL};
+	int		status;
+	int		exit_code;
 
-	(void)argv;
-	(void)argc;
-	while (1)
+    exit_code = 0;
+	status = 0;
+	pid = fork();
+	if (pid == 0)
 	{
-		line = readline("minishell> ");
-		if (!line)
-			return (0);
-		if (line && *line)
-			add_history(line);
-		if (g_signal == 0)
-		{
-			executor(envp);
-		}
-		free(line);
-		g_signal = 0;
+		execve(args[0], args, envp);
+		perror("minishell: execve");
+		exit(1);
 	}
-	return (1);
+	else if (pid > 0)
+	{
+		waitpid(pid, &status, 0);
+        if (WIFEXITED(status))
+        {
+            exit_code = WEXITSTATUS(status);
+        }
+	}
 }
