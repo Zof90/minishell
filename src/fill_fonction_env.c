@@ -6,22 +6,21 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 12:42:20 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/10 12:43:13 by codespace        ###   ########.fr       */
+/*   Updated: 2026/04/12 10:36:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	char_chr(char *path)
+static int	char_chr(char *path)
 {
 	int	i;
 
+	i = 0;
 	while (path[i])
 	{
-		if (path[i] = '=')
-		{
+		if (path[i] == '=')
 			return (i);
-		}
 		i++;
 	}
 	return (0);
@@ -68,14 +67,14 @@ static t_env	*fill_envp(char **envp)
 t_shell	*fill_shell(char **envp)
 {
 	t_env *lst_env;
-	t_shell *lst_shell;
+	t_shell *node_shell;
 
 	lst_env = fill_envp(envp);
 	if (lst_env)
 		return (NULL);
-	lst_shell = malloc(sizeof(t_shell));
-	if (!lst_shell)
+	node_shell = malloc(sizeof(t_shell));
+	if (!node_shell)
 		return (NULL);
-	lst_shell->env = lst_env;
-	return (lst_shell);
+	node_shell->env = lst_env;
+	return (node_shell);
 }

@@ -6,35 +6,33 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 15:03:11 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/10 12:43:57 by codespace        ###   ########.fr       */
+/*   Updated: 2026/04/12 10:34:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-void	executor(char **envp)
+void	executor(t_shell *node_shell, char **tab_pahtname, char *str_pathname,
+		char **envp)
 {
-	pid_t	pid;
-	char	*args[] = {"/bin/ls", NULL};
-	int		status;
-	int		exit_code;
+	pid_t pid;
+	int status;
 
-    exit_code = 0;
 	status = 0;
 	pid = fork();
 	if (pid == 0)
 	{
-		execve(args[0], args, envp);
+		execve(str_pathname, tab_pahtname, envp);
 		perror("minishell: execve");
 		exit(1);
 	}
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
-        if (WIFEXITED(status))
-        {
-            exit_code = WEXITSTATUS(status);
-        }
+		if (WIFEXITED(status))
+		{
+			node_shell->exit_status = WEXITSTATUS(status);
+		}
+		
 	}
 }
