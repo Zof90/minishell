@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 12:55:02 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/12 10:29:24 by codespace        ###   ########.fr       */
+/*   Updated: 2026/04/12 11:06:35 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,4 @@ char	*find_pathname(t_env *lst_env, char *name)
 	}
 	return (NULL);
 }
-/bin/usr/commande(ls...)
+///bin/usr/commande(ls...)
