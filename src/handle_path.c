@@ -6,26 +6,23 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 12:55:02 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/12 11:06:35 by codespace        ###   ########.fr       */
+/*   Updated: 2026/04/13 16:19:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	calculate_len(char **tab_path)
+static size_t	calculate_len(char **tab_path)
 {
-	int	i;
+	size_t	len;
 
-	i = 0;
-	while (tab_path[i])
-		i++;
-	return (i);
+	len = 0;
+	while (tab_path[len])
+		len++;
+	return (len);
 }
 static char	*find_path_util(t_env *lst_env)
 {
-	int	i;
-
-	i = 0;
 	while (lst_env)
 	{
 		if (!ft_strcmp(lst_env->key, "PATH"))
@@ -39,7 +36,7 @@ static char	**find_path(t_env *lst_env)
 	char	**tab_path;
 	char	*str_path;
 
-	str_path = find_path_util(str_path);
+	str_path = find_path_util(lst_env);
 	if (!str_path)
 		return (NULL);
 	tab_path = ft_split(str_path, ':');
@@ -47,7 +44,7 @@ static char	**find_path(t_env *lst_env)
 		return (NULL);
 	return (tab_path);
 }
-static char	**make_pathname(t_env *lst_env, char *name)
+char	**make_pathname(t_env *lst_env, char *name)
 {
 	int		i;
 	char	**tab_pathname;
@@ -55,12 +52,12 @@ static char	**make_pathname(t_env *lst_env, char *name)
 	size_t	len;
 
 	i = 0;
-	len = calculate_len(tab_path);
 	tab_path = find_path(lst_env);
 	if (!tab_path)
 		return (NULL);
+	len = calculate_len(tab_path);
 	tab_pathname = malloc(sizeof(char *) * len + 1);
-	if (tab_pathname)
+	if (!tab_pathname)
 		return (NULL);
 	tab_pathname[len] = 0;
 	while (tab_path[i])
@@ -70,21 +67,19 @@ static char	**make_pathname(t_env *lst_env, char *name)
 	}
 	return (tab_pathname);
 }
-char	*find_pathname(t_env *lst_env, char *name)
+char	*find_pathname(char **tab_pathname)
 {
-	int		i;
-	char	**tab_pathname;
+	int	i;
 
 	i = 0;
-	tab_pathname = make_pathname(lst_env, name);
-	if (!tab_pathname)
-		return (NULL);
 	while (tab_pathname[i])
 	{
 		if (!access(tab_pathname[i], X_OK))
+		{
 			return (tab_pathname[i]);
+		}
 		i++;
 	}
 	return (NULL);
 }
-///bin/usr/commande(ls...)
+/// bin/usr/commande(ls...)

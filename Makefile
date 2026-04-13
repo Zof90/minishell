@@ -6,12 +6,12 @@
 #    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/02 16:45:53 by codespace         #+#    #+#              #
-#    Updated: 2026/04/03 18:04:37 by codespace        ###   ########.fr        #
+#    Updated: 2026/04/13 14:29:44 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc 
-CFLAGS = -Wall -Werror -Wextra 
+CFLAGS = -Wall -Werror -Wextra -g
 NAME = minishell
 LIBFT_PATH = libft
 LIBFT = $(LIBFT_PATH)/libft.a

@@ -6,22 +6,22 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 12:42:20 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/12 10:36:26 by codespace        ###   ########.fr       */
+/*   Updated: 2026/04/13 16:02:49 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	char_chr(char *path)
+static size_t	char_chr(char *path)
 {
-	int	i;
+	size_t	len;
 
-	i = 0;
-	while (path[i])
+	len = 0;
+	while (path[len])
 	{
-		if (path[i] == '=')
-			return (i);
-		i++;
+		if (path[len] == '=')
+			return (len);
+		len++;
 	}
 	return (0);
 }
@@ -29,7 +29,7 @@ static char	*handle_envp_value(char *path, int pos)
 {
 	char	*value;
 
-	value = ft_strdup(path + pos);
+	value = ft_strdup(path + pos + 1);
 	if (!value)
 		return (NULL);
 	return (value);
@@ -46,7 +46,7 @@ static char	*handle_envp_key(char *path, int pos)
 static t_env	*fill_envp(char **envp)
 {
 	int		i;
-	int		pos;
+	size_t	pos;
 	t_env	*lst_node;
 	t_env	*new_node;
 
@@ -59,7 +59,7 @@ static t_env	*fill_envp(char **envp)
 				handle_envp_value(envp[i], pos));
 		if (!new_node)
 			return (NULL);
-		ft_lstadd_back(&lst_node, new_node);
+		ft_env_lstadd_back(&lst_node, new_node);
 		i++;
 	}
 	return (lst_node);
@@ -70,7 +70,7 @@ t_shell	*fill_shell(char **envp)
 	t_shell *node_shell;
 
 	lst_env = fill_envp(envp);
-	if (lst_env)
+	if (!lst_env)
 		return (NULL);
 	node_shell = malloc(sizeof(t_shell));
 	if (!node_shell)
