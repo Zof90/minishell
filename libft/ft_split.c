@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42paris.fr>     +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 16:12:32 by schouite          #+#    #+#             */
-/*   Updated: 2025/11/23 11:41:37 by schouite         ###   ########.fr       */
+/*   Updated: 2026/04/14 12:48:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	ft_end(char const *s, int start, char c)
 	return (i + start);
 }
 
-void	ft_free(char **s, size_t n)
+static void	ft_free(char **s, size_t n)
 {
 	size_t	i;
 
