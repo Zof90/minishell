@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:17:33 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/13 15:16:36 by codespace        ###   ########.fr       */
+/*   Updated: 2026/04/14 11:43:37 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,5 @@ t_shell							*fill_shell(char **envp);
 char							*find_pathname(char **tab_pahtname);
 void							ft_env_lstadd_back(t_env **lst, t_env *new);
 char							**make_pathname(t_env *lst_env, char *name);
-bool							run_command(char *str_comnd, char **envp);
+bool							run_command(char **tab_comnd, char **envp);
 #endif
