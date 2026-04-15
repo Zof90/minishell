@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:17:33 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/14 11:43:37 by codespace        ###   ########.fr       */
+/*   Updated: 2026/04/15 16:36:23 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+# ifndef BUFFERSIZE
+#  define BUFFERSIZE = 30
+# endif
+
 typedef enum e_token_type
 {
 	TOK_WORD,

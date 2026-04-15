@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/01 19:42:23 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/15 17:15:16 by codespace        ###   ########.fr       */
+/*   Created: 2026/04/15 14:38:30 by codespace         #+#    #+#             */
+/*   Updated: 2026/04/15 17:16:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_signal = 0;
-
-int	main(int argc, char **argv, char **envp)
+void	ft_echo(char **msg)
 {
-	set_signal();
-	minishell(argc, argv, envp);
+	int	i;
+
+	i = 1;
+	while (msg[i])
+		printf(msg[i++]);
+}
+void	ft_pwd(char *buff, size_t size)
+{
+	char *str;
+
+	getcwd(buff, size);
 }
