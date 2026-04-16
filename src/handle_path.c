@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 12:55:02 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/13 16:19:22 by codespace        ###   ########.fr       */
+/*   Updated: 2026/04/16 11:32:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	**make_pathname(t_env *lst_env, char *name)
 	if (!tab_path)
 		return (NULL);
 	len = calculate_len(tab_path);
-	tab_pathname = malloc(sizeof(char *) * len + 1);
+	tab_pathname = malloc(sizeof(char *) * (len + 1));
 	if (!tab_pathname)
 		return (NULL);
 	tab_pathname[len] = 0;
