@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 15:03:11 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/15 13:37:42 by codespace        ###   ########.fr       */
+/*   Updated: 2026/04/17 13:43:23 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	executor(t_shell *node_shell, char **tab_cmd, char *str_pathname,
 	}
 }
 
-bool	run_command(char **tab_cmd, char **envp)
+bool	run_command_builtout(char **tab_cmd, char **envp)
 {
 	t_shell *node_shell;
 	char **tab_pathname;

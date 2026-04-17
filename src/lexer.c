@@ -1,33 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_fonctions.c                                 :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/03 14:36:38 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/16 15:52:35 by codespace        ###   ########.fr       */
+/*   Created: 2026/04/17 13:48:21 by codespace         #+#    #+#             */
+/*   Updated: 2026/04/17 14:16:30 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-static void	sig_handler(int signal)
-{
-	g_signal = signal;
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	write(1, "\n", 1);
-	rl_redisplay();
-}
-
-void	set_signal(void)
-{
-	struct sigaction	sig;
-
-	ft_bzero(&sig, sizeof(sig));
-	sigemptyset(&sig.sa_mask);
-	sig.sa_flags = 0;
-	sig.sa_handler = &sig_handler;
-	sigaction(SIGINT, &sig, NULL);
-}
