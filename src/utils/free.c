@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,42 +12,42 @@
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_signal = 0;
-
-static void	shell_loop(t_shell *shell)
+void	free_tokens(t_token *tokens)
 {
-	char	*line;
+	t_token	*tmp;
 
-	while (shell->running)
+	while (tokens)
 	{
-		line = readline("minishell> ");
-		if (g_signal)
-		{
-			shell->exit_status = 130;
-			g_signal = 0;
-		}
-		if (!line)
-		{
-			ft_putendl_fd("exit", 1);
-			break ;
-		}
-		if (*line)
-			add_history(line);
-		free(line);
+		tmp = tokens->next;
+		free(tokens->value);
+		free(tokens);
+		tokens = tmp;
 	}
 }
 
-int	main(int argc, char **argv, char **envp)
+void	free_redirs(t_redir *redirs)
 {
-	t_shell	shell;
+	t_redir	*tmp;
 
-	(void)argc;
-	(void)argv;
-	shell.env = env_init(envp);
-	shell.exit_status = 0;
-	shell.running = 1;
-	setup_signals_interactive();
-	shell_loop(&shell);
-	free_env(shell.env);
-	return (shell.exit_status);
+	while (redirs)
+	{
+		tmp = redirs->next;
+		free(redirs->file);
+		free(redirs);
+		redirs = tmp;
+	}
+}
+
+void	free_cmds(t_cmd *cmds)
+{
+	t_cmd	*tmp;
+
+	while (cmds)
+	{
+		tmp = cmds->next;
+		free_str_array(cmds->args);
+		free_redirs(cmds->redirs);
+		free(cmds);
+		cmds = tmp;
+	}
 }
