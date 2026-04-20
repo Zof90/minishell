@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:20 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/04/28 09:00:00 by azaytsev         ###   ########.fr       */
+/*   Updated: 2026/04/29 12:10:11 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "gc.h"
 
 volatile sig_atomic_t	g_signal = 0;
 
