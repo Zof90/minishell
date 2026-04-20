@@ -1,5 +1,8 @@
 a.out
-.vscode 
+.vscode
 .DS_Store
 minishell
 pseudo_code.txt
+*.a
+*.o
+obj/
