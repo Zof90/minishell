@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gc.h                                               :+:      :+:    :+:   */
+/*   gc_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/20 14:41:36 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/21 18:17:49 by schouite         ###   ########.fr       */
+/*   Created: 2026/04/21 18:06:38 by schouite          #+#    #+#             */
+/*   Updated: 2026/04/21 18:17:15 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GC_H
-# define GC_H
+#include <minishell.h>
 
-typedef struct s_gc
+void	gc_free(t_gc *gc)
 {
-	void		*ptr;
-	struct s_gc	*next;
+	t_gc	*current;
 
-}				t_gc;
-void			*gc_calloc(t_shell *shell, size_t nmemb, size_t size);
-void			*gc_malloc(t_shell *shell, size_t size);
-char			*gc_substr(t_shell *shell, char const *s, unsigned int start,
-					size_t len);
-char			*gc_strdup(t_shell *shell, const char *s);
-void			gc_free(t_gc *gc);
-#endif
+	if (!gc)
+		return ;
+	current = gc;
+	while (current)
+	{
+		current = current->next;
+		free(gc);
+		gc = current;
+	}
+}
