@@ -6,23 +6,24 @@
 /*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:06:38 by schouite          #+#    #+#             */
-/*   Updated: 2026/04/21 18:17:15 by schouite         ###   ########.fr       */
+/*   Updated: 2026/04/21 18:34:37 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	gc_free(t_gc *gc)
+void	gc_free(t_shell *shell)
 {
 	t_gc	*current;
 
-	if (!gc)
+	if (!shell->gc)
 		return ;
-	current = gc;
+	current = shell->gc;
 	while (current)
 	{
 		current = current->next;
-		free(gc);
-		gc = current;
+		free(shell->gc);
+		shell->gc = current;
 	}
+	shell->gc = NULL;
 }
