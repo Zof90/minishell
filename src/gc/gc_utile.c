@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   gc_utile.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 17:22:10 by schouite          #+#    #+#             */
-/*   Updated: 2026/04/21 17:39:15 by schouite         ###   ########.fr       */
+/*   Updated: 2026/04/23 17:35:33 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gc.h"
 #include "minishell.h"
 
 void	*gc_calloc(t_shell *shell, size_t nmemb, size_t size)
@@ -25,7 +26,7 @@ void	*gc_calloc(t_shell *shell, size_t nmemb, size_t size)
 	return (ptr);
 }
 
-char *gc_strdup(t_shell *shell, const char *s)
+char	*gc_strdup(t_shell *shell, const char *s)
 {
 	char	*str;
 
@@ -36,9 +37,10 @@ char *gc_strdup(t_shell *shell, const char *s)
 	str[ft_strlen(s)] = '\0';
 	return (str);
 }
-char	*gc_substr(t_shell *shell, char const *s, unsigned int start, size_t len)
+char	*gc_substr(t_shell *shell, char const *s, unsigned int start,
+		size_t len)
 {
-	char	*str;
+	char *str;
 
 	if (!s)
 		return (NULL);

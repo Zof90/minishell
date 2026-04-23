@@ -18,7 +18,13 @@ SRCS		= src/main.c \
 			  src/utils/free.c \
 			  src/utils/error.c \
 			  src/debug/debug_print.c \
-			  src/signals/signals.c
+			  src/signals/signals.c \
+			  src/gc/gc_free.c \
+			  src/gc/gc_malloc.c \
+			  src/gc/gc_split.c \
+			  src/gc/gc_utile.c \
+			  src/lexer/lexer.c \
+			  src/lexer/lexer_scan.c \
 
 OBJS		= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
