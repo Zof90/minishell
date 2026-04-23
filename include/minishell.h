@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:13 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/04/21 18:04:06 by schouite         ###   ########.fr       */
+/*   Updated: 2026/04/23 15:05:23 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,14 @@ char							**env_to_array(t_env *env);
 int								env_size(t_env *env);
 void							free_env(t_env *env);
 void							free_str_array(char **arr);
-
 void							free_tokens(t_token *tokens);
 void							free_redirs(t_redir *redirs);
 void							free_cmds(t_cmd *cmds);
-
 void							print_error(const char *context,
 									const char *message);
-
 void							debug_print_tokens(t_token *tokens);
 void							debug_print_cmds(t_cmd *cmds);
 void							debug_print_env(t_env *env);
-
 void							setup_signals_interactive(void);
-
+int								token_size(char *str);
 #endif
