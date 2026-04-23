@@ -22,6 +22,11 @@ SRCS		= src/main.c \
 			  src/utils/error.c \
 			  src/debug/debug_print.c \
 			  src/signals/signals.c \
+			  src/gc/gc_free.c \
+			  src/gc/gc_malloc.c \
+			  src/gc/gc_split.c \
+			  src/gc/gc_utile.c \
+			  src/lexer/lexer.c \
 			  src/builtins/builtin_pwd.c \
 			  src/builtins/builtin_env.c \
 			  src/builtins/builtin_echo.c

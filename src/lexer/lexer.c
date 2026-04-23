@@ -6,16 +6,20 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:53:21 by zof               #+#    #+#             */
-/*   Updated: 2026/04/23 15:31:20 by zof              ###   ########.fr       */
+/*   Updated: 2026/04/23 17:51:39 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gc.h"
 #include "minishell.h"
 
 static void	set_type(t_token *new_node)
 {
-	if (*new_node->value == '<')
+	if (new_node->value[0] == '<')
+	{	if (new_node->value[1] == '<')
+			return(new_node->type = TOK_REDIR_IN;);
 		new_node->type = TOK_REDIR_IN;
+	}
 	else if (*new_node->value == '>')
 		new_node->type = TOK_REDIR_OUT;
 	else if (*new_node->value == '>>')
@@ -69,7 +73,7 @@ static t_token	*new_token(t_shell *shell, char *word, int len)
 	lst_add_back_token(&token, new_node);
 	return (token);
 }
-t_token	*lexer(t_shell *shell, char *line)
+t_token	*lex(t_shell *shell, char *line)
 {
 	int		i;
 	int		len;
@@ -91,6 +95,6 @@ t_token	*lexer(t_shell *shell, char *line)
 		if (!token)
 			return (free(word), NULL);
 		free(word);
-		i = i + len + 1;
+		i += len;
 	}
 }

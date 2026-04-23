@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   gc_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 17:28:47 by schouite          #+#    #+#             */
-/*   Updated: 2026/04/21 17:32:17 by schouite         ###   ########.fr       */
+/*   Updated: 2026/04/23 17:35:36 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gc.h"
 #include "minishell.h"
 
 static int	ft_count_word(char const *s, char c)
@@ -59,10 +60,10 @@ static int	ft_end(char const *s, int start, char c)
 
 char	**gc_split(t_shell *shell, char const *s, char c)
 {
-	char	**ptr;
-	int		j;
-	int		start;
-	int		end;
+	char **ptr;
+	int j;
+	int start;
+	int end;
 
 	j = 0;
 	start = 0;

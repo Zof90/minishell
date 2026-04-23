@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   gc_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:06:38 by schouite          #+#    #+#             */
-/*   Updated: 2026/04/21 18:34:37 by schouite         ###   ########.fr       */
+/*   Updated: 2026/04/23 17:35:41 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gc.h"
 #include <minishell.h>
 
 void	gc_free(t_shell *shell)
