@@ -1,32 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   lexer_scan.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/18 13:07:20 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/04/29 12:39:37 by zof              ###   ########.fr       */
+/*   Created: 2026/04/23 10:17:55 by zof               #+#    #+#             */
+/*   Updated: 2026/04/23 10:44:20 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
-
-
-
 #include "minishell.h"
 
-volatile sig_atomic_t	g_signal = 0;
-
-int	main(int argc, char **argv, char **envp)
+static int	in_quotes_size(char str, char c, int *i)
 {
-	t_shell	shell;
+	while (str[i++])
+	{
+		if (str[i] == c)
+			return (i);
+	}
+	return (-1);
+}
+int	token_size(char *str)
+{
+	int	i;
 
-	if (!init_shell(&shell, argc, argv, envp))
-		return (1);
-	setup_signals_interactive();
-	shell_loop(&shell);
-	cleanup_shell(&shell);
-	return (shell.exit_status);
+	i = 0;
+	while ((str[i] == ' ') || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			if (!in_quotes_size(str, str[i], &i))
+				return (-1);
+		}
+		if (str[i] == ' ')
+			return (i);
+	}
+	return (i);
 }

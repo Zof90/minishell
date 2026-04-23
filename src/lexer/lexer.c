@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/18 13:07:20 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/04/29 12:39:37 by zof              ###   ########.fr       */
+/*   Created: 2026/04/22 17:53:21 by zof               #+#    #+#             */
+/*   Updated: 2026/04/23 10:13:10 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
-
-
-
 #include "minishell.h"
 
-volatile sig_atomic_t	g_signal = 0;
-
-int	main(int argc, char **argv, char **envp)
+void lexer(char *line)
 {
-	t_shell	shell;
+    int i;
 
-	if (!init_shell(&shell, argc, argv, envp))
-		return (1);
-	setup_signals_interactive();
-	shell_loop(&shell);
-	cleanup_shell(&shell);
-	return (shell.exit_status);
+    i =0;
+    bool    in_quote;
+    in_quote = false;
+    while (line[i])
+    {
+        while (line[i] != ' ' && !in_quote)
+        {
+                
+        }
+    }
 }
