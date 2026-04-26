@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:13 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/04/29 12:43:30 by zof              ###   ########.fr       */
+/*   Updated: 2026/04/29 12:45:18 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 # define _XOPEN_SOURCE 700
 # define _DEFAULT_SOURCE
 # define _POSIX_C_SOURCE 200809L
-# include <stdio.h>
 # include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stddef.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -34,6 +34,13 @@ typedef enum e_token_type
 	TOK_HEREDOC,
 	TOK_APPEND,
 }								t_token_type;
+
+typedef enum e_quote_state
+{
+	DEFAULT,
+	IN_SQUOTE,
+	IN_DQUOTE,
+}								t_quote_state;
 
 typedef struct s_gc
 {
@@ -111,4 +118,5 @@ void	shell_loop(t_shell *shell);
 void	cleanup_shell(t_shell *shell);
 
 t_token							*lex(t_shell *shell, char *line);
+t_token_type							set_type(t_token *new_node);
 #endif

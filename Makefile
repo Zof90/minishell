@@ -1,7 +1,7 @@
 NAME		= minishell
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g
 INCLUDES	= -Iinclude -Ilibft
 
 LIBFT_DIR	= libft
@@ -30,6 +30,8 @@ SRCS		= src/main.c \
 			  src/builtins/builtin_pwd.c \
 			  src/builtins/builtin_env.c \
 			  src/builtins/builtin_echo.c
+			  src/lexer/lexer_word.c \
+			  src/lexer/lexer_opperrator.c \
 
 OBJS		= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
