@@ -92,4 +92,8 @@ void	debug_print_env(t_env *env);
 
 void	setup_signals_interactive(void);
 
+int		builtin_pwd(t_shell *shell, char **args);
+int		builtin_env(t_shell *shell, char **args);
+int		builtin_echo(t_shell *shell, char **args);
+
 #endif
