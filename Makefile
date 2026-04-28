@@ -21,7 +21,9 @@ SRCS		= src/main.c \
 			  src/signals/signals.c \
 			  src/builtins/builtin_pwd.c \
 			  src/builtins/builtin_env.c \
-			  src/builtins/builtin_echo.c
+			  src/builtins/builtin_echo.c \
+			  src/builtins/builtin_exit.c \
+			  src/builtins/builtin_unset.c
 
 OBJS		= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
