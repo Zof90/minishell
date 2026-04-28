@@ -92,4 +92,8 @@ void	debug_print_env(t_env *env);
 
 void	setup_signals_interactive(void);
 
+int		init_shell(t_shell *shell, int argc, char **argv, char **envp);
+void	shell_loop(t_shell *shell);
+void	cleanup_shell(t_shell *shell);
+
 #endif
