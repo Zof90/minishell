@@ -11,6 +11,9 @@ SRC_DIR		= src
 OBJ_DIR		= obj
 
 SRCS		= src/main.c \
+			  src/main/shell_init.c \
+			  src/main/shell_loop.c \
+			  src/main/shell_cleanup.c \
 			  src/env/env_init.c \
 			  src/env/env_access.c \
 			  src/env/env_utils.c \

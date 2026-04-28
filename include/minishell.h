@@ -97,5 +97,8 @@ int		builtin_env(t_shell *shell, char **args);
 int		builtin_echo(t_shell *shell, char **args);
 int		builtin_exit(t_shell *shell, char **args);
 int		builtin_unset(t_shell *shell, char **args);
+int		init_shell(t_shell *shell, int argc, char **argv, char **envp);
+void	shell_loop(t_shell *shell);
+void	cleanup_shell(t_shell *shell);
 
 #endif

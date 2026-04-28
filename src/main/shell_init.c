@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/18 13:07:20 by azaytsev          #+#    #+#             */
+/*   Created: 2026/04/28 09:00:00 by azaytsev          #+#    #+#             */
 /*   Updated: 2026/04/28 09:00:00 by azaytsev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_signal = 0;
-
-int	main(int argc, char **argv, char **envp)
+int	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 {
-	t_shell	shell;
-
-	if (!init_shell(&shell, argc, argv, envp))
-		return (1);
-	setup_signals_interactive();
-	shell_loop(&shell);
-	cleanup_shell(&shell);
-	return (shell.exit_status);
+	(void)argv;
+	if (argc > 1)
+	{
+		print_error(NULL, "arguments not supported");
+		return (0);
+	}
+	shell->env = env_init(envp);
+	if (!shell->env)
+	{
+		print_error(NULL, "failed to initialize environment");
+		return (0);
+	}
+	shell->exit_status = 0;
+	shell->running = 1;
+	return (1);
 }
