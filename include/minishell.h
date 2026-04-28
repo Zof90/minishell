@@ -95,5 +95,8 @@ void	setup_signals_interactive(void);
 int		builtin_pwd(t_shell *shell, char **args);
 int		builtin_env(t_shell *shell, char **args);
 int		builtin_echo(t_shell *shell, char **args);
+int		init_shell(t_shell *shell, int argc, char **argv, char **envp);
+void	shell_loop(t_shell *shell);
+void	cleanup_shell(t_shell *shell);
 
 #endif
