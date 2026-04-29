@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:13 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/04/29 12:45:18 by zof              ###   ########.fr       */
+/*   Updated: 2026/04/29 12:48:25 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 # define _XOPEN_SOURCE 700
 # define _DEFAULT_SOURCE
 # define _POSIX_C_SOURCE 200809L
+# include <stdio.h>
 # include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stddef.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -118,5 +118,11 @@ void	shell_loop(t_shell *shell);
 void	cleanup_shell(t_shell *shell);
 
 t_token							*lex(t_shell *shell, char *line);
-t_token_type							set_type(t_token *new_node);
+t_token_type					set_type(t_token *new_node);
+bool							lex_opperator(t_shell *shell, t_token **token,
+									char *line, int *i);
+bool							lex_word(t_shell *shell, t_token **token,
+									char *line, int *i);
+bool							is_opperator(char c);
+void							lstadd_back_token(t_token **lst, t_token *new);
 #endif

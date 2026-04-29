@@ -31,7 +31,7 @@ SRCS		= src/main.c \
 			  src/builtins/builtin_env.c \
 			  src/builtins/builtin_echo.c
 			  src/lexer/lexer_word.c \
-			  src/lexer/lexer_opperrator.c \
+			  src/lexer/lexer_opperator.c \
 
 OBJS		= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
