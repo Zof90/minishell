@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:20 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/04/29 12:45:44 by zof              ###   ########.fr       */
+/*   Updated: 2026/04/29 12:50:45 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ volatile sig_atomic_t	g_signal = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell	*shell;
+	t_shell	shell;
 
 	if (!init_shell(&shell, argc, argv, envp))
 		return (1);
