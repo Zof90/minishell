@@ -6,12 +6,34 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 14:38:42 by zof               #+#    #+#             */
-/*   Updated: 2026/04/27 18:12:08 by zof              ###   ########.fr       */
+/*   Updated: 2026/04/30 13:20:02 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gc.h"
 #include "minishell.h"
+
+static t_quote_state	handle_quotes(t_quote_state state, char c)
+{
+	if (state == DEFAULT)
+	{
+		if (c == '\'')
+			return (IN_SQUOTE);
+		else if (c == '\"')
+			return (IN_DQUOTE);
+	}
+	else if (state == IN_SQUOTE)
+	{
+		if (c == '\'')
+			state = DEFAULT;
+	}
+	else if (state == IN_DQUOTE)
+	{
+		if (c == '\"')
+			return (DEFAULT);
+	}
+	return (state);
+}
 
 static bool	is_spaces(char c)
 {
@@ -30,32 +52,9 @@ static int	read_word(char *line)
 	{
 		if ((is_opperator(line[len]) || is_spaces(line[len]))
 			&& state == DEFAULT)
-		{
 			break ;
-		}
-		if (state == DEFAULT)
-		{
-			if (line[len] == '\'')
-				state = IN_SQUOTE;
-			else if (line[len] == '\"')
-				state = IN_DQUOTE;
-			if (len)
-			{
-				state = DEFAULT;
-				break;
-			}
-		}
-		else if (state == IN_SQUOTE)
-		{
-			if (line[len] == '\'')
-				state = DEFAULT;
-		}
-		else if (state == IN_DQUOTE)
-		{
-			if (line[len] == '\"')
-				state = DEFAULT;
-		}
-		len += 1;
+		state = handle_quotes(state, line[len]);
+		len++;
 	}
 	if (state != DEFAULT)
 		return (0);
@@ -72,7 +71,10 @@ bool	lex_word(t_shell *shell, t_token **token, char *line, int *i)
 		return (false);
 	len = read_word(line);
 	if (!len)
+	{
+		print_error(NULL, "unclosed quote");
 		return (false);
+	}
 	new_node->value = gc_substr(shell, line, 0, len);
 	if (!new_node->value)
 		return (false);

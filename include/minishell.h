@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:13 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/04/29 12:48:25 by zof              ###   ########.fr       */
+/*   Updated: 2026/04/29 15:00:00 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef struct s_shell
 
 extern volatile sig_atomic_t	g_signal;
 
+
 t_env							*env_new_node(const char *key,
 									const char *value);
 void							env_add_back(t_env **env, t_env *new_node);
@@ -110,12 +111,13 @@ void							debug_print_cmds(t_cmd *cmds);
 void							debug_print_env(t_env *env);
 void							setup_signals_interactive(void);
 int								token_size(char *str);
-int		builtin_pwd(t_shell *shell, char **args);
-int		builtin_env(t_shell *shell, char **args);
-int		builtin_echo(t_shell *shell, char **args);
-int		init_shell(t_shell *shell, int argc, char **argv, char **envp);
-void	shell_loop(t_shell *shell);
-void	cleanup_shell(t_shell *shell);
+int								builtin_pwd(t_shell *shell, char **args);
+int								builtin_env(t_shell *shell, char **args);
+int								builtin_echo(t_shell *shell, char **args);
+int								init_shell(t_shell *shell, int argc,
+									char **argv, char **envp);
+void							shell_loop(t_shell *shell);
+void							cleanup_shell(t_shell *shell);
 
 t_token							*lex(t_shell *shell, char *line);
 t_token_type					set_type(t_token *new_node);

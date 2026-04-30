@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 14:15:25 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/23 17:46:55 by zof              ###   ########.fr       */
+/*   Updated: 2026/04/29 15:39:17 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ static bool	gc_add(t_shell *shell, void *ptr)
 	t_gc	*new;
 	t_gc	*tmp;
 
+	if (!ptr)
+		return (false);
 	new = gc_new(ptr);
 	if (!new)
-		return (false);
-	if (!ptr)
 		return (false);
 	if (!shell->gc)
 	{
@@ -54,6 +54,9 @@ void	*gc_malloc(t_shell *shell, size_t size)
 	if (!ptr)
 		return (NULL);
 	if (!gc_add(shell, ptr))
+	{
+		free(ptr);
 		return (NULL);
+	}
 	return (ptr);
 }

@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 09:00:00 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/04/28 09:00:00 by azaytsev         ###   ########.fr       */
+/*   Updated: 2026/04/29 17:44:46 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gc.h"
 #include "minishell.h"
 
 static void	handle_signal_tick(t_shell *shell)
