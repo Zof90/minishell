@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 14:38:42 by zof               #+#    #+#             */
-/*   Updated: 2026/04/30 13:20:02 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/01 14:40:07 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	read_word(char *line)
 		len++;
 	}
 	if (state != DEFAULT)
-		return (0);
+		return (-1);
 	return (len);
 }
 
@@ -66,15 +66,17 @@ bool	lex_word(t_shell *shell, t_token **token, char *line, int *i)
 	t_token	*new_node;
 	int		len;
 
-	new_node = gc_malloc(shell, sizeof(t_token));
-	if (!new_node)
-		return (false);
 	len = read_word(line);
-	if (!len)
+	if (len < 0)
 	{
 		print_error(NULL, "unclosed quote");
 		return (false);
 	}
+	if (!len)
+		return (true);
+	new_node = gc_malloc(shell, sizeof(t_token));
+	if (!new_node)
+		return (false);
 	new_node->value = gc_substr(shell, line, 0, len);
 	if (!new_node->value)
 		return (false);

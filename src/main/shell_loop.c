@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 09:00:00 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/04/29 17:44:46 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/01 14:09:11 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,13 @@ static char	*read_input(t_shell *shell)
 
 static void	process_line(t_shell *shell, char *line)
 {
+	t_token	*token;
+
 	(void)shell;
 	(void)line;
+	token = lex(shell, line);
+	debug_print_tokens(token);
+	gc_free(shell);
 }
 
 void	shell_loop(t_shell *shell)

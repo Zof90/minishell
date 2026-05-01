@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 13:59:14 by zof               #+#    #+#             */
-/*   Updated: 2026/04/30 13:25:30 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/01 13:51:57 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ bool	lex_opperator(t_shell *shell, t_token **token, char *line, int *i)
 	if (!new_node)
 		return (false);
 	len = read_opperator(line);
-	if (!len)
-		return (false);
 	new_node->value = gc_substr(shell, line, 0, len);
 	if (!new_node->value)
 		return (false);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 09:00:00 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/04/28 09:00:00 by azaytsev         ###   ########.fr       */
+/*   Updated: 2026/05/01 13:49:57 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 		print_error(NULL, "failed to initialize environment");
 		return (0);
 	}
+	shell->gc = NULL;
 	shell->exit_status = 0;
 	shell->running = 1;
 	return (1);

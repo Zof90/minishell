@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 13:45:52 by zof               #+#    #+#             */
-/*   Updated: 2026/04/27 17:51:35 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/01 14:39:51 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,7 @@ t_token_type	set_type(t_token *new_node)
 }
 bool	is_opperator(char c)
 {
-	if (!(c != '>' && c != '<' && c != '|'))
-		return (true);
-	return (false);
+	return (c == '>' || c == '<' || c == '|');
 }
 t_token	*lex(t_shell *shell, char *line)
 {
@@ -74,6 +72,8 @@ t_token	*lex(t_shell *shell, char *line)
 	while (line[i])
 	{
 		skip_spaces(line, &i);
+		if (!line[i])
+			break ;
 		if (is_opperator(line[i]))
 		{
 			flag = lex_opperator(shell, &token, &line[i], &i);
