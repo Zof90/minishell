@@ -41,11 +41,22 @@ static char	*read_input(t_shell *shell)
 static void	process_line(t_shell *shell, char *line)
 {
 	t_token	*token;
+	t_cmd	*cmds;
 
-	(void)shell;
-	(void)line;
 	token = lex(shell, line);
-	debug_print_tokens(token);
+	if (!token)
+	{
+		gc_free(shell);
+		return ;
+	}
+	if (syntax_check(token))
+	{
+		shell->exit_status = 2;
+		gc_free(shell);
+		return ;
+	}
+	cmds = parse(shell, token);
+	debug_print_cmds(cmds);
 	gc_free(shell);
 }
 
