@@ -1,32 +1,39 @@
-NAME		= minishell
+NAME        = minishell
 
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
-INCLUDES	= -Iinclude -Ilibft
+CC          = cc
+CFLAGS      = -Wall -Wextra -Werror -g
+INCLUDES    = -Iinclude -Ilibft
 
-LIBFT_DIR	= libft
-LIBFT		= $(LIBFT_DIR)/libft.a
+LIBFT_DIR   = libft
+LIBFT       = $(LIBFT_DIR)/libft.a
 
-SRC_DIR		= src
-OBJ_DIR		= obj
+SRC_DIR     = src
+OBJ_DIR     = obj
 
-SRCS		= src/main.c \
-			  src/main/shell_init.c \
-			  src/main/shell_loop.c \
-			  src/main/shell_cleanup.c \
-			  src/env/env_init.c \
-			  src/env/env_access.c \
-			  src/env/env_utils.c \
-			  src/env/env_free.c \
-			  src/utils/free.c \
-			  src/utils/error.c \
-			  src/debug/debug_print.c \
-			  src/signals/signals.c \
-			  src/builtins/builtin_pwd.c \
-			  src/builtins/builtin_env.c \
-			  src/builtins/builtin_echo.c
+SRCS        = src/main.c \
+              src/main/shell_init.c \
+              src/main/shell_loop.c \
+              src/main/shell_cleanup.c \
+              src/env/env_init.c \
+              src/env/env_access.c \
+              src/env/env_utils.c \
+              src/env/env_free.c \
+              src/utils/free.c \
+              src/utils/error.c \
+              src/debug/debug_print.c \
+              src/signals/signals.c \
+              src/gc/gc_free.c \
+              src/gc/gc_malloc.c \
+              src/gc/gc_split.c \
+              src/gc/gc_utile.c \
+              src/lexer/lexer.c \
+              src/builtins/builtin_pwd.c \
+              src/builtins/builtin_env.c \
+              src/builtins/builtin_echo.c \
+              src/lexer/lexer_word.c \
+              src/lexer/lexer_opperator.c
 
-OBJS		= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJS        = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 

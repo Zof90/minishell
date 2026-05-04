@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 10:04:19 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/04/12 10:04:21 by azaytsev         ###   ########.fr       */
+/*   Updated: 2026/04/29 11:50:15 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,4 @@ t_env	*env_init(char **envp)
 	}
 	return (env);
 }
+//fetch commande branch sec vs master local

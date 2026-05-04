@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_init.c                                       :+:      :+:    :+:   */
+/*   gc_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/28 09:00:00 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/01 13:49:57 by zof              ###   ########.fr       */
+/*   Created: 2026/04/21 18:06:38 by schouite          #+#    #+#             */
+/*   Updated: 2026/04/29 16:07:31 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gc.h"
 #include "minishell.h"
 
-int	init_shell(t_shell *shell, int argc, char **argv, char **envp)
+void	gc_free(t_shell *shell)
 {
-	(void)argv;
-	if (argc > 1)
+	t_gc	*current;
+	t_gc	*next;
+
+	if (!shell->gc)
+		return ;
+	current = shell->gc;
+	while (current)
 	{
-		print_error(NULL, "arguments not supported");
-		return (0);
-	}
-	shell->env = env_init(envp);
-	if (!shell->env)
-	{
-		print_error(NULL, "failed to initialize environment");
-		return (0);
+		next = current->next;
+		free(current->ptr);
+		free(current);
+		current = next;
 	}
 	shell->gc = NULL;
-	shell->exit_status = 0;
-	shell->running = 1;
-	return (1);
 }
