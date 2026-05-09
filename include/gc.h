@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 14:41:36 by codespace         #+#    #+#             */
-/*   Updated: 2026/04/27 14:43:14 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/09 17:53:01 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,5 @@ char	*gc_strdup(t_shell *shell, const char *s);
 char	*gc_strjoin(t_shell *shell, char const *s1, char const *s2);
 char	*gc_itoa(t_shell *shell, int n);
 void	gc_free(t_shell *shell);
+char	**gc_split(t_shell *shell, char const *s, char c);
 #endif
