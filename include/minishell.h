@@ -124,4 +124,14 @@ bool							lex_word(t_shell *shell, t_token **token,
 									char *line, int *i);
 bool							is_opperator(char c);
 void							lstadd_back_token(t_token **lst, t_token *new);
+int								syntax_check(t_token *tokens);
+t_cmd							*parse(t_shell *shell, t_token *tokens);
+t_cmd							*cmd_new(t_shell *shell);
+void							cmd_add_back(t_cmd **list, t_cmd *new_cmd);
+int								is_redir_type(t_token_type type);
+int								count_cmd_args(t_token *tokens);
+int								parse_redir(t_shell *shell, t_token **cur,
+									t_redir **redirs);
+t_redir							*create_redir(t_shell *shell,
+									t_token_type type, const char *file_val);
 #endif
