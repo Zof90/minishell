@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 16:04:29 by zof               #+#    #+#             */
-/*   Updated: 2026/05/09 18:36:45 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/11 13:51:10 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	**make_pathname(t_shell *shell, t_cmd *cmd)
 	}
 	return (tab_pathname);
 }
-char	*test_pathname(char **tab_pathname)
+char	*is_valide_pathname(char **tab_pathname)
 {
 	int	i;
 
@@ -82,7 +82,9 @@ char	*test_pathname(char **tab_pathname)
 	while (tab_pathname[i])
 	{
 		if (!access(tab_pathname[i], X_OK))
+		{
 			return (tab_pathname[i]);
+		}
 		i++;
 	}
 	return (NULL);

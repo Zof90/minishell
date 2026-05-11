@@ -42,6 +42,8 @@ SRCS        = src/main.c \
               src/parser/parser.c \
               src/parser/parser_utils.c \
               src/parser/parser_redir.c \
+              src/execution/exec.c \
+              src/execution/handle_path.c \ \
               src/expander/expander.c \
               src/expander/expand_str.c \
               src/expander/expand_dollar.c \
