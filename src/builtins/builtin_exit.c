@@ -30,6 +30,19 @@ static int	is_numeric(const char *s)
 	return (1);
 }
 
+static int	accumulate_digits(const char *s, int i, unsigned long limit,
+		unsigned long *val)
+{
+	while (s[i])
+	{
+		if (*val > (limit - (s[i] - '0')) / 10)
+			return (0);
+		*val = *val * 10 + (s[i] - '0');
+		i++;
+	}
+	return (1);
+}
+
 static int	parse_long_safe(const char *s, long *out)
 {
 	int				i;
@@ -46,13 +59,8 @@ static int	parse_long_safe(const char *s, long *out)
 		limit = 9223372036854775808UL;
 	else
 		limit = 9223372036854775807UL;
-	while (s[i])
-	{
-		if (val > (limit - (s[i] - '0')) / 10)
-			return (0);
-		val = val * 10 + (s[i] - '0');
-		i++;
-	}
+	if (!accumulate_digits(s, i, limit, &val))
+		return (0);
 	if (neg)
 		*out = (long)(0UL - val);
 	else
