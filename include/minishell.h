@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:13 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/18 10:16:37 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/18 10:29:12 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 # define _XOPEN_SOURCE 700
 # define _DEFAULT_SOURCE
 # define _POSIX_C_SOURCE 200809L
-# include <stdio.h>
 # include "../libft/libft.h"
+# include <stdio.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -45,6 +45,12 @@ typedef enum e_quote_state
 	IN_SQUOTE,
 	IN_DQUOTE,
 }								t_quote_state;
+
+typedef struct s_pipe
+{
+	int							prev_pipe;
+	int							pfd[2];
+}								t_pipe;
 
 typedef struct s_gc
 {
@@ -156,4 +162,9 @@ size_t							calculate_len(char **tab_path);
 char							*is_valide_pathname(char **tab_pathname);
 char							**make_pathname(t_shell *shell, t_cmd *cmd);
 bool							run_executor(t_shell *shell, t_cmd *cmd);
+int								run_redir(t_redir *redirs, int fd);
+bool							is_builtin(t_cmd *cmd);
+int								run_builtin(t_shell *shell, t_cmd *cmd,
+									t_cmd *header);
+bool							handle_executor(t_shell *shell, t_cmd *cmd);
 #endif
