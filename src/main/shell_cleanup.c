@@ -10,10 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gc.h"
 #include "minishell.h"
 
 void	cleanup_shell(t_shell *shell)
 {
+	gc_free(shell);
 	free_env(shell->env);
 	shell->env = NULL;
 	rl_clear_history();
