@@ -22,6 +22,7 @@ SRCS        = src/main.c \
               src/utils/error.c \
               src/debug/debug_print.c \
               src/signals/signals.c \
+              src/signals/signals_heredoc.c \
               src/gc/gc_free.c \
               src/gc/gc_malloc.c \
               src/gc/gc_split.c \
