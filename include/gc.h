@@ -20,5 +20,7 @@ void	*gc_malloc(t_shell *shell, size_t size);
 char	*gc_substr(t_shell *shell, char const *s, unsigned int start,
 			size_t len);
 char	*gc_strdup(t_shell *shell, const char *s);
+char	*gc_strjoin(t_shell *shell, char const *s1, char const *s2);
+char	*gc_itoa(t_shell *shell, int n);
 void	gc_free(t_shell *shell);
 #endif

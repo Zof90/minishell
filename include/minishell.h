@@ -134,4 +134,10 @@ int								parse_redir(t_shell *shell, t_token **cur,
 									t_redir **redirs);
 t_redir							*create_redir(t_shell *shell,
 									t_token_type type, const char *file_val);
+t_cmd							*expand(t_cmd *cmds, t_shell *shell);
+char							*expand_str(const char *str, t_shell *shell);
+char							*strip_quotes(t_shell *shell, const char *str);
+char							*resolve_dollar(const char *str, int *i,
+									t_shell *shell);
+char							*char_to_str(t_shell *shell, char c);
 #endif
