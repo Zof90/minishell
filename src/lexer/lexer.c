@@ -57,10 +57,12 @@ t_token_type	set_type(t_token *new_node)
 	else
 		return (TOK_WORD);
 }
+
 bool	is_opperator(char c)
 {
 	return (c == '>' || c == '<' || c == '|');
 }
+
 t_token	*lex(t_shell *shell, char *line)
 {
 	int		i;

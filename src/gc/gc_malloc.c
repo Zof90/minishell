@@ -24,6 +24,7 @@ static t_gc	*gc_new(void *ptr)
 	gc->next = NULL;
 	return (gc);
 }
+
 static bool	gc_add(t_shell *shell, void *ptr)
 {
 	t_gc	*new;

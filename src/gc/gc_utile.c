@@ -37,10 +37,11 @@ char	*gc_strdup(t_shell *shell, const char *s)
 	str[ft_strlen(s)] = '\0';
 	return (str);
 }
+
 char	*gc_substr(t_shell *shell, char const *s, unsigned int start,
 		size_t len)
 {
-	char *str;
+	char	*str;
 
 	if (!s)
 		return (NULL);
