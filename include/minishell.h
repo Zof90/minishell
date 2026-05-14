@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:13 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/18 10:29:12 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/18 10:29:59 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,4 +167,6 @@ bool							is_builtin(t_cmd *cmd);
 int								run_builtin(t_shell *shell, t_cmd *cmd,
 									t_cmd *header);
 bool							handle_executor(t_shell *shell, t_cmd *cmd);
+void							wait_all(t_shell *shell, t_cmd *cmd);
+char							*is_valide_cmd(t_shell *shell, t_cmd *cmd);
 #endif

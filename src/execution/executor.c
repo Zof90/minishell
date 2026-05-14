@@ -6,62 +6,15 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 15:33:25 by zof               #+#    #+#             */
-/*   Updated: 2026/05/13 19:44:41 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/14 19:22:06 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gc.h"
 #include "minishell.h"
 
-char	*is_valide_cmd(t_shell *shell, t_cmd *cmd)
+static void	setup_child_pipe(t_cmd *cmd, t_cmd *header, t_pipe *pipe_ctx)
 {
-	char	*str_pathname;
-	char	**tmp_tab_pathname;
-
-	if (cmd->args[0][0] == '/')
-	{
-		str_pathname = is_valide_pathname(cmd->args);
-		return (str_pathname);
-	}
-	tmp_tab_pathname = make_pathname(shell, cmd);
-	if (!tmp_tab_pathname)
-		return (NULL);
-	str_pathname = is_valide_pathname(tmp_tab_pathname);
-	return (str_pathname);
-}
-int	run_redir(t_redir *redirs, int fd)
-{
-	if (redirs->type == TOK_REDIR_IN)
-	{
-		fd = open(redirs->file, O_RDONLY);
-		if (fd == -1)
-			return (print_error(redirs->file, strerror(errno)), -1);
-		dup2(fd, 0);
-		close(fd);
-	}
-	else if (redirs->type == TOK_REDIR_OUT)
-	{
-		fd = open(redirs->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		if (fd == -1)
-			return (print_error(redirs->file, strerror(errno)), -1);
-		dup2(fd, 1);
-		close(fd);
-	}
-	else if (redirs->type == TOK_APPEND)
-	{
-		fd = open(redirs->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
-		if (fd == -1)
-			return (print_error(redirs->file, strerror(errno)), -1);
-		dup2(fd, 1);
-		close(fd);
-	}
-	return (1);
-}
-static int	run_child(t_shell *shell, t_cmd *cmd, t_cmd *header, t_pipe *pipe_ctx)
-{
-	int	fd;
-
-	fd = -1;
 	if (cmd != header)
 		dup2(pipe_ctx->prev_pipe, 0);
 	if (cmd->next)
@@ -73,11 +26,49 @@ static int	run_child(t_shell *shell, t_cmd *cmd, t_cmd *header, t_pipe *pipe_ctx
 		close(pipe_ctx->pfd[0]);
 		close(pipe_ctx->pfd[1]);
 	}
-	if (cmd->redirs)
+}
+
+static int	run_child(t_shell *shell, t_cmd *cmd, t_cmd *header,
+		t_pipe *pipe_ctx)
+{
+	int		fd;
+	t_cmd	*current;
+	char	*path;
+
+	fd = -1;
+	current = cmd;
+	while (current)
+	{
+		if (!is_builtin(current))
+		{
+			path = is_valide_cmd(shell, current);
+			if (path)
+				current->args[0] = path;
+			else
+			{
+				if (ft_strchr(cmd->args[0], '/'))
+					print_error(cmd->args[0], strerror(errno));
+				else
+					print_error(cmd->args[0], "command not found");
+				if ((errno == EACCES))
+					exit(126);
+				exit(127);
+			}
+			if (!current->args[0])
+			{
+				shell->exit_status = 127;
+				// return (false);
+			}
+		}
+		current = current->next;
+	}
+	setup_child_pipe(cmd, header, pipe_ctx);
+	while (cmd->redirs)
 	{
 		fd = run_redir(cmd->redirs, fd);
 		if (fd == -1)
 			exit(1);
+		cmd->redirs = cmd->redirs->next;
 	}
 	if (is_builtin(cmd))
 		run_builtin(shell, cmd, header);
@@ -98,32 +89,12 @@ static int	run_parent(t_cmd *cmd, t_pipe *pipe_ctx)
 	}
 	return (-1);
 }
-void	wait_all(t_shell *shell, t_cmd *cmd)
-{
-	int	status;
-
-	status = 0;
-	while (cmd)
-	{
-		waitpid(cmd->pid, &status, 0);
-		if (WIFEXITED(status))
-			shell->exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-		{
-			shell->exit_status = 128 + WTERMSIG(status);
-			if (WTERMSIG(status) == SIGINT)
-				printf("\n");
-			else if (WTERMSIG(status) == SIGQUIT)
-				printf("Quit (core dumped)\n");
-		}
-		cmd = cmd->next;
-	}
-}
-void	run_executor_util(t_shell *shell, t_cmd *cmd, t_pipe *pipe_ctx)
+static void	run_executor_util(t_shell *shell, t_cmd *cmd, t_pipe *pipe_ctx)
 {
 	t_cmd	*current;
 
 	current = cmd;
+	pipe_ctx->prev_pipe = -1;
 	while (current)
 	{
 		if (current->next)
@@ -144,20 +115,23 @@ void	run_executor_util(t_shell *shell, t_cmd *cmd, t_pipe *pipe_ctx)
 
 bool	run_executor(t_shell *shell, t_cmd *cmd)
 {
-	t_pipe pipe_ctx;
-	t_cmd	*current;
+	t_pipe	pipe_ctx;
 
-	current = cmd;
-	while (current)
-	{
-		if (!is_builtin(current))
-		{
-			current->args[0] = is_valide_cmd(shell, current);
-			if (!current->args[0])
-				return (false);
-		}
-		current = current->next;
-	}
+	// t_cmd	*current;
+	// current = cmd;
+	// while (current)
+	// {
+	// 	if (!is_builtin(current))
+	// 	{
+	// 		current->args[0] = is_valide_cmd(shell, current);
+	// 		if (!current->args[0])
+	// 		{
+	// 			shell->exit_status = 127;
+	// 			// return (false);
+	// 		}
+	// 	}
+	// 	current = current->next;
+	// }
 	run_executor_util(shell, cmd, &pipe_ctx);
 	wait_all(shell, cmd);
 	return (true);

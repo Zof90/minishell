@@ -1,0 +1,96 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor_builtin.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/12 14:18:58 by zof               #+#    #+#             */
+/*   Updated: 2026/05/14 18:40:57 by zof              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static int	redir_builtin(t_redir *redir)
+{
+	int	fd;
+
+	fd = -1;
+	fd = run_redir(redir, fd);
+	if (fd == -1)
+		return (-1);
+	return (0);
+}
+static void	dispatch_builtin(t_shell *shell, t_cmd *cmd)
+{
+	if (!ft_strcmp(cmd->args[0], "echo"))
+		shell->exit_status = builtin_echo(shell, cmd->args);
+	else if (!ft_strcmp(cmd->args[0], "env"))
+		shell->exit_status = builtin_env(shell, cmd->args);
+	else if (!ft_strcmp(cmd->args[0], "pwd"))
+		shell->exit_status = builtin_pwd(shell, cmd->args);
+	// else if (!ft_strcmp(cmd->args[0], "cd"))
+	// 	shell->exit_status = builtin_cd(shell, cmd->args);
+	// else if (!ft_strcmp(cmd->args[0], "export"))
+	// 	shell->exit_status = builtin_export(shell, cmd->args);
+	// else if (!ft_strcmp(cmd->args[0], "unset"))
+	// 	shell->exit_status = builtin_unset(shell, cmd->args);
+	// else if (!ft_strcmp(cmd->args[0], "exit"))
+	// 	shell->exit_status = builtin_exit(shell, cmd->args);
+}
+static void	restaure_std(t_shell *shell, t_cmd *header, int fd_in, int fd_out)
+{
+	if (!header->next)
+	{
+		dup2(fd_in, 0);
+		dup2(fd_out, 1);
+		close(fd_in);
+		close(fd_out);
+		return ;
+	}
+	exit(shell->exit_status);
+}
+int	run_builtin(t_shell *shell, t_cmd *cmd, t_cmd *header)
+{
+	int	fd_in;
+	int	fd_out;
+	int	fd;
+
+	fd_in = dup(0);
+	fd_out = dup(1);
+	fd = -1;
+	while (!header->next && cmd->redirs)
+	{
+		if (fd != -1)
+			close(fd);
+		fd = redir_builtin(cmd->redirs);
+		if (fd == -1)
+		{
+			dup2(fd_in, 0);
+			dup2(fd_out, 1);
+			shell->exit_status = 1;
+			return (close(fd_in), close(fd_out), 1);
+		}
+		cmd->redirs = cmd->redirs->next;
+	}
+	dispatch_builtin(shell, cmd);
+	restaure_std(shell, header, fd_in, fd_out);
+	return (shell->exit_status);
+}
+
+bool	handle_executor(t_shell *shell, t_cmd *cmd)
+{
+	t_cmd	*header;
+
+	header = cmd;
+	if (!cmd->next && is_builtin(cmd))
+	{
+		run_builtin(shell, cmd, header);
+		if (shell->exit_status != 0)
+			return (false);
+		return (true);
+	}
+	run_executor(shell, cmd);
+	return (true);
+}

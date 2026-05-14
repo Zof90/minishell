@@ -5,20 +5,36 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/12 14:18:58 by zof               #+#    #+#             */
-/*   Updated: 2026/05/13 20:01:55 by zof              ###   ########.fr       */
+/*   Created: 2026/05/14 16:35:29 by zof               #+#    #+#             */
+/*   Updated: 2026/05/14 17:24:01 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*is_valide_cmd(t_shell *shell, t_cmd *cmd)
+{
+	char	*str_pathname;
+	char	**tmp_tab_pathname;
+
+	if (cmd->args[0][0] == '/')
+	{
+		str_pathname = is_valide_pathname(cmd->args);
+		return (str_pathname);
+	}
+	tmp_tab_pathname = make_pathname(shell, cmd);
+	if (!tmp_tab_pathname)
+		return (NULL);
+	str_pathname = is_valide_pathname(tmp_tab_pathname);
+	return (str_pathname);
+}
 bool	is_builtin(t_cmd *cmd)
 {
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 		return (true);
-	if (ft_strcmp(cmd->args[0], "cd") == 0)
-		return (true);
 	if (ft_strcmp(cmd->args[0], "pwd") == 0)
+		return (true);
+	if (ft_strcmp(cmd->args[0], "cd") == 0)
 		return (true);
 	if (ft_strcmp(cmd->args[0], "export") == 0)
 		return (true);
@@ -30,65 +46,53 @@ bool	is_builtin(t_cmd *cmd)
 		return (true);
 	return (false);
 }
-static int	redir_builtin(t_cmd *cmd)
-{
-	int	fd;
-	int	fd_backup;
 
-	fd = -1;
-	fd_backup = dup(1);
-	fd = run_redir(cmd->redirs, fd);
-	if (fd == -1)
-		return (close(fd_backup), -1);
-	return (fd_backup);
+int	run_redir(t_redir *redirs, int fd)
+{
+	if (redirs->type == TOK_REDIR_IN)
+	{
+		fd = open(redirs->file, O_RDONLY);
+		if (fd == -1)
+			return (print_error(redirs->file, strerror(errno)), -1);
+		dup2(fd, 0);
+		close(fd);
+	}
+	else if (redirs->type == TOK_REDIR_OUT)
+	{
+		fd = open(redirs->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		if (fd == -1)
+			return (print_error(redirs->file, strerror(errno)), -1);
+		dup2(fd, 1);
+		close(fd);
+	}
+	else if (redirs->type == TOK_APPEND)
+	{
+		fd = open(redirs->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		if (fd == -1)
+			return (print_error(redirs->file, strerror(errno)), -1);
+		dup2(fd, 1);
+		close(fd);
+	}
+	return (0);
 }
-int	run_builtin(t_shell *shell, t_cmd *cmd, t_cmd *header)
+void	wait_all(t_shell *shell, t_cmd *cmd)
 {
-	int	fd_backup;
+	int	status;
 
-	fd_backup = -1;
-	if (!header->next && cmd->redirs)
+	status = 0;
+	while (cmd)
 	{
-		fd_backup = redir_builtin(cmd);
-		if (fd_backup == -1)
-			return (1);
+		waitpid(cmd->pid, &status, 0);
+		if (WIFEXITED(status))
+			shell->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+		{
+			shell->exit_status = 128 + WTERMSIG(status);
+			if (WTERMSIG(status) == SIGINT)
+				printf("\n");
+			else if (WTERMSIG(status) == SIGQUIT)
+				printf("Quit (core dumped)\n");
+		}
+		cmd = cmd->next;
 	}
-	if (!ft_strcmp(cmd->args[0], "echo"))
-		shell->exit_status = builtin_echo(shell, cmd->args);
-	else if (!ft_strcmp(cmd->args[0], "env"))
-		shell->exit_status = builtin_env(shell, cmd->args);
-	else if (!ft_strcmp(cmd->args[0], "pwd"))
-		shell->exit_status = builtin_pwd(shell, cmd->args);
-	// else if (!ft_strcmp(cmd->args[0], "cd"))
-	// 	shell->exit_status = builtin_cd(shell, cmd->args);
-	// else if (!ft_strcmp(cmd->args[0], "export"))
-	// 	shell->exit_status = builtin_export(shell, cmd->args);
-	// else if (!ft_strcmp(cmd->args[0], "unset"))
-	// 	shell->exit_status = builtin_unset(shell, cmd->args);
-	// else if (!ft_strcmp(cmd->args[0], "exit"))
-	// 	shell->exit_status = builtin_exit(shell, cmd->args);
-	if (fd_backup != -1)
-	{
-		dup2(fd_backup, 1);
-		close(fd_backup);
-	}
-	if (!header->next)
-		return (shell->exit_status);
-	exit(shell->exit_status);
-}
-
-bool	handle_executor(t_shell *shell, t_cmd *cmd)
-{
-	t_cmd *header;
-
-	header = cmd;
-	if (!cmd->next && is_builtin(cmd))
-	{
-		run_builtin(shell, cmd, header);
-		if (shell->exit_status != 0)
-			return (false);
-		return (true);
-	}
-	run_executor(shell, cmd);
-	return (true);
 }
