@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 15:33:25 by zof               #+#    #+#             */
-/*   Updated: 2026/05/15 13:20:03 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/15 18:21:46 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 static void	setup_child_pipe(t_cmd *cmd, t_cmd *header, t_pipe *pipe_ctx)
 {
 	if (cmd != header)
-		dup2(pipe_ctx->prev_pipe, 0);
+		if (dup2(pipe_ctx->prev_pipe, 0) == -1)
+			exit((perror("minishell: dup2"), 1));
 	if (cmd->next)
-		dup2(pipe_ctx->pfd[1], 1);
+		if (dup2(pipe_ctx->pfd[1], 1) == -1)
+			exit((perror("minishell: dup2"), 1));
 	if (pipe_ctx->prev_pipe != -1)
 		close(pipe_ctx->prev_pipe);
 	if (cmd->next)
@@ -31,28 +33,29 @@ static void	setup_child_pipe(t_cmd *cmd, t_cmd *header, t_pipe *pipe_ctx)
 static void	run_child(t_shell *shell, t_cmd *cmd, t_cmd *header,
 		t_pipe *pipe_ctx)
 {
-	int		fd;
+	int		ret;
 	char	*path;
+	char	**env;
 
-	fd = -1;
+	ret = -1;
 	if (!is_builtin(cmd))
 	{
 		path = is_valide_cmd(shell, cmd);
 		if (!path)
 			child_exit_error(cmd->args[0]);
-		cmd->args[0] = path;
 	}
 	setup_child_pipe(cmd, header, pipe_ctx);
 	while (cmd->redirs)
 	{
-		fd = run_redir(cmd->redirs, fd);
-		if (fd == -1)
+		ret = run_redir(cmd->redirs, -1);
+		if (ret == -1)
 			exit(1);
 		cmd->redirs = cmd->redirs->next;
 	}
 	if (is_builtin(cmd))
 		run_builtin(shell, cmd, header);
-	execve(cmd->args[0], cmd->args, 0);
+	env = env_to_array(shell->env);
+	execve(path, cmd->args, env);
 	child_exit_error(cmd->args[0]);
 }
 static int	run_parent(t_cmd *cmd, t_pipe *pipe_ctx)
@@ -75,8 +78,14 @@ static void	run_executor_util(t_shell *shell, t_cmd *cmd, t_pipe *pipe_ctx)
 	while (current)
 	{
 		if (current->next)
-			pipe(pipe_ctx->pfd);
+		{
+			if (pipe(pipe_ctx->pfd) == -1)
+				return (perror("minishell: pipe"),
+					(void)(shell->exit_status = 1));
+		}
 		current->pid = fork();
+		if (current->pid == -1)
+			return ((void)(perror("minishell: fork"), shell->exit_status = 1));
 		if (!current->pid)
 		{
 			signal(SIGINT, SIG_DFL);
@@ -85,7 +94,7 @@ static void	run_executor_util(t_shell *shell, t_cmd *cmd, t_pipe *pipe_ctx)
 		}
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
-		pipe_ctx->prev_pipe = run_parent(cmd, pipe_ctx);
+		pipe_ctx->prev_pipe = run_parent(current, pipe_ctx);
 		current = current->next;
 	}
 }
@@ -96,5 +105,6 @@ bool	run_executor(t_shell *shell, t_cmd *cmd)
 
 	run_executor_util(shell, cmd, &pipe_ctx);
 	wait_all(shell, cmd);
+	setup_signals_interactive();
 	return (true);
 }

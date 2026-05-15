@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 16:04:29 by zof               #+#    #+#             */
-/*   Updated: 2026/05/14 18:37:45 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/15 17:41:24 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,15 @@ char	**make_pathname(t_shell *shell, t_cmd *cmd)
 }
 char	*is_valide_pathname(char **tab_pathname)
 {
-	int	i;
+	struct stat	st;
+	int			i;
 
 	i = 0;
 	while (tab_pathname[i])
 	{
-		if (!access(tab_pathname[i], X_OK))
-		{
+		if (!access(tab_pathname[i], X_OK) && !stat(tab_pathname[i], &st)
+			&& S_ISREG(st.st_mode))
 			return (tab_pathname[i]);
-		}
 		i++;
 	}
 	return (NULL);

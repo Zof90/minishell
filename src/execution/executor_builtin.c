@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 14:18:58 by zof               #+#    #+#             */
-/*   Updated: 2026/05/14 18:40:57 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/15 18:02:25 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,34 +47,33 @@ static void	restaure_std(t_shell *shell, t_cmd *header, int fd_in, int fd_out)
 		dup2(fd_out, 1);
 		close(fd_in);
 		close(fd_out);
-		return ;
 	}
-	exit(shell->exit_status);
 }
 int	run_builtin(t_shell *shell, t_cmd *cmd, t_cmd *header)
 {
-	int	fd_in;
-	int	fd_out;
-	int	fd;
+	int		fd_in;
+	int		fd_out;
+	int		ret;
+	t_redir	*redir;
 
+	redir = cmd->redirs;
 	fd_in = dup(0);
 	fd_out = dup(1);
-	fd = -1;
-	while (!header->next && cmd->redirs)
+	while (!header->next && redir)
 	{
-		if (fd != -1)
-			close(fd);
-		fd = redir_builtin(cmd->redirs);
-		if (fd == -1)
+		ret = redir_builtin(redir);
+		if (ret == -1)
 		{
 			dup2(fd_in, 0);
 			dup2(fd_out, 1);
 			shell->exit_status = 1;
 			return (close(fd_in), close(fd_out), 1);
 		}
-		cmd->redirs = cmd->redirs->next;
+		redir = redir->next;
 	}
 	dispatch_builtin(shell, cmd);
+	if (header->next)
+		exit(shell->exit_status);
 	restaure_std(shell, header, fd_in, fd_out);
 	return (shell->exit_status);
 }

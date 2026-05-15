@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:13 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/18 10:30:21 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/18 10:30:35 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define _XOPEN_SOURCE 700
 # define _DEFAULT_SOURCE
 # define _POSIX_C_SOURCE 200809L
+#include <sys/stat.h>
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <errno.h>

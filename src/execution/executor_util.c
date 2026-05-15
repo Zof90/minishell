@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 16:35:29 by zof               #+#    #+#             */
-/*   Updated: 2026/05/15 12:49:56 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/15 18:09:38 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@ char	*is_valide_cmd(t_shell *shell, t_cmd *cmd)
 {
 	char	*str_pathname;
 	char	**tmp_tab_pathname;
+	char	*tab[2];
 
-	if (cmd->args[0][0] == '/')
+	if (ft_strchr(cmd->args[0], '/'))
 	{
-		str_pathname = is_valide_pathname(cmd->args);
+		tab[0] = cmd->args[0];
+		tab[1] = NULL;
+		str_pathname = is_valide_pathname(tab);
 		return (str_pathname);
 	}
 	tmp_tab_pathname = make_pathname(shell, cmd);
@@ -78,8 +81,10 @@ int	run_redir(t_redir *redirs, int fd)
 void	wait_all(t_shell *shell, t_cmd *cmd)
 {
 	int	status;
+	int	sig;
 
 	status = 0;
+	sig = 0;
 	while (cmd)
 	{
 		waitpid(cmd->pid, &status, 0);
@@ -88,11 +93,12 @@ void	wait_all(t_shell *shell, t_cmd *cmd)
 		else if (WIFSIGNALED(status))
 		{
 			shell->exit_status = 128 + WTERMSIG(status);
-			if (WTERMSIG(status) == SIGINT)
-				printf("\n");
-			else if (WTERMSIG(status) == SIGQUIT)
-				printf("Quit (core dumped)\n");
+			sig = WTERMSIG(status);
 		}
 		cmd = cmd->next;
 	}
+	if (sig == SIGINT)
+		write(2, "\n", 1);
+	else if (sig == SIGQUIT)
+		write(2, "Quit (core dumped)\n", 19);
 }
