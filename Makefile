@@ -27,11 +27,13 @@ SRCS        = src/main.c \
               src/gc/gc_split.c \
               src/gc/gc_utile.c \
               src/lexer/lexer.c \
+              src/lexer/lexer_word.c \
+              src/lexer/lexer_opperator.c \
               src/builtins/builtin_pwd.c \
               src/builtins/builtin_env.c \
               src/builtins/builtin_echo.c \
-              src/lexer/lexer_word.c \
-              src/lexer/lexer_opperator.c \
+              src/builtins/builtin_exit.c \
+              src/builtins/builtin_unset.c \
               src/parser/syntax.c \
               src/parser/parser.c \
               src/parser/parser_utils.c \
