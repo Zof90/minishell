@@ -26,6 +26,7 @@ SRCS        = src/main.c \
               src/gc/gc_malloc.c \
               src/gc/gc_split.c \
               src/gc/gc_utile.c \
+              src/gc/gc_utile2.c \
               src/lexer/lexer.c \
               src/lexer/lexer_word.c \
               src/lexer/lexer_opperator.c \
@@ -37,7 +38,11 @@ SRCS        = src/main.c \
               src/parser/syntax.c \
               src/parser/parser.c \
               src/parser/parser_utils.c \
-              src/parser/parser_redir.c
+              src/parser/parser_redir.c \
+              src/expander/expander.c \
+              src/expander/expand_str.c \
+              src/expander/expand_dollar.c \
+              src/expander/expand_quotes.c
 
 OBJS        = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

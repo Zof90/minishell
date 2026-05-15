@@ -56,6 +56,8 @@ static void	process_line(t_shell *shell, char *line)
 		return ;
 	}
 	cmds = parse(shell, token);
+	if (cmds)
+		cmds = expand(cmds, shell);
 	debug_print_cmds(cmds);
 	gc_free(shell);
 }
