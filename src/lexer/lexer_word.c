@@ -41,6 +41,7 @@ static bool	is_spaces(char c)
 		return (true);
 	return (false);
 }
+
 static int	read_word(char *line)
 {
 	t_quote_state	state;

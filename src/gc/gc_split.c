@@ -60,10 +60,10 @@ static int	ft_end(char const *s, int start, char c)
 
 char	**gc_split(t_shell *shell, char const *s, char c)
 {
-	char **ptr;
-	int j;
-	int start;
-	int end;
+	char	**ptr;
+	int		j;
+	int		start;
+	int		end;
 
 	j = 0;
 	start = 0;
