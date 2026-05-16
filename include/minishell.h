@@ -115,6 +115,8 @@ int								builtin_echo(t_shell *shell, char **args);
 int								builtin_exit(t_shell *shell, char **args);
 int								builtin_unset(t_shell *shell, char **args);
 int								builtin_cd(t_shell *shell, char **args);
+int								builtin_export(t_shell *shell, char **args);
+int								export_print(t_shell *shell);
 int								init_shell(t_shell *shell, int argc,
 									char **argv, char **envp);
 void							shell_loop(t_shell *shell);
