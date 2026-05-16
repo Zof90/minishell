@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 16:35:29 by zof               #+#    #+#             */
-/*   Updated: 2026/05/15 18:09:38 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/16 15:10:54 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,19 @@ void	wait_all(t_shell *shell, t_cmd *cmd)
 		write(2, "\n", 1);
 	else if (sig == SIGQUIT)
 		write(2, "Quit (core dumped)\n", 19);
+}
+bool	setup_pipe(t_shell *shell, t_cmd *cmd, t_pipe *pipe_ctx)
+{
+	if (cmd->next)
+	{
+		if (pipe(pipe_ctx->pfd) == -1)
+		{
+			if (pipe_ctx->prev_pipe != -1)
+				close(pipe_ctx->prev_pipe);
+			perror("minishell: pipe");
+			shell->exit_status = 1;
+			return (false);
+		}
+	}
+	return (true);
 }

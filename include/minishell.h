@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:13 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/18 10:30:35 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/18 10:30:45 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # define _XOPEN_SOURCE 700
 # define _DEFAULT_SOURCE
 # define _POSIX_C_SOURCE 200809L
-#include <sys/stat.h>
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <errno.h>
@@ -26,6 +25,7 @@
 # include <stdbool.h>
 # include <stddef.h>
 # include <stdlib.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -171,4 +171,6 @@ bool							handle_executor(t_shell *shell, t_cmd *cmd);
 void							wait_all(t_shell *shell, t_cmd *cmd);
 char							*is_valide_cmd(t_shell *shell, t_cmd *cmd);
 void							child_exit_error(char *name);
+bool							setup_pipe(t_shell *shell, t_cmd *cmd,
+									t_pipe *pipe_ctx);
 #endif
