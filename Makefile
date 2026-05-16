@@ -18,7 +18,6 @@ SRCS        = src/main.c \
               src/env/env_access.c \
               src/env/env_utils.c \
               src/env/env_free.c \
-              src/utils/free.c \
               src/utils/error.c \
               src/debug/debug_print.c \
               src/signals/signals.c \

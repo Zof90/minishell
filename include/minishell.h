@@ -100,9 +100,6 @@ char							**env_to_array(t_env *env);
 int								env_size(t_env *env);
 void							free_env(t_env *env);
 void							free_str_array(char **arr);
-void							free_tokens(t_token *tokens);
-void							free_redirs(t_redir *redirs);
-void							free_cmds(t_cmd *cmds);
 void							print_error(const char *context,
 									const char *message);
 void							debug_print_tokens(t_token *tokens);
