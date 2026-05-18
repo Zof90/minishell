@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 17:22:10 by schouite          #+#    #+#             */
-/*   Updated: 2026/05/18 10:15:50 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/18 10:39:27 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,29 +56,5 @@ char	*gc_substr(t_shell *shell, char const *s, unsigned int start,
 	str[len] = '\0';
 	return (str);
 }
-char	*gc_strjoin(t_shell *shell, char const *s1, char const *s2)
-{
-	int		i;
-	int		j;
-	char	*str;
 
-	i = 0;
-	j = 0;
-	str = gc_malloc(shell, ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!str)
-		return (NULL);
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-	{
-		str[i] = s2[j];
-		j++;
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
 

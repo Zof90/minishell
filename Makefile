@@ -45,7 +45,7 @@ SRCS        = src/main.c \
               src/execution/executor.c \
               src/execution/executor_util.c \
               src/execution/executor_builtin.c \
-              src/execution/handle_path.c \ \
+              src/execution/handle_path.c \
               src/expander/expander.c \
               src/expander/expand_str.c \
               src/expander/expand_dollar.c \
