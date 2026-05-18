@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 09:00:00 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/01 14:09:11 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/18 15:49:44 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	process_line(t_shell *shell, char *line)
 	cmds = parse(shell, token);
 	if (cmds)
 		cmds = expand(cmds, shell);
-	debug_print_cmds(cmds);
+	handle_executor(shell, cmds);
 	gc_free(shell);
 }
 
