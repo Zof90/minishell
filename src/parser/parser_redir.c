@@ -79,6 +79,7 @@ t_redir	*create_redir(t_shell *shell, t_token_type type, const char *file_val)
 		return (NULL);
 	redir->type = type;
 	redir->heredoc_quoted = 0;
+	redir->heredoc_content = NULL;
 	redir->next = NULL;
 	if (type == TOK_HEREDOC)
 	{

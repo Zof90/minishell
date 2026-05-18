@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*is_valide_cmd(t_shell *shell, t_cmd *cmd)
+char	*is_valid_cmd(t_shell *shell, t_cmd *cmd)
 {
 	char	*str_pathname;
 	char	**tmp_tab_pathname;
@@ -22,13 +22,13 @@ char	*is_valide_cmd(t_shell *shell, t_cmd *cmd)
 	{
 		tab[0] = cmd->args[0];
 		tab[1] = NULL;
-		str_pathname = is_valide_pathname(tab);
+		str_pathname = is_valid_pathname(tab);
 		return (str_pathname);
 	}
 	tmp_tab_pathname = make_pathname(shell, cmd);
 	if (!tmp_tab_pathname)
 		return (NULL);
-	str_pathname = is_valide_pathname(tmp_tab_pathname);
+	str_pathname = is_valid_pathname(tmp_tab_pathname);
 	return (str_pathname);
 }
 bool	is_builtin(t_cmd *cmd)
@@ -48,6 +48,24 @@ bool	is_builtin(t_cmd *cmd)
 	if (ft_strcmp(cmd->args[0], "exit") == 0)
 		return (true);
 	return (false);
+}
+
+static int	apply_heredoc(t_redir *redir)
+{
+	int		pfd[2];
+	size_t	len;
+
+	if (pipe(pfd) == -1)
+		return (print_error("heredoc", strerror(errno)), -1);
+	if (redir->heredoc_content)
+	{
+		len = ft_strlen(redir->heredoc_content);
+		write(pfd[1], redir->heredoc_content, len);
+	}
+	close(pfd[1]);
+	dup2(pfd[0], 0);
+	close(pfd[0]);
+	return (0);
 }
 
 int	run_redir(t_redir *redirs, int fd)
@@ -76,6 +94,8 @@ int	run_redir(t_redir *redirs, int fd)
 		dup2(fd, 1);
 		close(fd);
 	}
+	else if (redirs->type == TOK_HEREDOC)
+		return (apply_heredoc(redirs));
 	return (0);
 }
 void	wait_all(t_shell *shell, t_cmd *cmd)

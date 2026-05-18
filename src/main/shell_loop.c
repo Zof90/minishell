@@ -58,7 +58,14 @@ static void	process_line(t_shell *shell, char *line)
 	cmds = parse(shell, token);
 	if (cmds)
 		cmds = expand(cmds, shell);
-	handle_executor(shell, cmds);
+	if (cmds && collect_heredocs(cmds, shell))
+	{
+		shell->exit_status = 130;
+		gc_free(shell);
+		return ;
+	}
+	if (cmds)
+		handle_executor(shell, cmds);
 	gc_free(shell);
 }
 
