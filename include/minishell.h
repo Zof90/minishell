@@ -76,6 +76,19 @@ typedef struct s_redir
 	struct s_redir				*next;
 }								t_redir;
 
+typedef struct s_hd_line
+{
+	char						*text;
+	struct s_hd_line			*next;
+}								t_hd_line;
+
+typedef struct s_hd_ctx
+{
+	t_hd_line					*head;
+	t_hd_line					*tail;
+	size_t						total;
+}								t_hd_ctx;
+
 typedef struct s_cmd
 {
 	char						**args;
@@ -176,8 +189,8 @@ bool							setup_pipe(t_shell *shell, t_cmd *cmd,
 									t_pipe *pipe_ctx);
 int								collect_heredocs(t_cmd *cmds, t_shell *shell);
 void							warn_heredoc_eof(const char *delim);
-char							*append_heredoc_line(t_shell *shell, char *body,
-									char *line);
+char							*hd_finalize(t_shell *shell, t_hd_ctx *ctx);
 int								push_heredoc_line(t_shell *shell, t_redir *redir,
-									char *line, char **body);
+									char *line, t_hd_ctx *ctx);
+int								apply_heredoc(t_redir *redir);
 #endif

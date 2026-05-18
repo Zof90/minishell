@@ -13,24 +13,33 @@
 #include "gc.h"
 #include "minishell.h"
 
+static int	hd_done(t_shell *shell, t_redir *redir, t_hd_ctx *ctx)
+{
+	redir->heredoc_content = hd_finalize(shell, ctx);
+	if (!redir->heredoc_content)
+		return (1);
+	return (0);
+}
+
 static int	read_one_heredoc(t_shell *shell, t_redir *redir)
 {
-	char	*line;
-	char	*body;
+	char		*line;
+	t_hd_ctx	ctx;
 
-	body = NULL;
+	ctx.head = NULL;
+	ctx.tail = NULL;
+	ctx.total = 0;
 	while (1)
 	{
 		line = readline("> ");
 		if (g_signal == SIGINT)
 			return (free(line), 1);
 		if (!line)
-			return (warn_heredoc_eof(redir->file), redir->heredoc_content
-				= (body ? body : gc_strdup(shell, "")), 0);
+			return (warn_heredoc_eof(redir->file),
+				hd_done(shell, redir, &ctx));
 		if (ft_strcmp(line, redir->file) == 0)
-			return (free(line), redir->heredoc_content
-				= (body ? body : gc_strdup(shell, "")), 0);
-		if (push_heredoc_line(shell, redir, line, &body))
+			return (free(line), hd_done(shell, redir, &ctx));
+		if (push_heredoc_line(shell, redir, line, &ctx))
 			return (free(line), 1);
 		free(line);
 	}

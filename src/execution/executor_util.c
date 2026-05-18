@@ -50,24 +50,6 @@ bool	is_builtin(t_cmd *cmd)
 	return (false);
 }
 
-static int	apply_heredoc(t_redir *redir)
-{
-	int		pfd[2];
-	size_t	len;
-
-	if (pipe(pfd) == -1)
-		return (print_error("heredoc", strerror(errno)), -1);
-	if (redir->heredoc_content)
-	{
-		len = ft_strlen(redir->heredoc_content);
-		write(pfd[1], redir->heredoc_content, len);
-	}
-	close(pfd[1]);
-	dup2(pfd[0], 0);
-	close(pfd[0]);
-	return (0);
-}
-
 int	run_redir(t_redir *redirs, int fd)
 {
 	if (redirs->type == TOK_REDIR_IN)
