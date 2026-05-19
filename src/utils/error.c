@@ -23,13 +23,32 @@ void	print_error(const char *context, const char *message)
 	ft_putendl_fd((char *)message, 2);
 }
 
+static int	probe_path(const char *name)
+{
+	struct stat	st;
+
+	if (stat(name, &st) != 0)
+		return (0);
+	if (S_ISDIR(st.st_mode))
+		return (print_error(name, "Is a directory"), 126);
+	if (access(name, X_OK) != 0)
+		return (print_error(name, "Permission denied"), 126);
+	print_error(name, strerror(errno));
+	return (126);
+}
+
 void	child_exit_error(char *name)
 {
+	int	code;
+
 	if (ft_strchr(name, '/'))
-		print_error(name, strerror(errno));
-	else
-		print_error(name, "command not found");
-	if ((errno == EACCES))
-		exit(126);
+	{
+		code = probe_path(name);
+		if (code)
+			exit(code);
+		print_error(name, "No such file or directory");
+		exit(127);
+	}
+	print_error(name, "command not found");
 	exit(127);
 }
