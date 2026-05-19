@@ -22,6 +22,7 @@ static int	redir_builtin(t_redir *redir)
 		return (-1);
 	return (0);
 }
+
 static void	dispatch_builtin(t_shell *shell, t_cmd *cmd)
 {
 	if (!ft_strcmp(cmd->args[0], "echo"))
@@ -50,6 +51,7 @@ static void	restaure_std(t_cmd *header, int fd_in, int fd_out)
 		close(fd_out);
 	}
 }
+
 int	run_builtin(t_shell *shell, t_cmd *cmd, t_cmd *header)
 {
 	int		fd_in;
@@ -84,6 +86,11 @@ bool	handle_executor(t_shell *shell, t_cmd *cmd)
 	t_cmd	*header;
 
 	header = cmd;
+	if (!cmd->next && (!cmd->args || !cmd->args[0]))
+	{
+		run_noargs(shell, cmd);
+		return (true);
+	}
 	if (!cmd->next && is_builtin(cmd))
 	{
 		run_builtin(shell, cmd, header);

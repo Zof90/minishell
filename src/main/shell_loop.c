@@ -25,15 +25,21 @@ static void	handle_signal_tick(t_shell *shell)
 static char	*read_input(t_shell *shell)
 {
 	char	*line;
+	int		tty;
 
-	line = readline("minishell> ");
+	tty = isatty(STDIN_FILENO);
+	if (tty)
+		line = readline("minishell> ");
+	else
+		line = read_line_fd(STDIN_FILENO);
 	handle_signal_tick(shell);
 	if (!line)
 	{
-		ft_putendl_fd("exit", 1);
+		if (tty)
+			ft_putendl_fd("exit", 1);
 		return (NULL);
 	}
-	if (*line)
+	if (tty && *line)
 		add_history(line);
 	return (line);
 }

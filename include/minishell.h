@@ -173,4 +173,6 @@ char							*is_valide_cmd(t_shell *shell, t_cmd *cmd);
 void							child_exit_error(char *name);
 bool							setup_pipe(t_shell *shell, t_cmd *cmd,
 									t_pipe *pipe_ctx);
+int								run_noargs(t_shell *shell, t_cmd *cmd);
+char							*read_line_fd(int fd);
 #endif

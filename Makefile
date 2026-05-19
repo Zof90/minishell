@@ -14,6 +14,7 @@ SRCS        = src/main.c \
               src/main/shell_init.c \
               src/main/shell_loop.c \
               src/main/shell_cleanup.c \
+              src/main/read_line.c \
               src/env/env_init.c \
               src/env/env_access.c \
               src/env/env_utils.c \
@@ -45,6 +46,7 @@ SRCS        = src/main.c \
               src/execution/executor.c \
               src/execution/executor_util.c \
               src/execution/executor_builtin.c \
+              src/execution/executor_noargs.c \
               src/execution/handle_path.c \
               src/expander/expander.c \
               src/expander/expand_str.c \
