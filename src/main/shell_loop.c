@@ -46,6 +46,7 @@ static void	process_line(t_shell *shell, char *line)
 	token = lex(shell, line);
 	if (!token)
 	{
+		shell->exit_status = 2;
 		gc_free(shell);
 		return ;
 	}
