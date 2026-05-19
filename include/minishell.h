@@ -190,7 +190,7 @@ bool							setup_pipe(t_shell *shell, t_cmd *cmd,
 int								collect_heredocs(t_cmd *cmds, t_shell *shell);
 void							warn_heredoc_eof(const char *delim);
 char							*hd_finalize(t_shell *shell, t_hd_ctx *ctx);
-int								push_heredoc_line(t_shell *shell, t_redir *redir,
-									char *line, t_hd_ctx *ctx);
+int								push_heredoc_line(t_shell *shell,
+									t_redir *redir, char *line, t_hd_ctx *ctx);
 int								apply_heredoc(t_redir *redir);
 #endif

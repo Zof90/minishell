@@ -38,33 +38,28 @@ static char	*read_input(t_shell *shell)
 	return (line);
 }
 
+static int	is_runnable(t_shell *shell, t_token *token, t_cmd **out)
+{
+	if (!token)
+		return (0);
+	if (syntax_check(token))
+		return (shell->exit_status = 2, 0);
+	*out = parse(shell, token);
+	if (*out)
+		*out = expand(*out, shell);
+	if (*out && collect_heredocs(*out, shell))
+		return (shell->exit_status = 130, 0);
+	return (1);
+}
+
 static void	process_line(t_shell *shell, char *line)
 {
 	t_token	*token;
 	t_cmd	*cmds;
 
+	cmds = NULL;
 	token = lex(shell, line);
-	if (!token)
-	{
-		gc_free(shell);
-		return ;
-	}
-	if (syntax_check(token))
-	{
-		shell->exit_status = 2;
-		gc_free(shell);
-		return ;
-	}
-	cmds = parse(shell, token);
-	if (cmds)
-		cmds = expand(cmds, shell);
-	if (cmds && collect_heredocs(cmds, shell))
-	{
-		shell->exit_status = 130;
-		gc_free(shell);
-		return ;
-	}
-	if (cmds)
+	if (is_runnable(shell, token, &cmds) && cmds)
 		handle_executor(shell, cmds);
 	gc_free(shell);
 }
