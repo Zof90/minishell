@@ -12,35 +12,28 @@
 
 #include "minishell.h"
 
-static int	is_numeric(const char *s)
+static int	skip_ws(const char *s, int i)
 {
-	int	i;
-
-	i = 0;
-	if (s[0] == '+' || s[0] == '-')
-		i = 1;
-	if (!s[i])
-		return (0);
-	while (s[i])
-	{
-		if (s[i] < '0' || s[i] > '9')
-			return (0);
+	while (s[i] == ' ' || s[i] == '\t')
 		i++;
-	}
-	return (1);
+	return (i);
 }
 
-static int	accumulate_digits(const char *s, int i, unsigned long limit,
+static int	accumulate_digits(const char *s, int *i, unsigned long limit,
 		unsigned long *val)
 {
-	while (s[i])
+	int	digits;
+
+	digits = 0;
+	while (s[*i] >= '0' && s[*i] <= '9')
 	{
-		if (*val > (limit - (s[i] - '0')) / 10)
+		if (*val > (limit - (s[*i] - '0')) / 10)
 			return (0);
-		*val = *val * 10 + (s[i] - '0');
-		i++;
+		*val = *val * 10 + (s[*i] - '0');
+		(*i)++;
+		digits++;
 	}
-	return (1);
+	return (digits);
 }
 
 static int	parse_long_safe(const char *s, long *out)
@@ -50,16 +43,18 @@ static int	parse_long_safe(const char *s, long *out)
 	unsigned long	val;
 	unsigned long	limit;
 
-	i = 0;
-	neg = (s[0] == '-');
+	i = skip_ws(s, 0);
+	neg = (s[i] == '-');
+	if (s[i] == '+' || s[i] == '-')
+		i++;
 	val = 0;
-	if (s[0] == '+' || s[0] == '-')
-		i = 1;
 	if (neg)
 		limit = 9223372036854775808UL;
 	else
 		limit = 9223372036854775807UL;
-	if (!accumulate_digits(s, i, limit, &val))
+	if (!accumulate_digits(s, &i, limit, &val))
+		return (0);
+	if (s[skip_ws(s, i)])
 		return (0);
 	if (neg)
 		*out = (long)(0UL - val);
@@ -88,7 +83,7 @@ int	builtin_exit(t_shell *shell, char **args)
 		shell->running = 0;
 		return (shell->exit_status);
 	}
-	if (!is_numeric(args[1]) || !parse_long_safe(args[1], &val))
+	if (!parse_long_safe(args[1], &val))
 		return (exit_numeric_error(shell, args[1]));
 	if (args[2])
 	{
