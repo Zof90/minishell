@@ -74,7 +74,7 @@ char	**make_pathname(t_shell *shell, t_cmd *cmd)
 	}
 	return (tab_pathname);
 }
-char	*is_valide_pathname(char **tab_pathname)
+char	*is_valid_pathname(char **tab_pathname)
 {
 	struct stat	st;
 	int			i;

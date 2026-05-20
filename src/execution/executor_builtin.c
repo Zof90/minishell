@@ -41,7 +41,7 @@ static void	dispatch_builtin(t_shell *shell, t_cmd *cmd)
 		shell->exit_status = builtin_exit(shell, cmd->args);
 }
 
-static void	restaure_std(t_cmd *header, int fd_in, int fd_out)
+static void	restore_std(t_cmd *header, int fd_in, int fd_out)
 {
 	if (!header->next)
 	{
@@ -77,7 +77,7 @@ int	run_builtin(t_shell *shell, t_cmd *cmd, t_cmd *header)
 	dispatch_builtin(shell, cmd);
 	if (header->next)
 		exit(shell->exit_status);
-	restaure_std(header, fd_in, fd_out);
+	restore_std(header, fd_in, fd_out);
 	return (shell->exit_status);
 }
 

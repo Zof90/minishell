@@ -39,7 +39,7 @@ static void	run_child(t_shell *shell, t_cmd *cmd, t_cmd *header,
 	path = NULL;
 	if (cmd->args && cmd->args[0] && !is_builtin(cmd))
 	{
-		path = is_valide_cmd(shell, cmd);
+		path = is_valid_cmd(shell, cmd);
 		if (!path)
 			child_exit_error(cmd->args[0]);
 	}
@@ -86,12 +86,10 @@ static void	run_executor_util(t_shell *shell, t_cmd *cmd, t_pipe *pipe_ctx)
 			return ((void)(perror("minishell: fork"), shell->exit_status = 1));
 		if (!current->pid)
 		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
+			setup_signals_child();
 			run_child(shell, current, cmd, pipe_ctx);
 		}
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
+		setup_signals_exec();
 		pipe_ctx->prev_pipe = run_parent(current, pipe_ctx);
 		current = current->next;
 	}

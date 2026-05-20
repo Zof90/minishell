@@ -28,22 +28,14 @@ static t_gc	*gc_new(void *ptr)
 static bool	gc_add(t_shell *shell, void *ptr)
 {
 	t_gc	*new;
-	t_gc	*tmp;
 
 	if (!ptr)
 		return (false);
 	new = gc_new(ptr);
 	if (!new)
 		return (false);
-	if (!shell->gc)
-	{
-		shell->gc = new;
-		return (true);
-	}
-	tmp = shell->gc;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
+	new->next = shell->gc;
+	shell->gc = new;
 	return (true);
 }
 
