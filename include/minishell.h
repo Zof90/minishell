@@ -72,8 +72,22 @@ typedef struct s_redir
 	t_token_type				type;
 	char						*file;
 	int							heredoc_quoted;
+	char						*heredoc_content;
 	struct s_redir				*next;
 }								t_redir;
+
+typedef struct s_hd_line
+{
+	char						*text;
+	struct s_hd_line			*next;
+}								t_hd_line;
+
+typedef struct s_hd_ctx
+{
+	t_hd_line					*head;
+	t_hd_line					*tail;
+	size_t						total;
+}								t_hd_ctx;
 
 typedef struct s_cmd
 {
@@ -160,7 +174,7 @@ char							*char_to_str(t_shell *shell, char c);
 char							*gc_strjoin(t_shell *shell, char const *s1,
 									char const *s2);
 size_t							calculate_len(char **tab_path);
-char							*is_valide_pathname(char **tab_pathname);
+char							*is_valid_pathname(char **tab_pathname);
 char							**make_pathname(t_shell *shell, t_cmd *cmd);
 bool							run_executor(t_shell *shell, t_cmd *cmd);
 int								run_redir(t_redir *redirs, int fd);
@@ -169,8 +183,14 @@ int								run_builtin(t_shell *shell, t_cmd *cmd,
 									t_cmd *header);
 bool							handle_executor(t_shell *shell, t_cmd *cmd);
 void							wait_all(t_shell *shell, t_cmd *cmd);
-char							*is_valide_cmd(t_shell *shell, t_cmd *cmd);
+char							*is_valid_cmd(t_shell *shell, t_cmd *cmd);
 void							child_exit_error(char *name);
 bool							setup_pipe(t_shell *shell, t_cmd *cmd,
 									t_pipe *pipe_ctx);
+int								collect_heredocs(t_cmd *cmds, t_shell *shell);
+void							warn_heredoc_eof(const char *delim);
+char							*hd_finalize(t_shell *shell, t_hd_ctx *ctx);
+int								push_heredoc_line(t_shell *shell,
+									t_redir *redir, char *line, t_hd_ctx *ctx);
+int								apply_heredoc(t_redir *redir);
 #endif
