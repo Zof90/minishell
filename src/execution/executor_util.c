@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*is_valide_cmd(t_shell *shell, t_cmd *cmd)
+char	*is_valid_cmd(t_shell *shell, t_cmd *cmd)
 {
 	char	*str_pathname;
 	char	**tmp_tab_pathname;
@@ -22,13 +22,13 @@ char	*is_valide_cmd(t_shell *shell, t_cmd *cmd)
 	{
 		tab[0] = cmd->args[0];
 		tab[1] = NULL;
-		str_pathname = is_valide_pathname(tab);
+		str_pathname = is_valid_pathname(tab);
 		return (str_pathname);
 	}
 	tmp_tab_pathname = make_pathname(shell, cmd);
 	if (!tmp_tab_pathname)
 		return (NULL);
-	str_pathname = is_valide_pathname(tmp_tab_pathname);
+	str_pathname = is_valid_pathname(tmp_tab_pathname);
 	return (str_pathname);
 }
 bool	is_builtin(t_cmd *cmd)
@@ -52,30 +52,28 @@ bool	is_builtin(t_cmd *cmd)
 
 int	run_redir(t_redir *redirs, int fd)
 {
-	if (redirs->type == TOK_REDIR_IN)
+	int	flags;
+	int	std_fd;
+
+	if (redirs->type == TOK_HEREDOC)
+		return (apply_heredoc(redirs));
+	flags = O_RDONLY;
+	std_fd = 0;
+	if (redirs->type == TOK_REDIR_OUT)
 	{
-		fd = open(redirs->file, O_RDONLY);
-		if (fd == -1)
-			return (print_error(redirs->file, strerror(errno)), -1);
-		dup2(fd, 0);
-		close(fd);
-	}
-	else if (redirs->type == TOK_REDIR_OUT)
-	{
-		fd = open(redirs->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		if (fd == -1)
-			return (print_error(redirs->file, strerror(errno)), -1);
-		dup2(fd, 1);
-		close(fd);
+		flags = O_WRONLY | O_TRUNC | O_CREAT;
+		std_fd = 1;
 	}
 	else if (redirs->type == TOK_APPEND)
 	{
-		fd = open(redirs->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
-		if (fd == -1)
-			return (print_error(redirs->file, strerror(errno)), -1);
-		dup2(fd, 1);
-		close(fd);
+		flags = O_WRONLY | O_APPEND | O_CREAT;
+		std_fd = 1;
 	}
+	fd = open(redirs->file, flags, 0644);
+	if (fd == -1)
+		return (print_error(redirs->file, strerror(errno)), -1);
+	dup2(fd, std_fd);
+	close(fd);
 	return (0);
 }
 void	wait_all(t_shell *shell, t_cmd *cmd)
