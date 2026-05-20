@@ -21,11 +21,6 @@ int	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 		return (0);
 	}
 	shell->env = env_init(envp);
-	if (!shell->env)
-	{
-		print_error(NULL, "failed to initialize environment");
-		return (0);
-	}
 	shell->gc = NULL;
 	shell->exit_status = 0;
 	shell->running = 1;

@@ -47,7 +47,7 @@ static char	*read_input(t_shell *shell)
 static int	is_runnable(t_shell *shell, t_token *token, t_cmd **out)
 {
 	if (!token)
-		return (0);
+		return (shell->exit_status = 2, 0);
 	if (syntax_check(token))
 		return (shell->exit_status = 2, 0);
 	*out = parse(shell, token);
