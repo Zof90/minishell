@@ -33,12 +33,11 @@ static void	setup_child_fd(t_cmd *cmd, t_cmd *header, t_pipe *pipe_ctx)
 static void	run_child(t_shell *shell, t_cmd *cmd, t_cmd *header,
 		t_pipe *pipe_ctx)
 {
-	int		ret;
 	char	*path;
 	char	**env;
 
-	ret = -1;
-	if (!is_builtin(cmd))
+	path = NULL;
+	if (cmd->args && cmd->args[0] && !is_builtin(cmd))
 	{
 		path = is_valid_cmd(shell, cmd);
 		if (!path)
@@ -47,17 +46,19 @@ static void	run_child(t_shell *shell, t_cmd *cmd, t_cmd *header,
 	setup_child_fd(cmd, header, pipe_ctx);
 	while (cmd->redirs)
 	{
-		ret = run_redir(cmd->redirs, -1);
-		if (ret == -1)
+		if (run_redir(cmd->redirs, -1) == -1)
 			exit(1);
 		cmd->redirs = cmd->redirs->next;
 	}
+	if (!cmd->args || !cmd->args[0])
+		exit(0);
 	if (is_builtin(cmd))
 		run_builtin(shell, cmd, header);
 	env = env_to_array(shell->env);
 	execve(path, cmd->args, env);
 	child_exit_error(cmd->args[0]);
 }
+
 static int	run_parent(t_cmd *cmd, t_pipe *pipe_ctx)
 {
 	if (pipe_ctx->prev_pipe != -1)
@@ -69,6 +70,7 @@ static int	run_parent(t_cmd *cmd, t_pipe *pipe_ctx)
 	}
 	return (-1);
 }
+
 static void	run_executor_util(t_shell *shell, t_cmd *cmd, t_pipe *pipe_ctx)
 {
 	t_cmd	*current;
