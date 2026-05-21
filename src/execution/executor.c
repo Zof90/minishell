@@ -79,7 +79,7 @@ static void	run_executor_util(t_shell *shell, t_cmd *cmd, t_pipe *pipe_ctx)
 	pipe_ctx->prev_pipe = -1;
 	while (current)
 	{
-		if (!setup_pipe(shell, cmd, pipe_ctx))
+		if (!setup_pipe(shell, current, pipe_ctx))
 			return ;
 		current->pid = fork();
 		if (current->pid == -1)
