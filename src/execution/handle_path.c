@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 16:04:29 by zof               #+#    #+#             */
-/*   Updated: 2026/05/15 17:41:24 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/21 13:22:31 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ size_t	calculate_len(char **tab_path)
 		len++;
 	return (len);
 }
+
 static char	*find_path_util(t_env *env)
 {
 	while (env)
@@ -46,6 +47,7 @@ static char	**find_path(t_shell *shell)
 		return (NULL);
 	return (tab_path);
 }
+
 char	**make_pathname(t_shell *shell, t_cmd *cmd)
 {
 	int		i;
@@ -74,6 +76,7 @@ char	**make_pathname(t_shell *shell, t_cmd *cmd)
 	}
 	return (tab_pathname);
 }
+
 char	*is_valid_pathname(char **tab_pathname)
 {
 	struct stat	st;
