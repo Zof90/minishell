@@ -23,23 +23,6 @@ static char	*expand_and_strip(const char *str, t_shell *shell)
 	return (strip_quotes(shell, expanded));
 }
 
-static int	expand_args(t_cmd *cmd, t_shell *shell)
-{
-	int		i;
-	char	*new_val;
-
-	i = 0;
-	while (cmd->args && cmd->args[i])
-	{
-		new_val = expand_and_strip(cmd->args[i], shell);
-		if (!new_val)
-			return (1);
-		cmd->args[i] = new_val;
-		i++;
-	}
-	return (0);
-}
-
 static int	expand_redirs(t_redir *redir, t_shell *shell)
 {
 	char	*new_file;

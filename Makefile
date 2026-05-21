@@ -49,6 +49,8 @@ SRCS        = src/main.c \
               src/execution/executor_noargs.c \
               src/execution/handle_path.c \
               src/expander/expander.c \
+              src/expander/expand_fields.c \
+              src/expander/expand_split.c \
               src/expander/expand_str.c \
               src/expander/expand_dollar.c \
               src/expander/expand_quotes.c \
