@@ -70,7 +70,7 @@ int	run_redir(t_redir *redirs, int fd)
 		flags = O_WRONLY | O_APPEND | O_CREAT;
 		std_fd = 1;
 	}
-	fd = open(redirs->file, flags, 0644);
+	fd = open(redirs->file, flags, 0666);
 	if (fd == -1)
 		return (print_error(redirs->file, strerror(errno)), -1);
 	dup2(fd, std_fd);
