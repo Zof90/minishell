@@ -23,6 +23,13 @@ static int	cd_error(const char *target, int err)
 	return (1);
 }
 
+static void	cd_getcwd_error(void)
+{
+	ft_putstr_fd("minishell: cd: error retrieving current directory: ", 2);
+	ft_putstr_fd("getcwd: cannot access parent directories: ", 2);
+	ft_putendl_fd("No such file or directory", 2);
+}
+
 static const char	*resolve_target(t_shell *shell, char **args, int *print)
 {
 	const char	*target;
@@ -67,6 +74,8 @@ static int	update_pwd_pair(t_shell *shell, char *old_pwd)
 			ret = 1;
 		free(new_pwd);
 	}
+	else
+		cd_getcwd_error();
 	return (ret);
 }
 

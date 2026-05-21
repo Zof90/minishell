@@ -12,6 +12,22 @@
 
 #include "minishell.h"
 
+static int	update_start_pwd(t_shell *shell)
+{
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (0);
+	if (env_set(&shell->env, "PWD", cwd))
+	{
+		free(cwd);
+		return (1);
+	}
+	free(cwd);
+	return (0);
+}
+
 int	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 {
 	(void)argv;
@@ -22,6 +38,8 @@ int	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 	}
 	shell->env = env_init(envp);
 	shell->gc = NULL;
+	if (update_start_pwd(shell))
+		return (0);
 	shell->exit_status = 0;
 	shell->running = 1;
 	return (1);
