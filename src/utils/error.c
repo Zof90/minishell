@@ -23,6 +23,16 @@ void	print_error(const char *context, const char *message)
 	ft_putendl_fd((char *)message, 2);
 }
 
+static int	has_search_path(t_shell *shell)
+{
+	char	*path_env;
+
+	path_env = env_get(shell->env, "PATH");
+	if (!path_env || !*path_env)
+		return (0);
+	return (1);
+}
+
 static int	probe_path(const char *name)
 {
 	struct stat	st;
@@ -37,11 +47,11 @@ static int	probe_path(const char *name)
 	return (126);
 }
 
-void	child_exit_error(char *name)
+void	child_exit_error(t_shell *shell, char *name)
 {
 	int	code;
 
-	if (ft_strchr(name, '/'))
+	if (ft_strchr(name, '/') || !has_search_path(shell))
 	{
 		code = probe_path(name);
 		if (code)

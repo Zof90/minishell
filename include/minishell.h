@@ -189,7 +189,7 @@ int								run_builtin(t_shell *shell, t_cmd *cmd,
 bool							handle_executor(t_shell *shell, t_cmd *cmd);
 void							wait_all(t_shell *shell, t_cmd *cmd);
 char							*is_valid_cmd(t_shell *shell, t_cmd *cmd);
-void							child_exit_error(char *name);
+void							child_exit_error(t_shell *shell, char *name);
 bool							setup_pipe(t_shell *shell, t_cmd *cmd,
 									t_pipe *pipe_ctx);
 int								run_noargs(t_shell *shell, t_cmd *cmd);

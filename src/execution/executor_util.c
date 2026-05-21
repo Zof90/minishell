@@ -16,9 +16,11 @@ char	*is_valid_cmd(t_shell *shell, t_cmd *cmd)
 {
 	char	*str_pathname;
 	char	**tmp_tab_pathname;
+	char	*path_env;
 	char	*tab[2];
 
-	if (ft_strchr(cmd->args[0], '/'))
+	path_env = env_get(shell->env, "PATH");
+	if (ft_strchr(cmd->args[0], '/') || !path_env || !*path_env)
 	{
 		tab[0] = cmd->args[0];
 		tab[1] = NULL;
