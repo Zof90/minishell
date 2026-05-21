@@ -56,5 +56,3 @@ char	*gc_substr(t_shell *shell, char const *s, unsigned int start,
 	str[len] = '\0';
 	return (str);
 }
-
-

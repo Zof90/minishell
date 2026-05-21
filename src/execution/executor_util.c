@@ -31,6 +31,7 @@ char	*is_valid_cmd(t_shell *shell, t_cmd *cmd)
 	str_pathname = is_valid_pathname(tmp_tab_pathname);
 	return (str_pathname);
 }
+
 bool	is_builtin(t_cmd *cmd)
 {
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
@@ -76,6 +77,7 @@ int	run_redir(t_redir *redirs, int fd)
 	close(fd);
 	return (0);
 }
+
 void	wait_all(t_shell *shell, t_cmd *cmd)
 {
 	int	status;
@@ -100,6 +102,7 @@ void	wait_all(t_shell *shell, t_cmd *cmd)
 	else if (sig == SIGQUIT)
 		write(2, "Quit (core dumped)\n", 19);
 }
+
 bool	setup_pipe(t_shell *shell, t_cmd *cmd, t_pipe *pipe_ctx)
 {
 	if (cmd->next)
