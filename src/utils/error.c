@@ -12,15 +12,41 @@
 
 #include "minishell.h"
 
+static size_t	append_part(char *dst, size_t pos, const char *src)
+{
+	size_t	i;
+
+	i = 0;
+	while (src && src[i])
+		dst[pos++] = src[i++];
+	return (pos);
+}
+
 void	print_error(const char *context, const char *message)
 {
-	ft_putstr_fd("minishell: ", 2);
+	size_t	len;
+	size_t	pos;
+	char	*line;
+
+	len = 12 + ft_strlen(message);
 	if (context)
 	{
-		ft_putstr_fd((char *)context, 2);
-		ft_putstr_fd(": ", 2);
+		len += ft_strlen(context) + 2;
 	}
-	ft_putendl_fd((char *)message, 2);
+	line = malloc(len + 1);
+	if (!line)
+		return ;
+	pos = append_part(line, 0, "minishell: ");
+	if (context)
+	{
+		pos = append_part(line, pos, context);
+		pos = append_part(line, pos, ": ");
+	}
+	pos = append_part(line, pos, message);
+	line[pos++] = '\n';
+	line[pos] = '\0';
+	write(2, line, pos);
+	free(line);
 }
 
 static int	has_search_path(t_shell *shell)
