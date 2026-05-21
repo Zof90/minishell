@@ -56,27 +56,27 @@ int	run_builtin(t_shell *shell, t_cmd *cmd, t_cmd *header)
 {
 	int		fd_in;
 	int		fd_out;
-	int		ret;
 	t_redir	*redir;
 
+	if (header->next)
+	{
+		dispatch_builtin(shell, cmd);
+		exit(shell->exit_status);
+	}
 	redir = cmd->redirs;
 	fd_in = dup(0);
 	fd_out = dup(1);
-	while (!header->next && redir)
+	while (redir)
 	{
-		ret = redir_builtin(redir);
-		if (ret == -1)
+		if (redir_builtin(redir) == -1)
 		{
-			dup2(fd_in, 0);
-			dup2(fd_out, 1);
+			restore_std(header, fd_in, fd_out);
 			shell->exit_status = 1;
-			return (close(fd_in), close(fd_out), 1);
+			return (1);
 		}
 		redir = redir->next;
 	}
 	dispatch_builtin(shell, cmd);
-	if (header->next)
-		exit(shell->exit_status);
 	restore_std(header, fd_in, fd_out);
 	return (shell->exit_status);
 }
