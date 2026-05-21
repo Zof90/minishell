@@ -23,18 +23,42 @@ static char	*expand_and_strip(const char *str, t_shell *shell)
 	return (strip_quotes(shell, expanded));
 }
 
-static int	expand_redirs(t_redir *redir, t_shell *shell)
+static int	is_ambiguous_redir(char *old_file, char *new_file)
 {
+	if (field_has_quotes(old_file))
+		return (0);
+	if (field_count_words(new_file) != 1)
+		return (1);
+	return (0);
+}
+
+static int	expand_redir_file(t_redir *redir, t_shell *shell)
+{
+	char	*old_file;
 	char	*new_file;
 
+	old_file = redir->file;
+	new_file = expand_and_strip(old_file, shell);
+	if (!new_file)
+		return (1);
+	if (is_ambiguous_redir(old_file, new_file))
+	{
+		print_error(old_file, "ambiguous redirect");
+		shell->exit_status = 1;
+		return (1);
+	}
+	redir->file = new_file;
+	return (0);
+}
+
+static int	expand_redirs(t_redir *redir, t_shell *shell)
+{
 	while (redir)
 	{
 		if (redir->type != TOK_HEREDOC)
 		{
-			new_file = expand_and_strip(redir->file, shell);
-			if (!new_file)
+			if (expand_redir_file(redir, shell))
 				return (1);
-			redir->file = new_file;
 		}
 		redir = redir->next;
 	}
