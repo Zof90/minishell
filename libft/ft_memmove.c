@@ -40,17 +40,3 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	}
 	return (dest);
 }
-/* #include <stdio.h>
-#include <string.h>
-
-int	main(void)
-{
-	char	buffer[11] = "je suis moi";
-	char	*s;
-	char	*dest;
-
-	s = buffer;
-	dest = buffer + 4;
-	ft_memmove(dest, s, 11);
-	printf("%s\n", dest);
-} */

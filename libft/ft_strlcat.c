@@ -36,13 +36,3 @@ size_t	ft_strlcat(char *dst, const char *src, size_t siz)
 	dst[j + l] = '\0';
 	return (i + j);
 }
-
-/*  #include<stdio.h>
-int	main(void)
-{
-	char	dst[12] = "salut";
-	char	str[15] = "je suis zof";
-
-	ft_strlcat(dst, str,17);
-	printf("%s\n",dst);
-} */

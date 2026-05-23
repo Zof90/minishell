@@ -23,13 +23,3 @@ size_t	ft_strlen(const char *s)
 	}
 	return (i);
 }
-
-/* #include<stdio.h>
-int	main(void)
-{
-	char	*s;
-
-	s = "sofiane";
-	printf("%ld\n",ft_strlen(s));
-}
- */

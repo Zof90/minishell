@@ -23,14 +23,3 @@ void	ft_bzero(void *s, size_t n)
 		i++;
 	}
 }
-/* #include<stdio.h>
-#include <string.h>
-
-int	main(void)
-{
-	char	s[] = "salut c'est zof";
-
-	bzero(s, 6);
-	printf("%c\n",s[6]);
-}
- */

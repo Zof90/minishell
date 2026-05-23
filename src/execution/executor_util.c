@@ -63,18 +63,17 @@ int	run_redir(t_redir *redirs, int fd)
 	flags = O_RDONLY;
 	std_fd = 0;
 	if (redirs->type == TOK_REDIR_OUT)
-	{
 		flags = O_WRONLY | O_TRUNC | O_CREAT;
-		std_fd = 1;
-	}
 	else if (redirs->type == TOK_APPEND)
-	{
 		flags = O_WRONLY | O_APPEND | O_CREAT;
+	if (redirs->type == TOK_REDIR_OUT || redirs->type == TOK_APPEND)
 		std_fd = 1;
-	}
 	fd = open(redirs->file, flags, 0666);
 	if (fd == -1)
-		return (print_error(redirs->file, strerror(errno)), -1);
+	{
+		print_error(redirs->file, strerror(errno));
+		return (-1);
+	}
 	dup2(fd, std_fd);
 	close(fd);
 	return (0);

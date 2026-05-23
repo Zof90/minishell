@@ -66,9 +66,15 @@ static int	probe_path(const char *name)
 	if (stat(name, &st) != 0)
 		return (0);
 	if (S_ISDIR(st.st_mode))
-		return (print_error(name, "Is a directory"), 126);
+	{
+		print_error(name, "Is a directory");
+		return (126);
+	}
 	if (access(name, X_OK) != 0)
-		return (print_error(name, "Permission denied"), 126);
+	{
+		print_error(name, "Permission denied");
+		return (126);
+	}
 	print_error(name, strerror(errno));
 	return (126);
 }

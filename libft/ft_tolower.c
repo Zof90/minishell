@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tlower.c                                        :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schouite <schouite@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -16,20 +16,3 @@ int	ft_tolower(int c)
 		c += 32;
 	return (c);
 }
-/* #include<stdio.h>
-int	main(void)
-{
-	char	*str = "JE SUIS 9 MOI";
-	int	i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while(str[i])
-	{
-		j = ft_tolower(str[i]);
-		printf("%c",j);
-		i++;
-	}
-	printf("\n");
-} */

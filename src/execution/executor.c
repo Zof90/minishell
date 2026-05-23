@@ -15,12 +15,16 @@
 
 static void	setup_child_fd(t_cmd *cmd, t_cmd *header, t_pipe *pipe_ctx)
 {
-	if (cmd != header)
-		if (dup2(pipe_ctx->prev_pipe, 0) == -1)
-			exit((perror("minishell: dup2"), 1));
-	if (cmd->next)
-		if (dup2(pipe_ctx->pfd[1], 1) == -1)
-			exit((perror("minishell: dup2"), 1));
+	if (cmd != header && dup2(pipe_ctx->prev_pipe, 0) == -1)
+	{
+		perror("minishell: dup2");
+		exit(1);
+	}
+	if (cmd->next && dup2(pipe_ctx->pfd[1], 1) == -1)
+	{
+		perror("minishell: dup2");
+		exit(1);
+	}
 	if (pipe_ctx->prev_pipe != -1)
 		close(pipe_ctx->prev_pipe);
 	if (cmd->next)
@@ -83,7 +87,11 @@ static void	run_executor_util(t_shell *shell, t_cmd *cmd, t_pipe *pipe_ctx)
 			return ;
 		current->pid = fork();
 		if (current->pid == -1)
-			return ((void)(perror("minishell: fork"), shell->exit_status = 1));
+		{
+			perror("minishell: fork");
+			shell->exit_status = 1;
+			return ;
+		}
 		if (!current->pid)
 		{
 			setup_signals_child();

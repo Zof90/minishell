@@ -30,12 +30,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	str[len] = '\0';
 	return (str);
 }
-
-/* #include <stdio.h>
-
-int	main(void)
-{
-	char	s[] = "je suis moi";
-
-	printf("%s\n", ft_substr(s, 1, 9));
-} */

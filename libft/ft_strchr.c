@@ -30,20 +30,3 @@ char	*ft_strchr(const char *s, int c)
 		return (str);
 	return (NULL);
 }
-/* #include<stdio.h>
-#include <string.h>
-
-int	main(void)
-{
-
-	char	s[] = "je suis moi";
-	int	c;
-	char	*resultat;
-
-	c = 'M';
-	resultat = ft_strchr(s, c);
-	if (resultat)
-		printf("%s\n",resultat);
-	else
-		printf("no occurence find\n");
-} */

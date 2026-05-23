@@ -29,14 +29,3 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	}
 	return (0);
 }
-/* #include<stdio.h>
-#include <string.h>
-
-int	main(void)
-{
-	char	s[] = "je suis moi";
-	char	c;
-
-	c = 's';
-	printf("%s\n",(char *) ft_memchr(s, c, 4));
-} */

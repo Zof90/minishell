@@ -24,12 +24,3 @@ void	ft_putstr_fd(char *s, int fd)
 		i++;
 	}
 }
-
-/* int	main(void)
-{
-	char	s[] = "je suis moi";
-	int		fd;
-
-	fd = 1;
-	ft_putstr_fd(s, fd);
-} */

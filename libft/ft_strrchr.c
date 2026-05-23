@@ -27,19 +27,3 @@ char	*ft_strrchr(const char *s, int c)
 		str = (char *)&s[i];
 	return (str);
 }
-/* #include<stdio.h>
-#include <string.h>
-
-int	main(void)
-{
-	char	s[] = "je suis moi";
-	int		c;
-	char	*resultat;
-
-	c = 'A';
-	resultat = ft_strrchr(s, c);
-	if (resultat)
-		printf("%s\n",resultat);
-	else
-		printf("no occurence find\n");
-} */

@@ -99,22 +99,3 @@ char	**ft_split(char const *s, char c)
 	ptr[j] = NULL;
 	return (ptr);
 }
-/* #include <stdio.h>
-
-int	main(void)
-{
-	int		i;
-	char	s[50] = "      split       this for   me  !       ";
-	char	**ptr;
-	char	c;
-
-	i = 0;
-	c = ' ';
-	ptr = ft_split(s, c);
-	while (i < ft_count_word(s, c))
-	{
-		printf("%s", ptr[i]);
-		i++;
-	}
-	ft_free(ptr, ft_count_word(s, c));
-} */

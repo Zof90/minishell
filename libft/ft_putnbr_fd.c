@@ -26,14 +26,3 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putnbr_fd(nb / 10, fd);
 	ft_putchar_fd(nb % 10 + '0', fd);
 }
-/* #include <stdio.h>
-
-int	main(void)
-{
-	int	nb;
-	int	fd;
-
-	fd = 1;
-	nb = 49876;
-	ft_putnbr_fd(nb, fd);
-} */

@@ -21,10 +21,27 @@ static int	hd_done(t_shell *shell, t_redir *redir, t_hd_ctx *ctx)
 	return (0);
 }
 
+static int	check_heredoc_done(t_shell *shell, t_redir *redir,
+		t_hd_ctx *ctx, char *line)
+{
+	if (!line)
+	{
+		warn_heredoc_eof(redir->file);
+		return (hd_done(shell, redir, ctx));
+	}
+	if (ft_strcmp(line, redir->file) == 0)
+	{
+		free(line);
+		return (hd_done(shell, redir, ctx));
+	}
+	return (-1);
+}
+
 static int	read_one_heredoc(t_shell *shell, t_redir *redir)
 {
 	char		*line;
 	t_hd_ctx	ctx;
+	int			status;
 
 	ctx.head = NULL;
 	ctx.tail = NULL;
@@ -33,14 +50,18 @@ static int	read_one_heredoc(t_shell *shell, t_redir *redir)
 	{
 		line = readline("> ");
 		if (g_signal == SIGINT)
-			return (free(line), 1);
-		if (!line)
-			return (warn_heredoc_eof(redir->file),
-				hd_done(shell, redir, &ctx));
-		if (ft_strcmp(line, redir->file) == 0)
-			return (free(line), hd_done(shell, redir, &ctx));
+		{
+			free(line);
+			return (1);
+		}
+		status = check_heredoc_done(shell, redir, &ctx, line);
+		if (status != -1)
+			return (status);
 		if (push_heredoc_line(shell, redir, line, &ctx))
-			return (free(line), 1);
+		{
+			free(line);
+			return (1);
+		}
 		free(line);
 	}
 }
@@ -81,6 +102,9 @@ int	collect_heredocs(t_cmd *cmds, t_shell *shell)
 	close(saved_stdin);
 	setup_signals_interactive();
 	if (g_signal == SIGINT)
-		return (g_signal = 0, 1);
+	{
+		g_signal = 0;
+		return (1);
+	}
 	return (ret);
 }

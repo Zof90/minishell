@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_opperator.c                                  :+:      :+:    :+:   */
+/*   lexer_operator.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,7 +13,7 @@
 #include "gc.h"
 #include "minishell.h"
 
-static int	read_opperator(char *line)
+static int	read_operator(char *line)
 {
 	if (line[0] == '>' && line[1] == '>')
 		return (2);
@@ -22,7 +22,7 @@ static int	read_opperator(char *line)
 	return (1);
 }
 
-bool	lex_opperator(t_shell *shell, t_token **token, char *line, int *i)
+bool	lex_operator(t_shell *shell, t_token **token, char *line, int *i)
 {
 	t_token	*new_node;
 	int		len;
@@ -30,7 +30,7 @@ bool	lex_opperator(t_shell *shell, t_token **token, char *line, int *i)
 	new_node = gc_malloc(shell, sizeof(t_token));
 	if (!new_node)
 		return (false);
-	len = read_opperator(line);
+	len = read_operator(line);
 	new_node->value = gc_substr(shell, line, 0, len);
 	if (!new_node->value)
 		return (false);

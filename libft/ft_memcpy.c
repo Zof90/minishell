@@ -26,16 +26,3 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	}
 	return (dest);
 }
-
-/* #include<stdio.h>
-#include <string.h>
-
-int	main(void)
-{
-	char	s[] = "je suis moi";
-	char	dest[] = "";
-
-	memcpy(dest, s, 12);
-	printf("%s\n",dest);
-}
- */

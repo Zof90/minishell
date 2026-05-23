@@ -58,7 +58,7 @@ t_token_type	set_type(t_token *new_node)
 		return (TOK_WORD);
 }
 
-bool	is_opperator(char c)
+bool	is_operator(char c)
 {
 	return (c == '>' || c == '<' || c == '|');
 }
@@ -76,9 +76,9 @@ t_token	*lex(t_shell *shell, char *line)
 		skip_spaces(line, &i);
 		if (!line[i])
 			break ;
-		if (is_opperator(line[i]))
+		if (is_operator(line[i]))
 		{
-			flag = lex_opperator(shell, &token, &line[i], &i);
+			flag = lex_operator(shell, &token, &line[i], &i);
 			if (!flag)
 				return (NULL);
 		}

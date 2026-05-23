@@ -72,12 +72,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	ptr = ft_substr(s1, ft_start(s1, set), len);
 	return (ptr);
 }
-/* #include <stdio.h>
-
-int	main(void)
-{
-	char	s1[] = "je/jjjjjjje suis moi     j       /";
-	char	set[] = "j i/";
-
-	printf("%s\n", ft_strtrim(s1, set));
-} */

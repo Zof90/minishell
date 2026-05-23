@@ -59,15 +59,3 @@ char	*ft_itoa(int n)
 	}
 	return (ptr);
 }
-/* #include <stdio.h>
-
-int	main(void)
-{
-	int		n;
-	char	*ptr;
-
-	n = -1;
-	ptr = ft_itoa(n);
-	printf("%s\n", ptr);
-	free(ptr);
-} */

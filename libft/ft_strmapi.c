@@ -12,7 +12,6 @@
 
 #include "libft.h"
 #include <stdlib.h>
-//char	ft_modification(unsigned int i, char c);
 
 int	ft_len(const char *s)
 {
@@ -45,19 +44,3 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	str[i] = '\0';
 	return (str);
 }
-/* #include <stdio.h>
-
-static char	ft_modification(unsigned int i, char c)
-{
-	char	res;
-
-	res = i + c;
-	return (res);
-}
-
-int	main(void)
-{
-	char	s[] = "hola";
-
-	printf("%s\n", ft_strmapi(s, ft_modification));
-} */

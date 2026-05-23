@@ -33,11 +33,3 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	}
 	return (0);
 }
-
-/* #include<stdio.h>
-int	main(void)
-{
-	char	big[] = "chaine de charactere";
-	char	little[] = "a";
-	printf("%s\n",ft_strnstr(big, little, 2));
-} */

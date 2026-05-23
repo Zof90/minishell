@@ -23,17 +23,3 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 		i++;
 	}
 }
-/* #include <stdio.h>
-
-static void	ft_modification(unsigned int i, char *s)
-{
-	s[i] += 1;
-}
-
-int	main(void)
-{
-	char	s[] = "hola";
-
-	ft_striteri(s, ft_modification);
-	printf("%s\n", s);
-} */

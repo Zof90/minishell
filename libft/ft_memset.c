@@ -24,19 +24,3 @@ void	*ft_memset(void *s, int c, size_t n)
 	}
 	return (s);
 }
-/* #include<string.h>
-#include <stdio.h>
-
-int	main(void)
-{
-	int	str[5] ;
-	int	i;
-
-	i = 0;
-	memset(str, 44, 2);
-	while (i < 5)
-	{
-		printf("%d\n",str[i]);
-		i++;
-	}
-} */

@@ -51,7 +51,7 @@ static int	read_word(char *line)
 	state = DEFAULT;
 	while (line[len])
 	{
-		if ((is_opperator(line[len]) || is_spaces(line[len]))
+		if ((is_operator(line[len]) || is_spaces(line[len]))
 			&& state == DEFAULT)
 			break ;
 		state = handle_quotes(state, line[len]);

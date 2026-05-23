@@ -38,11 +38,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	str[i] = '\0';
 	return (str);
 }
-/* #include <stdio.h>
-int	main(void)
-{
-	char	s1[] = "je suis moi";
-	char	s2[] = "tu est toi";
-
-	printf("%s\n", ft_strjoin(s1, s2));
-} */

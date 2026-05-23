@@ -38,4 +38,3 @@ t_env	*env_init(char **envp)
 	}
 	return (env);
 }
-//fetch commande branch sec vs master local
