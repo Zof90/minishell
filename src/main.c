@@ -6,7 +6,7 @@
 /*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:20 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/15 14:43:32 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/21 13:26:33 by zof              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int	main(int argc, char **argv, char **envp)
 	cleanup_shell(&shell);
 	return (shell.exit_status);
 }
-
-
 // #include "minishell.h"
 // #include <string.h>
 
