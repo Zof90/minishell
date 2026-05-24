@@ -15,12 +15,7 @@
 
 static char	*expanded_arg(const char *str, t_shell *shell)
 {
-	char	*expanded;
-
-	expanded = expand_str(str, shell);
-	if (!expanded)
-		return (NULL);
-	return (strip_quotes(shell, expanded));
+	return (expand_str(str, shell));
 }
 
 static int	count_expanded_args(t_cmd *cmd, t_shell *shell, int *count)

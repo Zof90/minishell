@@ -17,7 +17,7 @@ int	field_has_quotes(const char *str)
 {
 	while (*str)
 	{
-		if (*str == '\'' || *str == '"')
+		if (*str == '\'' || *str == '"' || *str == '\\')
 			return (1);
 		str++;
 	}

@@ -53,7 +53,6 @@ SRCS        = src/main.c \
               src/expander/expand_split.c \
               src/expander/expand_str.c \
               src/expander/expand_dollar.c \
-              src/expander/expand_quotes.c \
               src/heredoc/heredoc_collect.c \
               src/heredoc/heredoc_utils.c
 
