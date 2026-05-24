@@ -15,6 +15,23 @@
 
 static char	*expanded_arg(const char *str, t_shell *shell)
 {
+	const char	*home;
+	char		*prefix;
+	char		*rest;
+
+	if (str[0] == '~' && (!str[1] || str[1] == '/'))
+	{
+		home = env_get(shell->env, "HOME");
+		if (!home)
+			home = "~";
+		prefix = gc_strdup(shell, home);
+		if (!prefix)
+			return (NULL);
+		rest = expand_str(str + 1, shell);
+		if (!rest)
+			return (NULL);
+		return (gc_strjoin(shell, prefix, rest));
+	}
 	return (expand_str(str, shell));
 }
 
