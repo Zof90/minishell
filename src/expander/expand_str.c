@@ -6,7 +6,7 @@
 /*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 09:00:00 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/24 14:30:00 by azaytsev         ###   ########.fr       */
+/*   Updated: 2026/05/24 15:00:00 by azaytsev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ static char	*append_escaped(t_shell *sh, const char *str, int *i, int dq)
 	if (!c)
 	{
 		(*i)++;
-		return (char_to_str(sh, '\\'));
+		return (emit_one(sh, '\\', 1));
 	}
 	if (dq && !is_dquote_escape(c))
 	{
 		(*i)++;
-		return (char_to_str(sh, '\\'));
+		return (emit_one(sh, '\\', 1));
 	}
 	*i += 2;
-	return (char_to_str(sh, c));
+	return (emit_one(sh, c, 1));
 }
 
 static int	is_expandable_dollar(const char *str, int i, int sq, int dq)
@@ -52,6 +52,8 @@ static int	is_expandable_dollar(const char *str, int i, int sq, int dq)
 
 static char	*handle_char(const char *str, int *i, int *q, t_shell *sh)
 {
+	char	*v;
+
 	if (str[*i] == '\'' && !q[1])
 	{
 		q[0] = !q[0];
@@ -67,8 +69,13 @@ static char	*handle_char(const char *str, int *i, int *q, t_shell *sh)
 	if (str[*i] == '\\' && !q[0])
 		return (append_escaped(sh, str, i, q[1]));
 	if (is_expandable_dollar(str, *i, q[0], q[1]))
-		return (resolve_dollar(str, i, sh));
-	return (char_to_str(sh, str[(*i)++]));
+	{
+		v = resolve_dollar(str, i, sh);
+		if (q[1])
+			return (escape_ws(sh, v));
+		return (v);
+	}
+	return (emit_one(sh, str[(*i)++], q[0] || q[1]));
 }
 
 char	*expand_str(const char *str, t_shell *shell)

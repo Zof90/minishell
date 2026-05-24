@@ -42,6 +42,7 @@ static int	expand_redir_file(t_redir *redir, t_shell *shell)
 		shell->exit_status = 1;
 		return (1);
 	}
+	unescape_ws(new_file);
 	redir->file = new_file;
 	return (0);
 }

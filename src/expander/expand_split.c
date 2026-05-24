@@ -43,6 +43,21 @@ int	field_count_words(char *str)
 	return (count);
 }
 
+void	unescape_ws(char *s)
+{
+	int	i;
+
+	if (!s)
+		return ;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == 1)
+			s[i] = ' ';
+		i++;
+	}
+}
+
 int	field_append_words(t_shell *shell, char **args, int *j, char *str)
 {
 	int	i;
@@ -61,6 +76,7 @@ int	field_append_words(t_shell *shell, char **args, int *j, char *str)
 			args[*j] = gc_substr(shell, str, start, i - start);
 			if (!args[*j])
 				return (1);
+			unescape_ws(args[*j]);
 			(*j)++;
 		}
 	}

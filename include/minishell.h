@@ -175,6 +175,9 @@ char							*expand_str(const char *str, t_shell *shell);
 char							*resolve_dollar(const char *str, int *i,
 									t_shell *shell);
 char							*char_to_str(t_shell *shell, char c);
+char							*emit_one(t_shell *shell, char c, int nosplit);
+char							*escape_ws(t_shell *shell, const char *src);
+void							unescape_ws(char *s);
 char							*gc_strjoin(t_shell *shell, char const *s1,
 									char const *s2);
 size_t							calculate_len(char **tab_path);
