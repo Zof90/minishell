@@ -77,9 +77,10 @@ int	builtin_exit(t_shell *shell, char **args)
 {
 	long	val;
 
-	ft_putendl_fd("exit", 2);
 	if (!args[1])
 	{
+		if (isatty(STDIN_FILENO))
+			ft_putendl_fd("exit", 2);
 		shell->running = 0;
 		return (shell->exit_status);
 	}
@@ -90,6 +91,8 @@ int	builtin_exit(t_shell *shell, char **args)
 		print_error("exit", "too many arguments");
 		return (1);
 	}
+	if (isatty(STDIN_FILENO))
+		ft_putendl_fd("exit", 2);
 	shell->running = 0;
 	shell->exit_status = (unsigned char)val;
 	return (shell->exit_status);
