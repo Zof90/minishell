@@ -172,6 +172,9 @@ int								field_count_words(char *str);
 int								field_append_words(t_shell *shell, char **args,
 									int *j, char *str);
 char							*expand_str(const char *str, t_shell *shell);
+char							*expand_heredoc(const char *str,
+									t_shell *shell);
+char							*read_hd_line(void);
 char							*resolve_dollar(const char *str, int *i,
 									t_shell *shell);
 char							*char_to_str(t_shell *shell, char c);

@@ -48,7 +48,7 @@ static int	read_one_heredoc(t_shell *shell, t_redir *redir)
 	ctx.total = 0;
 	while (1)
 	{
-		line = readline("> ");
+		line = read_hd_line();
 		if (g_signal == SIGINT)
 		{
 			free(line);
@@ -58,10 +58,7 @@ static int	read_one_heredoc(t_shell *shell, t_redir *redir)
 		if (status != -1)
 			return (status);
 		if (push_heredoc_line(shell, redir, line, &ctx))
-		{
-			free(line);
-			return (1);
-		}
+			return (free(line), 1);
 		free(line);
 	}
 }
