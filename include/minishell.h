@@ -198,6 +198,7 @@ void							child_exit_error(t_shell *shell, char *name);
 bool							setup_pipe(t_shell *shell, t_cmd *cmd,
 									t_pipe *pipe_ctx);
 int								run_noargs(t_shell *shell, t_cmd *cmd);
+int								save_std(int *fd_in, int *fd_out);
 char							*read_line_fd(int fd);
 int								collect_heredocs(t_cmd *cmds, t_shell *shell);
 void							warn_heredoc_eof(const char *delim);
