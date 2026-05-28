@@ -16,6 +16,14 @@ int	builtin_unset(t_shell *shell, char **args)
 {
 	int	i;
 
+	if (args[1] && args[1][0] == '-' && args[1][1] != '\0')
+	{
+		ft_putstr_fd("minishell: unset: ", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putendl_fd(": invalid option", 2);
+		ft_putendl_fd("unset: usage: unset [name ...]", 2);
+		return (2);
+	}
 	i = 1;
 	while (args[i])
 	{

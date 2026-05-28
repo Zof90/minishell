@@ -46,17 +46,22 @@ static int	export_assign(t_shell *shell, const char *arg)
 
 	eq = ft_strchr((char *)arg, '=');
 	if (!eq)
-	{
-		if (!env_get(shell->env, arg))
-			return (env_set(&shell->env, arg, ""));
 		return (0);
-	}
 	key = ft_substr(arg, 0, eq - arg);
 	if (!key)
 		return (1);
 	ret = env_set(&shell->env, key, eq + 1);
 	free(key);
 	return (ret);
+}
+
+static int	export_invalid_option(const char *arg)
+{
+	ft_putstr_fd("minishell: export: ", 2);
+	ft_putstr_fd((char *)arg, 2);
+	ft_putendl_fd(": invalid option", 2);
+	ft_putendl_fd("export: usage: export [name[=value] ...]", 2);
+	return (2);
 }
 
 int	builtin_export(t_shell *shell, char **args)
@@ -66,6 +71,8 @@ int	builtin_export(t_shell *shell, char **args)
 
 	if (!args[1])
 		return (export_print(shell));
+	if (args[1][0] == '-')
+		return (export_invalid_option(args[1]));
 	status = 0;
 	i = 1;
 	while (args[i])

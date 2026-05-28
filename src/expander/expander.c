@@ -15,12 +15,7 @@
 
 static char	*expand_and_strip(const char *str, t_shell *shell)
 {
-	char	*expanded;
-
-	expanded = expand_str(str, shell);
-	if (!expanded)
-		return (NULL);
-	return (strip_quotes(shell, expanded));
+	return (expand_str(str, shell));
 }
 
 static int	is_ambiguous_redir(char *old_file, char *new_file)
@@ -47,6 +42,7 @@ static int	expand_redir_file(t_redir *redir, t_shell *shell)
 		shell->exit_status = 1;
 		return (1);
 	}
+	unescape_ws(new_file);
 	redir->file = new_file;
 	return (0);
 }

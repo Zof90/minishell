@@ -25,6 +25,36 @@ char	*char_to_str(t_shell *shell, char c)
 	return (str);
 }
 
+char	*emit_one(t_shell *sh, char c, int nosplit)
+{
+	if (nosplit && (c == ' ' || (c >= 9 && c <= 13)))
+		c = 1;
+	return (char_to_str(sh, c));
+}
+
+char	*escape_ws(t_shell *shell, const char *src)
+{
+	char	*r;
+	int		i;
+
+	if (!src)
+		return (NULL);
+	r = gc_malloc(shell, ft_strlen(src) + 1);
+	if (!r)
+		return (NULL);
+	i = 0;
+	while (src[i])
+	{
+		if (src[i] == ' ' || (src[i] >= 9 && src[i] <= 13))
+			r[i] = 1;
+		else
+			r[i] = src[i];
+		i++;
+	}
+	r[i] = '\0';
+	return (r);
+}
+
 static char	*extract_var_name(t_shell *shell, const char *str, int *i)
 {
 	int	start;

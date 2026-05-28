@@ -53,7 +53,7 @@ int	push_heredoc_line(t_shell *shell, t_redir *redir, char *line, t_hd_ctx *ctx)
 	if (redir->heredoc_quoted)
 		piece = gc_strdup(shell, line);
 	else
-		piece = expand_str(line, shell);
+		piece = expand_heredoc(line, shell);
 	if (!piece)
 		return (1);
 	node = gc_malloc(shell, sizeof(t_hd_line));

@@ -49,11 +49,15 @@ static int	is_runnable(t_shell *shell, t_token *token, t_cmd **out)
 	if (!token)
 	{
 		shell->exit_status = 2;
+		if (!isatty(STDIN_FILENO))
+			shell->running = 0;
 		return (0);
 	}
 	if (syntax_check(token))
 	{
 		shell->exit_status = 2;
+		if (!isatty(STDIN_FILENO))
+			shell->running = 0;
 		return (0);
 	}
 	*out = parse(shell, token);

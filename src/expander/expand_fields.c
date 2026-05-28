@@ -6,7 +6,7 @@
 /*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 09:00:00 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/21 09:00:00 by azaytsev         ###   ########.fr       */
+/*   Updated: 2026/05/24 15:00:00 by azaytsev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,30 @@
 
 static char	*expanded_arg(const char *str, t_shell *shell)
 {
-	char	*expanded;
+	const char	*home;
+	char		*prefix;
+	char		*rest;
 
-	expanded = expand_str(str, shell);
-	if (!expanded)
-		return (NULL);
-	return (strip_quotes(shell, expanded));
+	if (str[0] == '~' && (!str[1] || str[1] == '/'))
+	{
+		home = env_get(shell->env, "HOME");
+		if (!home)
+			home = "~";
+		prefix = gc_strdup(shell, home);
+		if (!prefix)
+			return (NULL);
+		rest = expand_str(str + 1, shell);
+		if (!rest)
+			return (NULL);
+		return (gc_strjoin(shell, prefix, rest));
+	}
+	return (expand_str(str, shell));
 }
 
 static int	count_expanded_args(t_cmd *cmd, t_shell *shell, int *count)
 {
 	int		i;
+	int		n;
 	char	*value;
 
 	i = 0;
@@ -35,10 +48,10 @@ static int	count_expanded_args(t_cmd *cmd, t_shell *shell, int *count)
 		value = expanded_arg(cmd->args[i], shell);
 		if (!value)
 			return (1);
-		if (field_has_quotes(cmd->args[i]))
-			(*count)++;
-		else
-			*count += field_count_words(value);
+		n = field_count_words(value);
+		if (n == 0 && field_has_quotes(cmd->args[i]))
+			n = 1;
+		*count += n;
 		i++;
 	}
 	return (0);
@@ -51,11 +64,12 @@ static int	add_expanded_arg(t_shell *shell, char **args, char *src, int *j)
 	value = expanded_arg(src, shell);
 	if (!value)
 		return (1);
-	if (field_has_quotes(src))
+	if (*value == '\0' && field_has_quotes(src))
+	{
 		args[(*j)++] = value;
-	else if (field_append_words(shell, args, j, value))
-		return (1);
-	return (0);
+		return (0);
+	}
+	return (field_append_words(shell, args, j, value));
 }
 
 int	expand_args(t_cmd *cmd, t_shell *shell)
