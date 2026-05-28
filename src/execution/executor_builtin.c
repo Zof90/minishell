@@ -45,8 +45,10 @@ static void	restore_std(t_cmd *header, int fd_in, int fd_out)
 {
 	if (!header->next)
 	{
-		dup2(fd_in, 0);
-		dup2(fd_out, 1);
+		if (dup2(fd_in, 0) == -1)
+			print_error("dup2", strerror(errno));
+		if (dup2(fd_out, 1) == -1)
+			print_error("dup2", strerror(errno));
 		close(fd_in);
 		close(fd_out);
 	}
@@ -63,16 +65,15 @@ int	run_builtin(t_shell *shell, t_cmd *cmd, t_cmd *header)
 		dispatch_builtin(shell, cmd);
 		exit(shell->exit_status);
 	}
+	if (save_std(&fd_in, &fd_out) == -1)
+		return (shell->exit_status = 1, 1);
 	redir = cmd->redirs;
-	fd_in = dup(0);
-	fd_out = dup(1);
 	while (redir)
 	{
 		if (redir_builtin(redir) == -1)
 		{
 			restore_std(header, fd_in, fd_out);
-			shell->exit_status = 1;
-			return (1);
+			return (shell->exit_status = 1, 1);
 		}
 		redir = redir->next;
 	}
