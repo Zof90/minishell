@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42paris.fr>     +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 18:05:04 by schouite          #+#    #+#             */
 /*   Updated: 2025/11/18 16:19:13 by schouite         ###   ########.fr       */
@@ -72,12 +72,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	ptr = ft_substr(s1, ft_start(s1, set), len);
 	return (ptr);
 }
-/* #include <stdio.h>
-
-int	main(void)
-{
-	char	s1[] = "je/jjjjjjje suis moi     j       /";
-	char	set[] = "j i/";
-
-	printf("%s\n", ft_strtrim(s1, set));
-} */

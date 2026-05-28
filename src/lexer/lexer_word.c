@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/26 14:38:42 by zof               #+#    #+#             */
-/*   Updated: 2026/05/01 14:40:07 by zof              ###   ########.fr       */
+/*   Created: 2026/04/26 14:38:42 by schouite          #+#    #+#             */
+/*   Updated: 2026/05/01 14:40:07 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	read_word(char *line)
 	state = DEFAULT;
 	while (line[len])
 	{
-		if ((is_opperator(line[len]) || is_spaces(line[len]))
+		if ((is_operator(line[len]) || is_spaces(line[len]))
 			&& state == DEFAULT)
 			break ;
 		state = handle_quotes(state, line[len]);

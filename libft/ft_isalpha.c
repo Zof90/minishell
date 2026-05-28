@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42paris.fr>     +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:27:37 by schouite          #+#    #+#             */
 /*   Updated: 2025/11/16 18:39:12 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 int	ft_isalpha(int c)
 {
 	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
-
-/*
-int	main(void)
-{
-	char	c;
-
-	c = 'A';
-	printf("%d\n",ft_isalpha(c));
-}
-*/

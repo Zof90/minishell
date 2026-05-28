@@ -80,7 +80,10 @@ static int	spawn_heredoc_writer(t_redir *redir, int pfd[2])
 	len = ft_strlen(redir->heredoc_content);
 	pid = fork();
 	if (pid == -1)
-		return (print_error("heredoc", strerror(errno)), -1);
+	{
+		print_error("heredoc", strerror(errno));
+		return (-1);
+	}
 	if (pid == 0)
 	{
 		close(pfd[0]);
@@ -96,13 +99,23 @@ int	apply_heredoc(t_redir *redir)
 	int	pfd[2];
 
 	if (pipe(pfd) == -1)
-		return (print_error("heredoc", strerror(errno)), -1);
+	{
+		print_error("heredoc", strerror(errno));
+		return (-1);
+	}
 	if (spawn_heredoc_writer(redir, pfd) == -1)
-		return (close(pfd[0]), close(pfd[1]), -1);
+	{
+		close(pfd[0]);
+		close(pfd[1]);
+		return (-1);
+	}
 	close(pfd[1]);
 	if (dup2(pfd[0], 0) == -1)
-		return (close(pfd[0]),
-			print_error("heredoc", strerror(errno)), -1);
+	{
+		close(pfd[0]);
+		print_error("heredoc", strerror(errno));
+		return (-1);
+	}
 	close(pfd[0]);
 	return (0);
 }

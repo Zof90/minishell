@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42paris.fr>     +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 20:30:01 by schouite          #+#    #+#             */
 /*   Updated: 2025/11/22 21:21:12 by schouite         ###   ########.fr       */
@@ -29,14 +29,3 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	}
 	return (0);
 }
-/* #include<stdio.h>
-#include <string.h>
-
-int	main(void)
-{
-	char	s[] = "je suis moi";
-	char	c;
-
-	c = 's';
-	printf("%s\n",(char *) ft_memchr(s, c, 4));
-} */

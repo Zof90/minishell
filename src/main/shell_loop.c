@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 09:00:00 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/18 15:49:44 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/18 15:49:44 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,23 @@ static char	*read_input(t_shell *shell)
 static int	is_runnable(t_shell *shell, t_token *token, t_cmd **out)
 {
 	if (!token)
-		return (shell->exit_status = 2, 0);
+	{
+		shell->exit_status = 2;
+		return (0);
+	}
 	if (syntax_check(token))
-		return (shell->exit_status = 2, 0);
+	{
+		shell->exit_status = 2;
+		return (0);
+	}
 	*out = parse(shell, token);
 	if (*out)
 		*out = expand(*out, shell);
 	if (*out && collect_heredocs(*out, shell))
-		return (shell->exit_status = 130, 0);
+	{
+		shell->exit_status = 130;
+		return (0);
+	}
 	return (1);
 }
 

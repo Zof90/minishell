@@ -18,7 +18,10 @@ static char	*grow_buf(char *buf, size_t len, size_t new_cap)
 
 	new_buf = malloc(new_cap);
 	if (!new_buf)
-		return (free(buf), NULL);
+	{
+		free(buf);
+		return (NULL);
+	}
 	if (buf)
 	{
 		ft_memcpy(new_buf, buf, len);
@@ -40,6 +43,19 @@ static char	*push_char(char *buf, size_t *cap, size_t *len, char c)
 	return (buf);
 }
 
+static char	*finish_line(char *buf, size_t len)
+{
+	buf[len] = '\0';
+	return (buf);
+}
+
+static char	*init_line_buf(size_t *cap, size_t *len)
+{
+	*cap = 64;
+	*len = 0;
+	return (malloc(*cap));
+}
+
 char	*read_line_fd(int fd)
 {
 	char	*buf;
@@ -48,22 +64,23 @@ char	*read_line_fd(int fd)
 	char	c;
 	ssize_t	n;
 
-	cap = 64;
-	buf = malloc(cap);
+	buf = init_line_buf(&cap, &len);
 	if (!buf)
 		return (NULL);
-	len = 0;
 	n = read(fd, &c, 1);
 	while (n == 1)
 	{
 		if (c == '\n')
-			return (buf[len] = '\0', buf);
+			return (finish_line(buf, len));
 		buf = push_char(buf, &cap, &len, c);
 		if (!buf)
 			return (NULL);
 		n = read(fd, &c, 1);
 	}
 	if (n <= 0 && len == 0)
-		return (free(buf), NULL);
-	return (buf[len] = '\0', buf);
+	{
+		free(buf);
+		return (NULL);
+	}
+	return (finish_line(buf, len));
 }

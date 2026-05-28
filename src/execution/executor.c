@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/09 15:33:25 by zof               #+#    #+#             */
-/*   Updated: 2026/05/16 15:12:21 by zof              ###   ########.fr       */
+/*   Created: 2026/05/09 15:33:25 by schouite          #+#    #+#             */
+/*   Updated: 2026/05/16 15:12:21 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 
 static void	setup_child_fd(t_cmd *cmd, t_cmd *header, t_pipe *pipe_ctx)
 {
-	if (cmd != header)
-		if (dup2(pipe_ctx->prev_pipe, 0) == -1)
-			exit((perror("minishell: dup2"), 1));
-	if (cmd->next)
-		if (dup2(pipe_ctx->pfd[1], 1) == -1)
-			exit((perror("minishell: dup2"), 1));
+	if (cmd != header && dup2(pipe_ctx->prev_pipe, 0) == -1)
+	{
+		perror("minishell: dup2");
+		exit(1);
+	}
+	if (cmd->next && dup2(pipe_ctx->pfd[1], 1) == -1)
+	{
+		perror("minishell: dup2");
+		exit(1);
+	}
 	if (pipe_ctx->prev_pipe != -1)
 		close(pipe_ctx->prev_pipe);
 	if (cmd->next)
@@ -83,7 +87,11 @@ static void	run_executor_util(t_shell *shell, t_cmd *cmd, t_pipe *pipe_ctx)
 			return ;
 		current->pid = fork();
 		if (current->pid == -1)
-			return ((void)(perror("minishell: fork"), shell->exit_status = 1));
+		{
+			perror("minishell: fork");
+			shell->exit_status = 1;
+			return ;
+		}
 		if (!current->pid)
 		{
 			setup_signals_child();

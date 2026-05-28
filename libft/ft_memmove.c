@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42paris.fr>     +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 12:38:48 by schouite          #+#    #+#             */
 /*   Updated: 2025/11/23 16:52:48 by schouite         ###   ########.fr       */
@@ -40,17 +40,3 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	}
 	return (dest);
 }
-/* #include <stdio.h>
-#include <string.h>
-
-int	main(void)
-{
-	char	buffer[11] = "je suis moi";
-	char	*s;
-	char	*dest;
-
-	s = buffer;
-	dest = buffer + 4;
-	ft_memmove(dest, s, 11);
-	printf("%s\n", dest);
-} */

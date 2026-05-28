@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:20 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/15 13:11:26 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/15 13:11:26 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,15 @@ static int	probe_path(const char *name)
 	if (stat(name, &st) != 0)
 		return (0);
 	if (S_ISDIR(st.st_mode))
-		return (print_error(name, "Is a directory"), 126);
+	{
+		print_error(name, "Is a directory");
+		return (126);
+	}
 	if (access(name, X_OK) != 0)
-		return (print_error(name, "Permission denied"), 126);
+	{
+		print_error(name, "Permission denied");
+		return (126);
+	}
 	print_error(name, strerror(errno));
 	return (126);
 }

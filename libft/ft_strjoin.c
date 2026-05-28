@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42paris.fr>     +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 16:44:42 by schouite          #+#    #+#             */
 /*   Updated: 2025/11/21 12:43:46 by schouite         ###   ########.fr       */
@@ -38,11 +38,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	str[i] = '\0';
 	return (str);
 }
-/* #include <stdio.h>
-int	main(void)
-{
-	char	s1[] = "je suis moi";
-	char	s2[] = "tu est toi";
-
-	printf("%s\n", ft_strjoin(s1, s2));
-} */

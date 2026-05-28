@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42paris.fr>     +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:57:06 by schouite          #+#    #+#             */
 /*   Updated: 2025/11/23 11:35:10 by schouite         ###   ########.fr       */
@@ -23,17 +23,3 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 		i++;
 	}
 }
-/* #include <stdio.h>
-
-static void	ft_modification(unsigned int i, char *s)
-{
-	s[i] += 1;
-}
-
-int	main(void)
-{
-	char	s[] = "hola";
-
-	ft_striteri(s, ft_modification);
-	printf("%s\n", s);
-} */

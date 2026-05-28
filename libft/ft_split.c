@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 16:12:32 by schouite          #+#    #+#             */
-/*   Updated: 2026/04/14 12:48:02 by codespace        ###   ########.fr       */
+/*   Updated: 2026/04/14 12:48:02 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,22 +99,3 @@ char	**ft_split(char const *s, char c)
 	ptr[j] = NULL;
 	return (ptr);
 }
-/* #include <stdio.h>
-
-int	main(void)
-{
-	int		i;
-	char	s[50] = "      split       this for   me  !       ";
-	char	**ptr;
-	char	c;
-
-	i = 0;
-	c = ' ';
-	ptr = ft_split(s, c);
-	while (i < ft_count_word(s, c))
-	{
-		printf("%s", ptr[i]);
-		i++;
-	}
-	ft_free(ptr, ft_count_word(s, c));
-} */

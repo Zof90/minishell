@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42paris.fr>     +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 20:41:51 by schouite          #+#    #+#             */
 /*   Updated: 2025/11/22 22:50:24 by schouite         ###   ########.fr       */
@@ -24,13 +24,3 @@ char	*ft_strdup(const char *s)
 	str[ft_strlen(s)] = '\0';
 	return (str);
 }
-/* #include <stdio.h>
-#include <string.h>
-
-int	main(void)
-{
-	char	s[] = "je suis zof";
-
-	printf("%s\n", ft_strdup(s));
-	printf("%d\n", ft_memcmp(s, ft_strdup(s), (ft_strlen(s))));
-} */

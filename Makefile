@@ -30,7 +30,7 @@ SRCS        = src/main.c \
               src/gc/gc_utile2.c \
               src/lexer/lexer.c \
               src/lexer/lexer_word.c \
-              src/lexer/lexer_opperator.c \
+              src/lexer/lexer_operator.c \
               src/builtins/builtin_pwd.c \
               src/builtins/builtin_env.c \
               src/builtins/builtin_echo.c \
@@ -64,8 +64,10 @@ all: $(NAME)
 $(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 
-$(LIBFT):
+$(LIBFT): force
 	$(MAKE) -C $(LIBFT_DIR)
+
+force:
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
@@ -81,4 +83,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re force

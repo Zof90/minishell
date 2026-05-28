@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42paris.fr>     +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 18:45:00 by schouite          #+#    #+#             */
 /*   Updated: 2025/11/22 22:16:14 by schouite         ###   ########.fr       */
@@ -33,11 +33,3 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	}
 	return (0);
 }
-
-/* #include<stdio.h>
-int	main(void)
-{
-	char	big[] = "chaine de charactere";
-	char	little[] = "a";
-	printf("%s\n",ft_strnstr(big, little, 2));
-} */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zof <zof@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:13 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/18 10:30:45 by zof              ###   ########.fr       */
+/*   Updated: 2026/05/18 10:30:45 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,11 +149,11 @@ void							shell_loop(t_shell *shell);
 void							cleanup_shell(t_shell *shell);
 t_token							*lex(t_shell *shell, char *line);
 t_token_type					set_type(t_token *new_node);
-bool							lex_opperator(t_shell *shell, t_token **token,
+bool							lex_operator(t_shell *shell, t_token **token,
 									char *line, int *i);
 bool							lex_word(t_shell *shell, t_token **token,
 									char *line, int *i);
-bool							is_opperator(char c);
+bool							is_operator(char c);
 void							lstadd_back_token(t_token **lst, t_token *new);
 int								syntax_check(t_token *tokens);
 t_cmd							*parse(t_shell *shell, t_token *tokens);

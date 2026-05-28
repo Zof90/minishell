@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42paris.fr>     +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:49:30 by schouite          #+#    #+#             */
 /*   Updated: 2025/11/21 13:04:27 by schouite         ###   ########.fr       */
@@ -59,15 +59,3 @@ char	*ft_itoa(int n)
 	}
 	return (ptr);
 }
-/* #include <stdio.h>
-
-int	main(void)
-{
-	int		n;
-	char	*ptr;
-
-	n = -1;
-	ptr = ft_itoa(n);
-	printf("%s\n", ptr);
-	free(ptr);
-} */
