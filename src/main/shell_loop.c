@@ -73,13 +73,17 @@ static void	process_line(t_shell *shell, char *line)
 void	shell_loop(t_shell *shell)
 {
 	char	*line;
+	int		i;
 
 	while (shell->running)
 	{
 		line = read_input(shell);
 		if (!line)
 			break ;
-		if (*line)
+		i = 0;
+		while (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13))
+			i++;
+		if (line[i])
 			process_line(shell, line);
 		free(line);
 	}

@@ -48,6 +48,8 @@ char	*resolve_dollar(const char *str, int *i, t_shell *shell)
 		(*i)++;
 		return (gc_itoa(shell, shell->exit_status));
 	}
+	if (str[*i] == '\'' || str[*i] == '"')
+		return (gc_strdup(shell, ""));
 	if (ft_isdigit(str[*i]))
 	{
 		(*i)++;

@@ -41,7 +41,7 @@ static void	run_child(t_shell *shell, t_cmd *cmd, t_cmd *header,
 	{
 		path = is_valid_cmd(shell, cmd);
 		if (!path)
-			child_exit_error(cmd->args[0]);
+			child_exit_error(shell, cmd->args[0]);
 	}
 	setup_child_fd(cmd, header, pipe_ctx);
 	while (cmd->redirs)
@@ -56,7 +56,7 @@ static void	run_child(t_shell *shell, t_cmd *cmd, t_cmd *header,
 		run_builtin(shell, cmd, header);
 	env = env_to_array(shell->env);
 	execve(path, cmd->args, env);
-	child_exit_error(cmd->args[0]);
+	child_exit_error(shell, cmd->args[0]);
 }
 
 static int	run_parent(t_cmd *cmd, t_pipe *pipe_ctx)
@@ -79,7 +79,7 @@ static void	run_executor_util(t_shell *shell, t_cmd *cmd, t_pipe *pipe_ctx)
 	pipe_ctx->prev_pipe = -1;
 	while (current)
 	{
-		if (!setup_pipe(shell, cmd, pipe_ctx))
+		if (!setup_pipe(shell, current, pipe_ctx))
 			return ;
 		current->pid = fork();
 		if (current->pid == -1)

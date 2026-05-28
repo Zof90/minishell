@@ -16,9 +16,11 @@ char	*is_valid_cmd(t_shell *shell, t_cmd *cmd)
 {
 	char	*str_pathname;
 	char	**tmp_tab_pathname;
+	char	*path_env;
 	char	*tab[2];
 
-	if (ft_strchr(cmd->args[0], '/'))
+	path_env = env_get(shell->env, "PATH");
+	if (ft_strchr(cmd->args[0], '/') || !path_env || !*path_env)
 	{
 		tab[0] = cmd->args[0];
 		tab[1] = NULL;
@@ -70,7 +72,7 @@ int	run_redir(t_redir *redirs, int fd)
 		flags = O_WRONLY | O_APPEND | O_CREAT;
 		std_fd = 1;
 	}
-	fd = open(redirs->file, flags, 0644);
+	fd = open(redirs->file, flags, 0666);
 	if (fd == -1)
 		return (print_error(redirs->file, strerror(errno)), -1);
 	dup2(fd, std_fd);

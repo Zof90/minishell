@@ -13,13 +13,15 @@
 #include "gc.h"
 #include "minishell.h"
 
-static int	is_expandable_dollar(const char *str, int i, int in_sq)
+static int	is_expandable_dollar(const char *str, int i, int *quotes)
 {
-	if (in_sq)
+	if (quotes[0])
 		return (0);
 	if (str[i] != '$')
 		return (0);
 	if (!str[i + 1] || str[i + 1] == ' ' || str[i + 1] == '\t')
+		return (0);
+	if (quotes[1] && (str[i + 1] == '\'' || str[i + 1] == '"'))
 		return (0);
 	return (1);
 }
@@ -36,7 +38,7 @@ static char	*handle_char(const char *str, int *i, int *quotes, t_shell *sh)
 		quotes[1] = !quotes[1];
 		return (char_to_str(sh, str[(*i)++]));
 	}
-	if (is_expandable_dollar(str, *i, quotes[0]))
+	if (is_expandable_dollar(str, *i, quotes))
 		return (resolve_dollar(str, i, sh));
 	return (char_to_str(sh, str[(*i)++]));
 }

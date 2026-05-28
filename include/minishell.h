@@ -166,6 +166,11 @@ int								parse_redir(t_shell *shell, t_token **cur,
 t_redir							*create_redir(t_shell *shell, t_token_type type,
 									const char *file_val);
 t_cmd							*expand(t_cmd *cmds, t_shell *shell);
+int								expand_args(t_cmd *cmd, t_shell *shell);
+int								field_has_quotes(const char *str);
+int								field_count_words(char *str);
+int								field_append_words(t_shell *shell, char **args,
+									int *j, char *str);
 char							*expand_str(const char *str, t_shell *shell);
 char							*strip_quotes(t_shell *shell, const char *str);
 char							*resolve_dollar(const char *str, int *i,
@@ -184,7 +189,7 @@ int								run_builtin(t_shell *shell, t_cmd *cmd,
 bool							handle_executor(t_shell *shell, t_cmd *cmd);
 void							wait_all(t_shell *shell, t_cmd *cmd);
 char							*is_valid_cmd(t_shell *shell, t_cmd *cmd);
-void							child_exit_error(char *name);
+void							child_exit_error(t_shell *shell, char *name);
 bool							setup_pipe(t_shell *shell, t_cmd *cmd,
 									t_pipe *pipe_ctx);
 int								run_noargs(t_shell *shell, t_cmd *cmd);
