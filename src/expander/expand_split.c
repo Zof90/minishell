@@ -43,6 +43,23 @@ int	field_count_words(char *str)
 	return (count);
 }
 
+char	ws_xlate(char c, int decode)
+{
+	if (!decode)
+	{
+		if (c == ' ')
+			return (1);
+		if (c >= 9 && c <= 13)
+			return (c - 7);
+		return (c);
+	}
+	if (c == 1)
+		return (' ');
+	if (c >= 2 && c <= 6)
+		return (c + 7);
+	return (c);
+}
+
 void	unescape_ws(char *s)
 {
 	int	i;
@@ -52,8 +69,7 @@ void	unescape_ws(char *s)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == 1)
-			s[i] = ' ';
+		s[i] = ws_xlate(s[i], 1);
 		i++;
 	}
 }

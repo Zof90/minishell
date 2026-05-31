@@ -80,25 +80,19 @@ static char	*handle_char(const char *str, int *i, int *q, t_shell *sh)
 
 char	*expand_str(const char *str, t_shell *shell)
 {
-	char	*result;
-	char	*piece;
+	t_xbuf	b;
 	int		i;
 	int		quotes[2];
 
-	result = NULL;
+	if (xbuf_init(&b))
+		return (NULL);
 	i = 0;
 	quotes[0] = 0;
 	quotes[1] = 0;
 	while (str[i])
 	{
-		piece = handle_char(str, &i, quotes, shell);
-		if (!piece)
-			return (NULL);
-		result = gc_strjoin(shell, result, piece);
-		if (!result)
+		if (xbuf_append(&b, handle_char(str, &i, quotes, shell)))
 			return (NULL);
 	}
-	if (!result)
-		return (gc_strdup(shell, ""));
-	return (result);
+	return (xbuf_finish(shell, &b));
 }
