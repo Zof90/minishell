@@ -46,7 +46,7 @@ static int	export_assign(t_shell *shell, const char *arg)
 
 	eq = ft_strchr((char *)arg, '=');
 	if (!eq)
-		return (0);
+		return (env_declare(&shell->env, arg));
 	key = ft_substr(arg, 0, eq - arg);
 	if (!key)
 		return (1);

@@ -20,9 +20,11 @@ t_env	*env_new_node(const char *key, const char *value)
 	if (!node)
 		return (NULL);
 	node->key = ft_strdup(key);
-	node->value = ft_strdup(value);
+	node->value = NULL;
+	if (value)
+		node->value = ft_strdup(value);
 	node->next = NULL;
-	if (!node->key || !node->value)
+	if (!node->key || (value && !node->value))
 	{
 		free(node->key);
 		free(node->value);
@@ -86,13 +88,16 @@ char	**env_to_array(t_env *env)
 	i = 0;
 	while (env)
 	{
-		arr[i] = env_join_entry(env->key, env->value);
-		if (!arr[i])
+		if (env->value)
 		{
-			free_str_array(arr);
-			return (NULL);
+			arr[i] = env_join_entry(env->key, env->value);
+			if (!arr[i])
+			{
+				free_str_array(arr);
+				return (NULL);
+			}
+			i++;
 		}
-		i++;
 		env = env->next;
 	}
 	arr[i] = NULL;

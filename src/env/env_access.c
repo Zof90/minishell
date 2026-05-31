@@ -65,6 +65,27 @@ int	env_set(t_env **env, const char *key, const char *value)
 	return (0);
 }
 
+int	env_declare(t_env **env, const char *key)
+{
+	t_env	*cur;
+	t_env	*node;
+	size_t	len;
+
+	len = ft_strlen(key) + 1;
+	cur = *env;
+	while (cur)
+	{
+		if (ft_strncmp(cur->key, key, len) == 0)
+			return (0);
+		cur = cur->next;
+	}
+	node = env_new_node(key, NULL);
+	if (!node)
+		return (1);
+	env_add_back(env, node);
+	return (0);
+}
+
 int	env_unset(t_env **env, const char *key)
 {
 	t_env	*cur;
