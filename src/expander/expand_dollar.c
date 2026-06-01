@@ -27,8 +27,8 @@ char	*char_to_str(t_shell *shell, char c)
 
 char	*emit_one(t_shell *sh, char c, int nosplit)
 {
-	if (nosplit && (c == ' ' || (c >= 9 && c <= 13)))
-		c = 1;
+	if (nosplit)
+		c = ws_xlate(c, 0);
 	return (char_to_str(sh, c));
 }
 
@@ -45,10 +45,7 @@ char	*escape_ws(t_shell *shell, const char *src)
 	i = 0;
 	while (src[i])
 	{
-		if (src[i] == ' ' || (src[i] >= 9 && src[i] <= 13))
-			r[i] = 1;
-		else
-			r[i] = src[i];
+		r[i] = ws_xlate(src[i], 0);
 		i++;
 	}
 	r[i] = '\0';

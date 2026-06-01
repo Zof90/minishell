@@ -112,6 +112,13 @@ typedef struct s_shell
 	t_gc						*gc;
 }								t_shell;
 
+typedef struct s_xbuf
+{
+	char						*buf;
+	size_t						len;
+	size_t						cap;
+}								t_xbuf;
+
 extern volatile sig_atomic_t	g_signal;
 
 t_env							*env_new_node(const char *key,
@@ -181,6 +188,10 @@ char							*char_to_str(t_shell *shell, char c);
 char							*emit_one(t_shell *shell, char c, int nosplit);
 char							*escape_ws(t_shell *shell, const char *src);
 void							unescape_ws(char *s);
+char							ws_xlate(char c, int decode);
+int								xbuf_init(t_xbuf *b);
+int								xbuf_append(t_xbuf *b, const char *s);
+char							*xbuf_finish(t_shell *sh, t_xbuf *b);
 char							*gc_strjoin(t_shell *shell, char const *s1,
 									char const *s2);
 size_t							calculate_len(char **tab_path);
