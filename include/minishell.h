@@ -124,6 +124,7 @@ extern volatile sig_atomic_t	g_signal;
 t_env							*env_new_node(const char *key,
 									const char *value);
 void							env_add_back(t_env **env, t_env *new_node);
+int								env_declare(t_env **env, const char *key);
 t_env							*env_init(char **envp);
 char							*env_get(t_env *env, const char *key);
 int								env_set(t_env **env, const char *key,
