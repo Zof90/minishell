@@ -52,27 +52,31 @@ static const char	*resolve_target(t_shell *shell, const char *arg, int *print)
 	return (arg);
 }
 
-static int	update_pwd_pair(t_shell *shell, char *old_pwd)
+static int	update_pwd_pair(t_shell *shell, char *old, const char *target)
 {
 	char	*new_pwd;
+	char	*logical;
 	int		ret;
 
-	ret = 0;
-	if (old_pwd && env_set(&shell->env, "OLDPWD", old_pwd))
-		ret = 1;
 	new_pwd = getcwd(NULL, 0);
+	logical = NULL;
+	if (!new_pwd)
+		logical = cd_curpath(shell, target);
+	ret = 0;
+	if (old && env_set(&shell->env, "OLDPWD", old))
+		ret = 1;
 	if (new_pwd)
 	{
 		if (env_set(&shell->env, "PWD", new_pwd))
 			ret = 1;
 		free(new_pwd);
+		return (ret);
 	}
-	else
-	{
-		ft_putstr_fd("minishell: cd: error retrieving current directory: ", 2);
-		ft_putstr_fd("getcwd: cannot access parent directories: ", 2);
-		ft_putendl_fd("No such file or directory", 2);
-	}
+	ft_putstr_fd("minishell: cd: error retrieving current directory: ", 2);
+	ft_putstr_fd("getcwd: cannot access parent directories: ", 2);
+	ft_putendl_fd("No such file or directory", 2);
+	if (env_set(&shell->env, "PWD", logical))
+		ret = 1;
 	return (ret);
 }
 
@@ -98,7 +102,7 @@ static int	cd_options(char **args, int *target_idx)
 int	builtin_cd(t_shell *shell, char **args)
 {
 	const char	*target;
-	char		*old_pwd;
+	char		*old;
 	int			print;
 	int			idx;
 
@@ -109,17 +113,12 @@ int	builtin_cd(t_shell *shell, char **args)
 	target = resolve_target(shell, args[idx], &print);
 	if (!target)
 		return (1);
-	if (!args[idx] && *target == '\0')
+	if (target[0] == '\0')
 		return (0);
-	old_pwd = getcwd(NULL, 0);
+	old = env_get(shell->env, "PWD");
 	if (chdir(target) != 0)
-	{
-		free(old_pwd);
 		return (cd_error(target, errno));
-	}
 	if (print)
 		ft_putendl_fd((char *)target, 1);
-	update_pwd_pair(shell, old_pwd);
-	free(old_pwd);
-	return (0);
+	return (update_pwd_pair(shell, old, target));
 }

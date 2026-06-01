@@ -149,6 +149,7 @@ int								builtin_echo(t_shell *shell, char **args);
 int								builtin_exit(t_shell *shell, char **args);
 int								builtin_unset(t_shell *shell, char **args);
 int								builtin_cd(t_shell *shell, char **args);
+char							*cd_curpath(t_shell *sh, const char *target);
 int								builtin_export(t_shell *shell, char **args);
 int								export_print(t_shell *shell);
 int								init_shell(t_shell *shell, int argc,
