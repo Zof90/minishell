@@ -71,6 +71,7 @@ typedef struct s_redir
 {
 	t_token_type				type;
 	char						*file;
+	int							fd;
 	int							heredoc_quoted;
 	char						*heredoc_content;
 	struct s_redir				*next;
@@ -163,6 +164,7 @@ bool							lex_operator(t_shell *shell, t_token **token,
 bool							lex_word(t_shell *shell, t_token **token,
 									char *line, int *i);
 bool							is_operator(char c);
+bool							is_fd_redir(char *s);
 void							lstadd_back_token(t_token **lst, t_token *new);
 int								syntax_check(t_token *tokens);
 t_cmd							*parse(t_shell *shell, t_token *tokens);
