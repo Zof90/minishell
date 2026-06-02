@@ -6,18 +6,13 @@
 /*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/31 17:21:08 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/31 17:21:08 by azaytsev         ###   ########.fr       */
+/*   Updated: 2026/06/02 09:49:02 by azaytsev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gc.h"
 #include "minishell.h"
 
-/*
-** Logical path = current $PWD + "/" + arg (or arg if absolute), WITHOUT
-** resolving "." / ".." against the filesystem. Used as the new $PWD when
-** getcwd() fails (deleted working directory), matching bash's behavior.
-*/
 char	*cd_curpath(t_shell *sh, const char *target)
 {
 	char	*base;
