@@ -40,19 +40,24 @@ void	lstadd_back_token(t_token **lst, t_token *new)
 
 t_token_type	set_type(t_token *new_node)
 {
-	if (new_node->value[0] == '<')
+	char	*v;
+
+	v = new_node->value;
+	while (*v >= '0' && *v <= '9')
+		v++;
+	if (*v == '<')
 	{
-		if (new_node->value[1] == '<')
+		if (v[1] == '<')
 			return (TOK_HEREDOC);
 		return (TOK_REDIR_IN);
 	}
-	else if (new_node->value[0] == '>')
+	else if (*v == '>')
 	{
-		if (new_node->value[1] == '>')
+		if (v[1] == '>')
 			return (TOK_APPEND);
 		return (TOK_REDIR_OUT);
 	}
-	else if (new_node->value[0] == '|')
+	else if (*v == '|')
 		return (TOK_PIPE);
 	else
 		return (TOK_WORD);
@@ -76,7 +81,7 @@ t_token	*lex(t_shell *shell, char *line)
 		skip_spaces(line, &i);
 		if (!line[i])
 			break ;
-		if (is_operator(line[i]))
+		if (is_operator(line[i]) || is_fd_redir(&line[i]))
 		{
 			flag = lex_operator(shell, &token, &line[i], &i);
 			if (!flag)

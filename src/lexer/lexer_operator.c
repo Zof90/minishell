@@ -15,11 +15,28 @@
 
 static int	read_operator(char *line)
 {
-	if (line[0] == '>' && line[1] == '>')
-		return (2);
-	else if (line[0] == '<' && line[1] == '<')
-		return (2);
-	return (1);
+	int	n;
+
+	n = 0;
+	while (line[n] >= '0' && line[n] <= '9')
+		n++;
+	if (line[n] == '>' && line[n + 1] == '>')
+		return (n + 2);
+	if (line[n] == '<' && line[n + 1] == '<')
+		return (n + 2);
+	return (n + 1);
+}
+
+bool	is_fd_redir(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] >= '0' && s[i] <= '9')
+		i++;
+	if (i == 0)
+		return (false);
+	return (s[i] == '<' || s[i] == '>');
 }
 
 bool	lex_operator(t_shell *shell, t_token **token, char *line, int *i)

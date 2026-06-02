@@ -78,6 +78,7 @@ t_redir	*create_redir(t_shell *shell, t_token_type type, const char *file_val)
 	if (!redir)
 		return (NULL);
 	redir->type = type;
+	redir->fd = -1;
 	redir->heredoc_quoted = 0;
 	redir->heredoc_content = NULL;
 	redir->next = NULL;
@@ -102,6 +103,8 @@ int	parse_redir(t_shell *shell, t_token **cur, t_redir **redirs)
 	redir = create_redir(shell, tok->type, tok->next->value);
 	if (!redir)
 		return (1);
+	if (tok->value[0] >= '0' && tok->value[0] <= '9')
+		redir->fd = ft_atoi(tok->value);
 	redir_add_back(redirs, redir);
 	*cur = tok->next->next;
 	return (0);
