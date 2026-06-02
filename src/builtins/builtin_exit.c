@@ -65,9 +65,13 @@ static int	parse_long_safe(const char *s, long *out)
 
 static int	exit_numeric_error(t_shell *shell, const char *arg)
 {
-	ft_putstr_fd("minishell: exit: ", 2);
-	ft_putstr_fd((char *)arg, 2);
-	ft_putendl_fd(": numeric argument required", 2);
+	const char	*p[4];
+
+	p[0] = "minishell: exit: ";
+	p[1] = arg;
+	p[2] = ": numeric argument required\n";
+	p[3] = NULL;
+	print_error_parts(p);
 	shell->running = 0;
 	shell->exit_status = 2;
 	return (2);

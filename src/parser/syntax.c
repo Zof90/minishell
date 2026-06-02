@@ -20,9 +20,13 @@ static int	is_redir(t_token_type type)
 
 static int	syntax_error(const char *token_val)
 {
-	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-	ft_putstr_fd((char *)token_val, 2);
-	ft_putendl_fd("'", 2);
+	const char	*p[4];
+
+	p[0] = "minishell: syntax error near unexpected token `";
+	p[1] = token_val;
+	p[2] = "'\n";
+	p[3] = NULL;
+	print_error_parts(p);
 	return (2);
 }
 

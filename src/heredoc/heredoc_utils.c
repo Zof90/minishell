@@ -15,10 +15,13 @@
 
 void	warn_heredoc_eof(const char *delim)
 {
-	ft_putstr_fd("minishell: warning: here-document delimited by EOF (wanted `",
-		2);
-	ft_putstr_fd((char *)delim, 2);
-	ft_putendl_fd("')", 2);
+	const char	*p[4];
+
+	p[0] = "minishell: warning: here-document delimited by EOF (wanted `";
+	p[1] = delim;
+	p[2] = "')\n";
+	p[3] = NULL;
+	print_error_parts(p);
 }
 
 char	*hd_finalize(t_shell *shell, t_hd_ctx *ctx)
