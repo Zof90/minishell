@@ -74,6 +74,7 @@ typedef struct s_redir
 	int							fd;
 	int							heredoc_quoted;
 	char						*heredoc_content;
+	pid_t						heredoc_pid;
 	struct s_redir				*next;
 }								t_redir;
 
@@ -222,4 +223,7 @@ char							*hd_finalize(t_shell *shell, t_hd_ctx *ctx);
 int								push_heredoc_line(t_shell *shell,
 									t_redir *redir, char *line, t_hd_ctx *ctx);
 int								apply_heredoc(t_redir *redir);
+int								spawn_heredoc_writer(t_redir *redir,
+									int pfd[2]);
+void							reap_heredoc_writers(t_redir *redirs);
 #endif

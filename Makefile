@@ -58,7 +58,8 @@ SRCS        = src/main.c \
               src/expander/expand_buf.c \
               src/heredoc/heredoc_collect.c \
               src/heredoc/heredoc_expand.c \
-              src/heredoc/heredoc_utils.c
+              src/heredoc/heredoc_utils.c \
+              src/heredoc/heredoc_writer.c
 
 OBJS        = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

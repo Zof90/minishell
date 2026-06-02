@@ -26,7 +26,7 @@ int	save_std(int *fd_in, int *fd_out)
 	return (0);
 }
 
-static int	restore_std(int fd_in, int fd_out)
+static int	restore_std(int fd_in, int fd_out, t_redir *redirs)
 {
 	int	ret;
 
@@ -43,6 +43,7 @@ static int	restore_std(int fd_in, int fd_out)
 	}
 	close(fd_in);
 	close(fd_out);
+	reap_heredoc_writers(redirs);
 	return (ret);
 }
 
@@ -69,7 +70,7 @@ int	run_noargs(t_shell *shell, t_cmd *cmd)
 		}
 		redir = redir->next;
 	}
-	if (restore_std(fd_in, fd_out) == -1)
+	if (restore_std(fd_in, fd_out, cmd->redirs) == -1)
 		ret = 1;
 	shell->exit_status = ret;
 	return (ret);
