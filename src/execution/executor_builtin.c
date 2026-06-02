@@ -41,24 +41,26 @@ static void	dispatch_builtin(t_shell *shell, t_cmd *cmd)
 		shell->exit_status = builtin_exit(shell, cmd->args);
 }
 
-static void	restore_std(t_cmd *header, int fd_in, int fd_out, t_redir *redirs)
+static void	restore_std(t_cmd *header, int *std, t_redir *redirs)
 {
 	if (!header->next)
 	{
-		if (dup2(fd_in, 0) == -1)
+		if (dup2(std[0], 0) == -1)
 			print_error("dup2", strerror(errno));
-		if (dup2(fd_out, 1) == -1)
+		if (dup2(std[1], 1) == -1)
 			print_error("dup2", strerror(errno));
-		close(fd_in);
-		close(fd_out);
+		if (dup2(std[2], 2) == -1)
+			print_error("dup2", strerror(errno));
+		close(std[0]);
+		close(std[1]);
+		close(std[2]);
 	}
 	reap_heredoc_writers(redirs);
 }
 
 int	run_builtin(t_shell *shell, t_cmd *cmd, t_cmd *header)
 {
-	int		fd_in;
-	int		fd_out;
+	int		std[3];
 	t_redir	*redir;
 
 	if (header->next)
@@ -66,20 +68,20 @@ int	run_builtin(t_shell *shell, t_cmd *cmd, t_cmd *header)
 		dispatch_builtin(shell, cmd);
 		exit(shell->exit_status);
 	}
-	if (save_std(&fd_in, &fd_out) == -1)
+	if (save_std(std) == -1)
 		return (shell->exit_status = 1, 1);
 	redir = cmd->redirs;
 	while (redir)
 	{
 		if (redir_builtin(redir) == -1)
 		{
-			restore_std(header, fd_in, fd_out, cmd->redirs);
+			restore_std(header, std, cmd->redirs);
 			return (shell->exit_status = 1, 1);
 		}
 		redir = redir->next;
 	}
 	dispatch_builtin(shell, cmd);
-	restore_std(header, fd_in, fd_out, cmd->redirs);
+	restore_std(header, std, cmd->redirs);
 	return (shell->exit_status);
 }
 
