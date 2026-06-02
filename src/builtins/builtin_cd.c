@@ -16,10 +16,15 @@
 
 static int	cd_error(const char *target, int err)
 {
-	ft_putstr_fd("minishell: cd: ", 2);
-	ft_putstr_fd((char *)target, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putendl_fd(strerror(err), 2);
+	const char	*p[6];
+
+	p[0] = "minishell: cd: ";
+	p[1] = target;
+	p[2] = ": ";
+	p[3] = strerror(err);
+	p[4] = "\n";
+	p[5] = NULL;
+	print_error_parts(p);
 	return (1);
 }
 
@@ -72,9 +77,8 @@ static int	update_pwd_pair(t_shell *shell, char *old, const char *target)
 		free(new_pwd);
 		return (ret);
 	}
-	ft_putstr_fd("minishell: cd: error retrieving current directory: ", 2);
-	ft_putstr_fd("getcwd: cannot access parent directories: ", 2);
-	ft_putendl_fd("No such file or directory", 2);
+	print_error("cd", "error retrieving current directory: getcwd: "
+		"cannot access parent directories: No such file or directory");
 	if (env_set(&shell->env, "PWD", logical))
 		ret = 1;
 	return (ret);
@@ -82,6 +86,8 @@ static int	update_pwd_pair(t_shell *shell, char *old, const char *target)
 
 static int	cd_options(char **args, int *target_idx)
 {
+	const char	*p[5];
+
 	*target_idx = 1;
 	if (!args[1])
 		return (0);
@@ -92,10 +98,12 @@ static int	cd_options(char **args, int *target_idx)
 	}
 	if (!ft_strcmp(args[1], "-") || args[1][0] != '-')
 		return (0);
-	ft_putstr_fd("minishell: cd: ", 2);
-	ft_putstr_fd(args[1], 2);
-	ft_putendl_fd(": invalid option", 2);
-	ft_putendl_fd("cd: usage: cd [dir]", 2);
+	p[0] = "minishell: cd: ";
+	p[1] = args[1];
+	p[2] = ": invalid option\n";
+	p[3] = "cd: usage: cd [dir]\n";
+	p[4] = NULL;
+	print_error_parts(p);
 	return (-1);
 }
 

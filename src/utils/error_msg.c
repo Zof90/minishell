@@ -1,37 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/28 09:46:10 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/04/28 09:51:17 by azaytsev         ###   ########.fr       */
+/*   Created: 2026/06/02 09:14:33 by azaytsev          #+#    #+#             */
+/*   Updated: 2026/06/02 09:48:51 by azaytsev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_unset(t_shell *shell, char **args)
+void	print_error_parts(const char **parts)
 {
-	const char	*p[5];
-	int			i;
+	size_t	len;
+	size_t	pos;
+	size_t	n;
+	int		i;
+	char	*line;
 
-	if (args[1] && args[1][0] == '-' && args[1][1] != '\0')
+	len = 0;
+	i = 0;
+	while (parts[i])
+		len += ft_strlen(parts[i++]);
+	line = malloc(len + 1);
+	if (!line)
+		return ;
+	pos = 0;
+	i = 0;
+	while (parts[i])
 	{
-		p[0] = "minishell: unset: ";
-		p[1] = args[1];
-		p[2] = ": invalid option\n";
-		p[3] = "unset: usage: unset [name ...]\n";
-		p[4] = NULL;
-		print_error_parts(p);
-		return (2);
-	}
-	i = 1;
-	while (args[i])
-	{
-		env_unset(&shell->env, args[i]);
+		n = ft_strlen(parts[i]);
+		ft_memcpy(line + pos, parts[i], n);
+		pos += n;
 		i++;
 	}
-	return (0);
+	write(2, line, pos);
+	free(line);
 }

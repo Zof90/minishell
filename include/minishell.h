@@ -136,6 +136,7 @@ void							free_env(t_env *env);
 void							free_str_array(char **arr);
 void							print_error(const char *context,
 									const char *message);
+void							print_error_parts(const char **parts);
 void							debug_print_tokens(t_token *tokens);
 void							debug_print_cmds(t_cmd *cmds);
 void							debug_print_env(t_env *env);

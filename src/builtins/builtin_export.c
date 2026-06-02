@@ -32,9 +32,13 @@ static int	is_valid_identifier(const char *s)
 
 static int	export_invalid(const char *arg)
 {
-	ft_putstr_fd("minishell: export: `", 2);
-	ft_putstr_fd((char *)arg, 2);
-	ft_putendl_fd("': not a valid identifier", 2);
+	const char	*p[4];
+
+	p[0] = "minishell: export: `";
+	p[1] = arg;
+	p[2] = "': not a valid identifier\n";
+	p[3] = NULL;
+	print_error_parts(p);
 	return (1);
 }
 
@@ -57,10 +61,14 @@ static int	export_assign(t_shell *shell, const char *arg)
 
 static int	export_invalid_option(const char *arg)
 {
-	ft_putstr_fd("minishell: export: ", 2);
-	ft_putstr_fd((char *)arg, 2);
-	ft_putendl_fd(": invalid option", 2);
-	ft_putendl_fd("export: usage: export [name[=value] ...]", 2);
+	const char	*p[5];
+
+	p[0] = "minishell: export: ";
+	p[1] = arg;
+	p[2] = ": invalid option\n";
+	p[3] = "export: usage: export [name[=value] ...]\n";
+	p[4] = NULL;
+	print_error_parts(p);
 	return (2);
 }
 
