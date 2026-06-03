@@ -21,7 +21,6 @@ SRCS        = src/main.c \
               src/env/env_free.c \
               src/utils/error.c \
               src/utils/error_msg.c \
-              src/debug/debug_print.c \
               src/signals/signals.c \
               src/signals/signals_heredoc.c \
               src/gc/gc_free.c \
