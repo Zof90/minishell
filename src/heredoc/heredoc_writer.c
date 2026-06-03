@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_writer.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:36:44 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/06/03 22:33:40 by azaytsev         ###   ########.fr       */
+/*   Updated: 2026/06/04 15:48:37 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ static void	heredoc_writer_child(t_redir *redir, int pfd[2])
 	len = ft_strlen(redir->heredoc_content);
 	write(pfd[1], redir->heredoc_content, len);
 	close(pfd[1]);
+	gc_free(redir->shell);
+	free_env(redir->shell->env);
+	free(redir->shell->line);
+	rl_clear_history();
 	exit(0);
 }
 

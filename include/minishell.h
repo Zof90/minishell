@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:13 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/06/03 22:33:12 by azaytsev         ###   ########.fr       */
+/*   Updated: 2026/06/04 15:48:22 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_redir
 	int							heredoc_quoted;
 	char						*heredoc_content;
 	pid_t						heredoc_pid;
+	struct s_shell				*shell;
 	struct s_redir				*next;
 }								t_redir;
 
@@ -111,6 +112,7 @@ typedef struct s_env
 
 typedef struct s_shell
 {
+	char						*line;
 	bool						interactive;
 	struct termios				original_term;
 	t_env						*env;

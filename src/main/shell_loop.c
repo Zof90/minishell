@@ -6,7 +6,7 @@
 /*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 09:27:42 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/06/03 18:48:40 by schouite         ###   ########.fr       */
+/*   Updated: 2026/06/03 21:19:16 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,23 +85,25 @@ static void	process_line(t_shell *shell, char *line)
 
 void	shell_loop(t_shell *shell)
 {
-	char	*line;
-	int		i;
+	int	i;
 
+	shell->line = NULL;
 	rl_outstream = stderr;
 	shell->interactive = isatty(STDIN_FILENO);
 	if (shell->interactive)
 		tcgetattr(STDIN_FILENO, &shell->original_term);
 	while (shell->running)
 	{
-		line = read_input(shell);
-		if (!line)
+		shell->line = read_input(shell);
+		if (!shell->line)
 			break ;
 		i = 0;
-		while (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13))
+		while (shell->line[i] == ' ' || (shell->line[i] >= 9
+				&& shell->line[i] <= 13))
 			i++;
-		if (line[i])
-			process_line(shell, line);
-		free(line);
+		if (shell->line[i])
+			process_line(shell, shell->line);
+		free(shell->line);
+		shell->line = NULL;
 	}
 }

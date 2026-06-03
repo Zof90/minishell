@@ -6,7 +6,7 @@
 /*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 15:33:25 by schouite          #+#    #+#             */
-/*   Updated: 2026/05/16 15:12:21 by schouite         ###   ########.fr       */
+/*   Updated: 2026/06/03 21:20:11 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static void	run_child(t_shell *shell, t_cmd *cmd, t_cmd *header,
 		child_exit_error(shell, cmd->args[0]);
 	env = env_to_array(shell->env);
 	execve(path, cmd->args, env);
+	free_str_array(env);
 	child_exit_error(shell, cmd->args[0]);
 }
 
