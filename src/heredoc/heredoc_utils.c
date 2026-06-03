@@ -73,30 +73,6 @@ int	push_heredoc_line(t_shell *shell, t_redir *redir, char *line, t_hd_ctx *ctx)
 	return (0);
 }
 
-static int	spawn_heredoc_writer(t_redir *redir, int pfd[2])
-{
-	pid_t	pid;
-	size_t	len;
-
-	if (!redir->heredoc_content || !*redir->heredoc_content)
-		return (0);
-	len = ft_strlen(redir->heredoc_content);
-	pid = fork();
-	if (pid == -1)
-	{
-		print_error("heredoc", strerror(errno));
-		return (-1);
-	}
-	if (pid == 0)
-	{
-		close(pfd[0]);
-		write(pfd[1], redir->heredoc_content, len);
-		close(pfd[1]);
-		exit(0);
-	}
-	return (0);
-}
-
 int	apply_heredoc(t_redir *redir)
 {
 	int	pfd[2];

@@ -41,7 +41,7 @@ static void	dispatch_builtin(t_shell *shell, t_cmd *cmd)
 		shell->exit_status = builtin_exit(shell, cmd->args);
 }
 
-static void	restore_std(t_cmd *header, int fd_in, int fd_out)
+static void	restore_std(t_cmd *header, int fd_in, int fd_out, t_redir *redirs)
 {
 	if (!header->next)
 	{
@@ -52,6 +52,7 @@ static void	restore_std(t_cmd *header, int fd_in, int fd_out)
 		close(fd_in);
 		close(fd_out);
 	}
+	reap_heredoc_writers(redirs);
 }
 
 int	run_builtin(t_shell *shell, t_cmd *cmd, t_cmd *header)
@@ -72,13 +73,13 @@ int	run_builtin(t_shell *shell, t_cmd *cmd, t_cmd *header)
 	{
 		if (redir_builtin(redir) == -1)
 		{
-			restore_std(header, fd_in, fd_out);
+			restore_std(header, fd_in, fd_out, cmd->redirs);
 			return (shell->exit_status = 1, 1);
 		}
 		redir = redir->next;
 	}
 	dispatch_builtin(shell, cmd);
-	restore_std(header, fd_in, fd_out);
+	restore_std(header, fd_in, fd_out, cmd->redirs);
 	return (shell->exit_status);
 }
 
