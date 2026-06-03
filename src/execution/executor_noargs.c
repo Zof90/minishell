@@ -12,49 +12,61 @@
 
 #include "minishell.h"
 
-int	save_std(int *fd_in, int *fd_out)
+int	save_std(int *std)
 {
-	*fd_in = dup(0);
-	if (*fd_in == -1)
+	std[0] = dup(0);
+	if (std[0] == -1)
 		return (print_error("dup", strerror(errno)), -1);
-	*fd_out = dup(1);
-	if (*fd_out == -1)
+	std[1] = dup(1);
+	if (std[1] == -1)
 	{
-		close(*fd_in);
+		close(std[0]);
+		return (print_error("dup", strerror(errno)), -1);
+	}
+	std[2] = dup(2);
+	if (std[2] == -1)
+	{
+		close(std[0]);
+		close(std[1]);
 		return (print_error("dup", strerror(errno)), -1);
 	}
 	return (0);
 }
 
-static int	restore_std(int fd_in, int fd_out, t_redir *redirs)
+static int	restore_std(int *std, t_redir *redirs)
 {
 	int	ret;
 
 	ret = 0;
-	if (dup2(fd_in, 0) == -1)
+	if (dup2(std[0], 0) == -1)
 	{
 		print_error("dup2", strerror(errno));
 		ret = -1;
 	}
-	if (dup2(fd_out, 1) == -1)
+	if (dup2(std[1], 1) == -1)
 	{
 		print_error("dup2", strerror(errno));
 		ret = -1;
 	}
-	close(fd_in);
-	close(fd_out);
+	if (dup2(std[2], 2) == -1)
+	{
+		print_error("dup2", strerror(errno));
+		ret = -1;
+	}
+	close(std[0]);
+	close(std[1]);
+	close(std[2]);
 	reap_heredoc_writers(redirs);
 	return (ret);
 }
 
 int	run_noargs(t_shell *shell, t_cmd *cmd)
 {
-	int		fd_in;
-	int		fd_out;
+	int		std[3];
 	t_redir	*redir;
 	int		ret;
 
-	if (save_std(&fd_in, &fd_out) == -1)
+	if (save_std(std) == -1)
 	{
 		shell->exit_status = 1;
 		return (1);
@@ -70,7 +82,7 @@ int	run_noargs(t_shell *shell, t_cmd *cmd)
 		}
 		redir = redir->next;
 	}
-	if (restore_std(fd_in, fd_out, cmd->redirs) == -1)
+	if (restore_std(std, cmd->redirs) == -1)
 		ret = 1;
 	shell->exit_status = ret;
 	return (ret);
