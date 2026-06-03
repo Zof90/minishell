@@ -40,13 +40,6 @@ static void	run_child(t_shell *shell, t_cmd *cmd, t_cmd *header,
 	char	*path;
 	char	**env;
 
-	path = NULL;
-	if (cmd->args && cmd->args[0] && !is_builtin(cmd))
-	{
-		path = is_valid_cmd(shell, cmd);
-		if (!path)
-			child_exit_error(shell, cmd->args[0]);
-	}
 	setup_child_fd(cmd, header, pipe_ctx);
 	while (cmd->redirs)
 	{
@@ -58,6 +51,9 @@ static void	run_child(t_shell *shell, t_cmd *cmd, t_cmd *header,
 		exit(0);
 	if (is_builtin(cmd))
 		run_builtin(shell, cmd, header);
+	path = is_valid_cmd(shell, cmd);
+	if (!path)
+		child_exit_error(shell, cmd->args[0]);
 	env = env_to_array(shell->env);
 	execve(path, cmd->args, env);
 	child_exit_error(shell, cmd->args[0]);
