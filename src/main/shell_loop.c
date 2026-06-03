@@ -6,7 +6,7 @@
 /*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 09:27:42 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/18 15:49:44 by schouite         ###   ########.fr       */
+/*   Updated: 2026/06/03 17:57:51 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@ void	shell_loop(t_shell *shell)
 	char	*line;
 	int		i;
 
+	shell->interactive = isatty(STDIN_FILENO);
+	if (shell->interactive)
+		tcgetattr(STDIN_FILENO, &shell->original_term);
 	while (shell->running)
 	{
 		line = read_input(shell);
