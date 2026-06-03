@@ -13,67 +13,67 @@
 #include "gc.h"
 #include "minishell.h"
 
-int	xbuf_init(t_xbuf *b)
+int	strbuf_init(t_strbuf *sb)
 {
-	b->cap = 64;
-	b->len = 0;
-	b->buf = malloc(b->cap);
-	if (!b->buf)
+	sb->cap = 64;
+	sb->len = 0;
+	sb->buf = malloc(sb->cap);
+	if (!sb->buf)
 		return (1);
 	return (0);
 }
 
-static int	xbuf_grow(t_xbuf *b, size_t need)
+static int	strbuf_grow(t_strbuf *sb, size_t need)
 {
-	char	*nb;
-	size_t	ncap;
+	char	*new_data;
+	size_t	new_cap;
 
-	ncap = b->cap;
-	while (b->len + need + 1 > ncap)
-		ncap *= 2;
-	nb = malloc(ncap);
-	if (!nb)
+	new_cap = sb->cap;
+	while (sb->len + need + 1 > new_cap)
+		new_cap *= 2;
+	new_data = malloc(new_cap);
+	if (!new_data)
 	{
-		free(b->buf);
-		b->buf = NULL;
+		free(sb->buf);
+		sb->buf = NULL;
 		return (1);
 	}
-	ft_memcpy(nb, b->buf, b->len);
-	free(b->buf);
-	b->buf = nb;
-	b->cap = ncap;
+	ft_memcpy(new_data, sb->buf, sb->len);
+	free(sb->buf);
+	sb->buf = new_data;
+	sb->cap = new_cap;
 	return (0);
 }
 
-int	xbuf_append(t_xbuf *b, const char *s)
+int	strbuf_append(t_strbuf *sb, const char *str)
 {
-	size_t	slen;
+	size_t	add_len;
 
-	if (!b->buf)
+	if (!sb->buf)
 		return (1);
-	if (!s)
+	if (!str)
 	{
-		free(b->buf);
-		b->buf = NULL;
+		free(sb->buf);
+		sb->buf = NULL;
 		return (1);
 	}
-	slen = ft_strlen(s);
-	if (b->len + slen + 1 > b->cap && xbuf_grow(b, slen))
+	add_len = ft_strlen(str);
+	if (sb->len + add_len + 1 > sb->cap && strbuf_grow(sb, add_len))
 		return (1);
-	ft_memcpy(b->buf + b->len, s, slen);
-	b->len += slen;
+	ft_memcpy(sb->buf + sb->len, str, add_len);
+	sb->len += add_len;
 	return (0);
 }
 
-char	*xbuf_finish(t_shell *sh, t_xbuf *b)
+char	*strbuf_finish(t_shell *sh, t_strbuf *sb)
 {
 	char	*out;
 
-	if (!b->buf)
+	if (!sb->buf)
 		return (NULL);
-	b->buf[b->len] = '\0';
-	out = gc_strdup(sh, b->buf);
-	free(b->buf);
-	b->buf = NULL;
+	sb->buf[sb->len] = '\0';
+	out = gc_strdup(sh, sb->buf);
+	free(sb->buf);
+	sb->buf = NULL;
 	return (out);
 }

@@ -43,9 +43,9 @@ int	field_count_words(char *str)
 	return (count);
 }
 
-char	ws_xlate(char c, int decode)
+char	protect_whitespace_char(char c, int restore)
 {
-	if (!decode)
+	if (!restore)
 	{
 		if (c == ' ')
 			return (1);
@@ -60,16 +60,16 @@ char	ws_xlate(char c, int decode)
 	return (c);
 }
 
-void	unescape_ws(char *s)
+void	restore_whitespace(char *str)
 {
 	int	i;
 
-	if (!s)
+	if (!str)
 		return ;
 	i = 0;
-	while (s[i])
+	while (str[i])
 	{
-		s[i] = ws_xlate(s[i], 1);
+		str[i] = protect_whitespace_char(str[i], 1);
 		i++;
 	}
 }
@@ -92,7 +92,7 @@ int	field_append_words(t_shell *shell, char **args, int *j, char *str)
 			args[*j] = gc_substr(shell, str, start, i - start);
 			if (!args[*j])
 				return (1);
-			unescape_ws(args[*j]);
+			restore_whitespace(args[*j]);
 			(*j)++;
 		}
 	}

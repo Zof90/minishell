@@ -31,21 +31,21 @@ static int	is_heredoc_dollar(const char *str, int i)
 
 char	*expand_heredoc(const char *str, t_shell *shell)
 {
-	t_xbuf	b;
-	int		i;
+	t_strbuf	b;
+	int			i;
 
-	if (xbuf_init(&b))
+	if (strbuf_init(&b))
 		return (NULL);
 	i = 0;
 	while (str[i])
 	{
 		if (is_heredoc_dollar(str, i))
 		{
-			if (xbuf_append(&b, resolve_dollar(str, &i, shell)))
+			if (strbuf_append(&b, resolve_dollar(str, &i, shell)))
 				return (NULL);
 		}
-		else if (xbuf_append(&b, char_to_str(shell, str[i++])))
+		else if (strbuf_append(&b, char_to_str(shell, str[i++])))
 			return (NULL);
 	}
-	return (xbuf_finish(shell, &b));
+	return (strbuf_finish(shell, &b));
 }
