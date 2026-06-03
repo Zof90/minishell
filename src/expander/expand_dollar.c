@@ -25,31 +25,31 @@ char	*char_to_str(t_shell *shell, char c)
 	return (str);
 }
 
-char	*emit_one(t_shell *sh, char c, int nosplit)
+char	*emit_char(t_shell *sh, char c, int protect)
 {
-	if (nosplit)
-		c = ws_xlate(c, 0);
+	if (protect)
+		c = protect_whitespace_char(c, 0);
 	return (char_to_str(sh, c));
 }
 
-char	*escape_ws(t_shell *shell, const char *src)
+char	*protect_whitespace(t_shell *shell, const char *src)
 {
-	char	*r;
+	char	*out;
 	int		i;
 
 	if (!src)
 		return (NULL);
-	r = gc_malloc(shell, ft_strlen(src) + 1);
-	if (!r)
+	out = gc_malloc(shell, ft_strlen(src) + 1);
+	if (!out)
 		return (NULL);
 	i = 0;
 	while (src[i])
 	{
-		r[i] = ws_xlate(src[i], 0);
+		out[i] = protect_whitespace_char(src[i], 0);
 		i++;
 	}
-	r[i] = '\0';
-	return (r);
+	out[i] = '\0';
+	return (out);
 }
 
 static char	*extract_var_name(t_shell *shell, const char *str, int *i)

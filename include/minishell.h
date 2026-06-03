@@ -75,6 +75,7 @@ typedef struct s_redir
 	int							fd;
 	int							heredoc_quoted;
 	char						*heredoc_content;
+	pid_t						heredoc_pid;
 	struct s_redir				*next;
 }								t_redir;
 
@@ -115,12 +116,18 @@ typedef struct s_shell
 	t_gc						*gc;
 }								t_shell;
 
-typedef struct s_xbuf
+typedef struct s_strbuf
 {
 	char						*buf;
 	size_t						len;
 	size_t						cap;
-}								t_xbuf;
+}								t_strbuf;
+
+typedef struct s_quotes
+{
+	int							in_single;
+	int							in_double;
+}								t_quotes;
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -192,13 +199,14 @@ char							*read_hd_line(void);
 char							*resolve_dollar(const char *str, int *i,
 									t_shell *shell);
 char							*char_to_str(t_shell *shell, char c);
-char							*emit_one(t_shell *shell, char c, int nosplit);
-char							*escape_ws(t_shell *shell, const char *src);
-void							unescape_ws(char *s);
-char							ws_xlate(char c, int decode);
-int								xbuf_init(t_xbuf *b);
-int								xbuf_append(t_xbuf *b, const char *s);
-char							*xbuf_finish(t_shell *sh, t_xbuf *b);
+char							*emit_char(t_shell *shell, char c, int protect);
+char							*protect_whitespace(t_shell *shell,
+									const char *src);
+void							restore_whitespace(char *s);
+char							protect_whitespace_char(char c, int restore);
+int								strbuf_init(t_strbuf *buf);
+int								strbuf_append(t_strbuf *buf, const char *str);
+char							*strbuf_finish(t_shell *sh, t_strbuf *buf);
 char							*gc_strjoin(t_shell *shell, char const *s1,
 									char const *s2);
 size_t							calculate_len(char **tab_path);
@@ -216,7 +224,7 @@ void							child_exit_error(t_shell *shell, char *name);
 bool							setup_pipe(t_shell *shell, t_cmd *cmd,
 									t_pipe *pipe_ctx);
 int								run_noargs(t_shell *shell, t_cmd *cmd);
-int								save_std(int *fd_in, int *fd_out);
+int								save_std(int *std);
 char							*read_line_fd(int fd);
 int								collect_heredocs(t_cmd *cmds, t_shell *shell);
 void							warn_heredoc_eof(const char *delim);
@@ -224,4 +232,7 @@ char							*hd_finalize(t_shell *shell, t_hd_ctx *ctx);
 int								push_heredoc_line(t_shell *shell,
 									t_redir *redir, char *line, t_hd_ctx *ctx);
 int								apply_heredoc(t_redir *redir);
+int								spawn_heredoc_writer(t_redir *redir,
+									int pfd[2]);
+void							reap_heredoc_writers(t_redir *redirs);
 #endif

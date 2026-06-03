@@ -38,7 +38,7 @@ static char	*expanded_arg(const char *str, t_shell *shell)
 static int	count_expanded_args(t_cmd *cmd, t_shell *shell, int *count)
 {
 	int		i;
-	int		n;
+	int		words;
 	char	*value;
 
 	i = 0;
@@ -48,10 +48,10 @@ static int	count_expanded_args(t_cmd *cmd, t_shell *shell, int *count)
 		value = expanded_arg(cmd->args[i], shell);
 		if (!value)
 			return (1);
-		n = field_count_words(value);
-		if (n == 0 && field_has_quotes(cmd->args[i]))
-			n = 1;
-		*count += n;
+		words = field_count_words(value);
+		if (words == 0 && field_has_quotes(cmd->args[i]))
+			words = 1;
+		*count += words;
 		i++;
 	}
 	return (0);

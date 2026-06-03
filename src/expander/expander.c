@@ -13,11 +13,6 @@
 #include "gc.h"
 #include "minishell.h"
 
-static char	*expand_and_strip(const char *str, t_shell *shell)
-{
-	return (expand_str(str, shell));
-}
-
 static int	is_ambiguous_redir(char *old_file, char *new_file)
 {
 	if (field_has_quotes(old_file))
@@ -33,7 +28,7 @@ static int	expand_redir_file(t_redir *redir, t_shell *shell)
 	char	*new_file;
 
 	old_file = redir->file;
-	new_file = expand_and_strip(old_file, shell);
+	new_file = expand_str(old_file, shell);
 	if (!new_file)
 		return (1);
 	if (is_ambiguous_redir(old_file, new_file))
@@ -42,7 +37,7 @@ static int	expand_redir_file(t_redir *redir, t_shell *shell)
 		shell->exit_status = 1;
 		return (1);
 	}
-	unescape_ws(new_file);
+	restore_whitespace(new_file);
 	redir->file = new_file;
 	return (0);
 }
