@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_util.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schouite <schouite.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 16:35:29 by schouite          #+#    #+#             */
-/*   Updated: 2026/05/16 15:10:54 by schouite         ###   ########.fr       */
+/*   Updated: 2026/06/03 14:52:23 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	wait_all(t_shell *shell, t_cmd *cmd)
 		}
 		cmd = cmd->next;
 	}
+	tcsetattr(STDIN_FILENO, TCSANOW, &shell->original_term);
 	if (sig == SIGINT)
 		write(2, "\n", 1);
 	else if (sig == SIGQUIT)

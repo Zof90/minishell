@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schouite <schouite.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 09:27:42 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/18 15:49:44 by schouite         ###   ########.fr       */
+/*   Updated: 2026/06/03 14:52:48 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	shell_loop(t_shell *shell)
 	char	*line;
 	int		i;
 
+	tcgetattr(STDIN_FILENO, &shell->original_term);
 	while (shell->running)
 	{
 		line = read_input(shell);
