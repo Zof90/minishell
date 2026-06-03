@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:13 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/06/03 17:56:37 by schouite         ###   ########.fr       */
+/*   Updated: 2026/06/03 19:15:02 by azaytsev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,9 +148,6 @@ void							free_str_array(char **arr);
 void							print_error(const char *context,
 									const char *message);
 void							print_error_parts(const char **parts);
-void							debug_print_tokens(t_token *tokens);
-void							debug_print_cmds(t_cmd *cmds);
-void							debug_print_env(t_env *env);
 void							setup_signals_interactive(void);
 void							setup_signals_exec(void);
 void							setup_signals_child(void);
