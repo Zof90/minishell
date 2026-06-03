@@ -6,7 +6,7 @@
 /*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:13 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/06/03 19:15:02 by azaytsev         ###   ########.fr       */
+/*   Updated: 2026/06/03 22:33:12 by azaytsev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+
+# define HEREDOC_PIPE_MAX 65536
 
 typedef enum e_token_type
 {
@@ -230,6 +232,7 @@ char							*hd_finalize(t_shell *shell, t_hd_ctx *ctx);
 int								push_heredoc_line(t_shell *shell,
 									t_redir *redir, char *line, t_hd_ctx *ctx);
 int								apply_heredoc(t_redir *redir);
+int								fill_heredoc_pipe(t_redir *redir, int pfd[2]);
 int								spawn_heredoc_writer(t_redir *redir,
 									int pfd[2]);
 void							reap_heredoc_writers(t_redir *redirs);

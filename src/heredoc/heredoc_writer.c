@@ -6,7 +6,7 @@
 /*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:36:44 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/06/02 16:36:47 by azaytsev         ###   ########.fr       */
+/*   Updated: 2026/06/03 22:33:40 by azaytsev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,19 @@ void	reap_heredoc_writers(t_redir *redirs)
 		}
 		redirs = redirs->next;
 	}
+}
+
+int	fill_heredoc_pipe(t_redir *redir, int pfd[2])
+{
+	size_t	len;
+
+	if (!redir->heredoc_content || !*redir->heredoc_content)
+		return (0);
+	len = ft_strlen(redir->heredoc_content);
+	if (len <= HEREDOC_PIPE_MAX)
+	{
+		write(pfd[1], redir->heredoc_content, len);
+		return (0);
+	}
+	return (spawn_heredoc_writer(redir, pfd));
 }
