@@ -6,7 +6,7 @@
 /*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:13 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/06/03 17:11:04 by schouite         ###   ########.fr       */
+/*   Updated: 2026/06/03 17:56:37 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ typedef struct s_env
 
 typedef struct s_shell
 {
+	bool						interactive;
 	struct termios				original_term;
 	t_env						*env;
 	int							exit_status;
