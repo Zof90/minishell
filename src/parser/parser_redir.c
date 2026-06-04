@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 10:05:50 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/04 16:36:16 by azaytsev         ###   ########.fr       */
+/*   Updated: 2026/06/03 21:17:40 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_redir	*create_redir(t_shell *shell, t_token_type type, const char *file_val)
 	redir = gc_malloc(shell, sizeof(t_redir));
 	if (!redir)
 		return (NULL);
+	redir->shell = shell;
 	redir->type = type;
 	redir->fd = -1;
 	redir->heredoc_quoted = 0;

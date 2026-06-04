@@ -6,10 +6,11 @@
 /*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 13:07:20 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/15 13:11:26 by schouite         ###   ########.fr       */
+/*   Updated: 2026/06/03 21:22:26 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gc.h"
 #include "minishell.h"
 
 static size_t	append_part(char *dst, size_t pos, const char *src)
@@ -92,5 +93,8 @@ void	child_exit_error(t_shell *shell, char *name)
 		exit(127);
 	}
 	print_error(name, "command not found");
+	gc_free(shell);
+	free_env(shell->env);
+	free(shell->line);
 	exit(127);
 }
