@@ -6,7 +6,7 @@
 /*   By: azaytsev <azaytsev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 09:19:42 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/05/18 09:24:49 by azaytsev         ###   ########.fr       */
+/*   Updated: 2026/06/03 22:33:58 by azaytsev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	apply_heredoc(t_redir *redir)
 		print_error("heredoc", strerror(errno));
 		return (-1);
 	}
-	if (spawn_heredoc_writer(redir, pfd) == -1)
+	if (fill_heredoc_pipe(redir, pfd) == -1)
 	{
 		close(pfd[0]);
 		close(pfd[1]);
