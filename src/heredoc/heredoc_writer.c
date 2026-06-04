@@ -6,7 +6,7 @@
 /*   By: schouite <schouite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:36:44 by azaytsev          #+#    #+#             */
-/*   Updated: 2026/06/04 16:17:21 by schouite         ###   ########.fr       */
+/*   Updated: 2026/06/04 17:51:15 by schouite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	close_inherited_fds(int keep)
 static void	heredoc_writer_child(t_redir *redir, int pfd[2])
 {
 	size_t	len;
-	t_shell *sh;
+	t_shell	*sh;
 
 	sh = redir->shell;
 	signal(SIGPIPE, SIG_IGN);
